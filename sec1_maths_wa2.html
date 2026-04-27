@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Sec 1 Maths WA2 — Mokshith's Mastery App</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+:root{
+  --ink:#1c1c1e;--paper:#f5f0e8;--card:#fff;--green:#1a6b3c;--greenl:#e8f5ee;
+  --amber:#b5590a;--amberl:#fef3e2;--red:#b91c1c;--redl:#fef2f2;
+  --blue:#1e4d8c;--bluel:#eff6ff;--gold:#c9a227;--muted:#6b7280;--border:#d9d3c7;
+  --purple:#5b21b6;--purplel:#f5f3ff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--ink);font-size:15px;line-height:1.6}
+.topbar{background:var(--ink);padding:.85rem 1.2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;position:sticky;top:0;z-index:200}
+.logo{font-family:'Libre Baskerville',serif;color:#f5f0e8;font-size:1.05rem;font-weight:700;letter-spacing:-.2px}
+.logo span{color:var(--gold)}
+.top-btns{display:flex;gap:.4rem;flex-wrap:wrap}
+.tbtn{padding:5px 13px;border-radius:5px;border:1.5px solid transparent;font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.tbtn-primary{background:var(--green);color:white;border-color:var(--green)}
+.tbtn-primary:hover{background:#145530}
+.tbtn-outline{background:transparent;color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.25)}
+.tbtn-outline:hover{background:rgba(255,255,255,.1)}
+.tbtn-gold{background:var(--gold);color:white;border-color:var(--gold)}
+.tbtn-gold:hover{background:#a8861f}
+.main-tabs{display:flex;overflow-x:auto;background:#252528;border-bottom:1px solid rgba(255,255,255,.06);scrollbar-width:none;position:sticky;top:52px;z-index:190}
+.main-tabs::-webkit-scrollbar{display:none}
+.mtab{flex:none;padding:.55rem .95rem;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.45);font-size:.79rem;font-weight:600;cursor:pointer;transition:all .18s;white-space:nowrap;font-family:inherit;position:relative;z-index:191}
+.mtab:hover{color:rgba(255,255,255,.8)}
+.mtab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-badge{display:inline-block;background:var(--red);color:white;border-radius:10px;padding:0 5px;font-size:.65rem;margin-left:3px;vertical-align:middle}
+.tab-content{display:none;max-width:880px;margin:0 auto;padding:1.1rem .95rem 4rem}
+.tab-content.active{display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:1.1rem}
+.card-head{background:var(--ink);color:white;padding:.6rem .95rem;display:flex;align-items:center;gap:.6rem}
+.card-letter{width:26px;height:26px;background:var(--gold);color:var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Libre Baskerville',serif;font-size:.8rem;font-weight:700;flex-shrink:0}
+.card-title{font-size:.88rem;font-weight:600;flex:1}
+.card-marks{font-size:.72rem;background:rgba(255,255,255,.15);padding:2px 7px;border-radius:20px;color:rgba(255,255,255,.8)}
+.card-instr{padding:.55rem .95rem;font-size:.8rem;color:var(--muted);background:#f9f7f2;border-bottom:1px solid var(--border);font-style:italic}
+.card-body{padding:.75rem .95rem}
+.qrow{display:flex;align-items:flex-start;gap:.65rem;padding:.5rem 0;border-bottom:1px solid #f0ece4}
+.qrow:last-child{border-bottom:none}
+.qn{font-size:.73rem;font-weight:700;color:var(--muted);min-width:18px;padding-top:2px;flex-shrink:0}
+.qc{flex:1;font-size:.88rem;line-height:1.75}
+.ainp{border:none;border-bottom:2px solid var(--green);background:transparent;font-family:inherit;font-size:.88rem;color:var(--ink);padding:0 3px;min-width:110px;outline:none;transition:border-color .2s}
+.ainp:focus{border-bottom-color:var(--blue)}
+.ainp.ok{background:var(--greenl);border-radius:3px;border-color:var(--green);color:var(--green);font-weight:600}
+.ainp.bad{background:var(--redl);border-radius:3px;border-color:var(--red);color:var(--red)}
+.ainp.sm{min-width:55px}
+.ainp.md{min-width:80px}
+.mc-opts{display:flex;gap:5px;flex-wrap:wrap;margin-top:.25rem}
+.mcopt{padding:4px 11px;border:1px solid var(--border);border-radius:6px;background:white;font-family:inherit;font-size:.81rem;cursor:pointer;transition:all .14s}
+.mcopt:hover{background:var(--greenl);border-color:var(--green)}
+.mcopt.ok{background:var(--greenl);border-color:var(--green);color:var(--green);font-weight:700}
+.mcopt.bad{background:var(--redl);border-color:var(--red);color:var(--red)}
+.reveal{display:none;margin-top:.45rem;border-radius:6px;padding:.5rem .75rem;font-size:.82rem}
+.reveal.show{display:block}
+.reveal.info{background:var(--bluel);border-left:3px solid var(--blue)}
+.reveal.ok{background:var(--greenl);border-left:3px solid var(--green)}
+.reveal.warn{background:var(--amberl);border-left:3px solid var(--amber)}
+.rlabel{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+.reveal.info .rlabel{color:var(--blue)}
+.reveal.ok .rlabel{color:var(--green)}
+.reveal.warn .rlabel{color:var(--amber)}
+.rans{font-weight:600}
+.rreason{font-weight:400;font-size:.8rem;margin-top:2px}
+.sab{margin-top:.35rem;padding:3px 11px;border:1.5px solid var(--blue);border-radius:5px;background:white;color:var(--blue);font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;transition:all .13s}
+.sab:hover{background:var(--bluel)}
+.csb{display:block;margin:.55rem 0 0;padding:7px 18px;background:var(--green);color:white;border:none;border-radius:7px;font-family:inherit;font-size:.83rem;font-weight:600;cursor:pointer;transition:background .18s}
+.csb:hover{background:#145530}
+.paper-tabs{display:flex;overflow-x:auto;gap:.3rem;padding:.5rem 0;scrollbar-width:none;flex-wrap:wrap}
+.ptab{padding:5px 12px;border:1.5px solid var(--border);border-radius:20px;background:white;font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s;color:var(--muted)}
+.ptab:hover{border-color:var(--green);color:var(--green)}
+.ptab.active{background:var(--green);color:white;border-color:var(--green)}
+.ptab.done{border-color:var(--green);color:var(--green);background:var(--greenl)}
+.ptab.done::after{content:" ✓"}
+/* DASHBOARD */
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;margin-bottom:1.2rem}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem}
+.stat-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.25rem}
+.stat-big{font-family:'Libre Baskerville',serif;font-size:2rem;font-weight:700;color:var(--ink)}
+.stat-sub{font-size:.78rem;color:var(--muted);margin-top:.1rem}
+.skill-bar-wrap{margin-bottom:.7rem}
+.skill-label{display:flex;justify-content:space-between;margin-bottom:.25rem}
+.skill-name{font-size:.83rem;font-weight:600}
+.skill-pct{font-size:.78rem;color:var(--muted)}
+.skill-track{height:8px;background:#e8e2d8;border-radius:4px;overflow:hidden}
+.skill-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.fill-red{background:var(--red)}
+.fill-amber{background:var(--amber)}
+.fill-green{background:var(--green)}
+.weak-pill{display:inline-flex;align-items:center;gap:.3rem;padding:4px 10px;border-radius:20px;font-size:.78rem;font-weight:600;margin:.2rem .2rem 0 0}
+.weak-hi{background:var(--redl);color:var(--red);border:1px solid #fca5a5}
+.weak-med{background:var(--amberl);color:var(--amber);border:1px solid #fbbf24}
+.weak-ok{background:var(--greenl);color:var(--green);border:1px solid #86efac}
+/* ACCORDION NOTES */
+.accordion{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:.9rem;overflow:hidden}
+.acc-hd{display:flex;align-items:center;justify-content:space-between;padding:.7rem .95rem;cursor:pointer;background:#f9f7f2;font-weight:600;font-size:.9rem;user-select:none;gap:.5rem}
+.acc-hd:hover{background:#f0ece4}
+.acc-arrow{font-size:.7rem;transition:transform .2s;flex-shrink:0}
+.acc-body{display:none;padding:.85rem .95rem;font-size:.87rem;line-height:1.8;border-top:1px solid var(--border)}
+.acc-body.open{display:block}
+.defbox{background:var(--bluel);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;padding:.55rem .8rem;margin:.5rem 0;font-size:.84rem}
+.defbox strong{color:var(--blue);display:block;margin-bottom:2px;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.exbox{background:var(--greenl);border-left:3px solid var(--green);border-radius:0 6px 6px 0;padding:.55rem .8rem;margin:.5rem 0;font-size:.84rem}
+.exbox strong{color:var(--green);display:block;margin-bottom:2px;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.warnbox{background:var(--amberl);border-left:3px solid var(--amber);border-radius:0 6px 6px 0;padding:.55rem .8rem;margin:.5rem 0;font-size:.84rem}
+.warnbox strong{color:var(--amber);display:block;margin-bottom:2px;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.rulebox{background:var(--greenl);border:1px solid #86efac;border-radius:6px;padding:.55rem .8rem;margin:.5rem 0;font-size:.84rem}
+.rulebox strong{color:var(--green);display:block;margin-bottom:4px}
+.step-row{display:flex;gap:.5rem;padding:.2rem 0;font-size:.85rem}
+.step-num{background:var(--green);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.formula{font-family:'Courier New',monospace;background:#f0f0f0;padding:2px 6px;border-radius:3px;font-size:.84rem;color:var(--blue)}
+/* HEATMAP */
+.hm-wrap{margin:.5rem 0}
+.hm-month-row{display:flex;gap:2px;margin-bottom:2px}
+.hm-grid{display:grid;gap:2px}
+.hm-cell{width:12px;height:12px;background:#e8e2d8;border-radius:2px;cursor:pointer}
+.hm-cell[data-l="1"]{background:#86efac}
+.hm-cell[data-l="2"]{background:#22c55e}
+.hm-cell[data-l="3"]{background:var(--green)}
+/* AI TUTOR */
+.ai-out{background:#f9f7f2;border:1px solid var(--border);border-radius:8px;padding:.75rem;min-height:80px;font-size:.86rem;line-height:1.7;white-space:pre-wrap;margin:.5rem 0}
+.ai-loading{color:var(--muted);font-style:italic;font-size:.84rem}
+.chat-bubble{padding:.5rem .8rem;border-radius:8px;margin:.3rem 0;font-size:.85rem;line-height:1.6;max-width:90%}
+.cb-user{background:var(--green);color:white;margin-left:auto}
+.cb-ai{background:white;border:1px solid var(--border)}
+/* TIMER */
+.timer-bar{background:var(--ink);color:white;padding:.4rem .95rem;display:flex;align-items:center;justify-content:space-between;border-radius:8px;margin-bottom:.8rem;font-size:.84rem}
+.timer-val{font-family:'Libre Baskerville',serif;font-size:1.1rem;font-weight:700;color:var(--gold)}
+/* SCORE RESULT */
+.score-box{background:linear-gradient(135deg,var(--green),#145530);color:white;border-radius:10px;padding:1.2rem;text-align:center;margin:.8rem 0}
+.score-big{font-family:'Libre Baskerville',serif;font-size:3rem;font-weight:700}
+.score-lbl{font-size:.85rem;opacity:.85;margin-top:.2rem}
+/* MISC */
+.section-hd{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;color:var(--ink);margin:1.2rem 0 .5rem;padding-bottom:.3rem;border-bottom:2px solid var(--gold)}
+.note-panel{display:block}
+.autosave-bar{position:fixed;bottom:1rem;right:1rem;background:var(--ink);color:rgba(255,255,255,.7);font-size:.72rem;padding:4px 10px;border-radius:20px;display:flex;align-items:center;gap:.4rem;z-index:300}
+.as-dot{width:6px;height:6px;background:#22c55e;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.chap-tag{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:10px;margin-right:.3rem;vertical-align:middle}
+.ct-blue{background:var(--bluel);color:var(--blue)}
+.ct-green{background:var(--greenl);color:var(--green)}
+.ct-amber{background:var(--amberl);color:var(--amber)}
+.ct-red{background:var(--redl);color:var(--red)}
+.weak-flag{display:inline-block;font-size:.68rem;background:var(--redl);color:var(--red);border:1px solid #fca5a5;padding:1px 6px;border-radius:4px;margin-left:.3rem;font-weight:600}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">Sec 1 Maths <span>WA2</span> — Mokshith</div>
+  <div class="top-btns">
+    <button class="tbtn tbtn-primary" onclick="showTab('dashTab',this)">📊 Dashboard</button>
+    <button class="tbtn tbtn-gold" onclick="generateAIPaper()">✦ AI Practice</button>
+    <button class="tbtn tbtn-outline" onclick="resetAll()">Reset</button>
+  </div>
+</div>
+
+<!-- MAIN TABS -->
+<div class="main-tabs">
+  <button class="mtab active" onclick="showTab('dashTab',this)">📊 Dashboard</button>
+  <button class="mtab" onclick="showTab('notesTab',this)">📖 Study Notes</button>
+  <button class="mtab" onclick="showTab('p1Tab',this)">Week 1 Paper</button>
+  <button class="mtab" onclick="showTab('p2Tab',this)">Week 2 Paper</button>
+  <button class="mtab" onclick="showTab('p3Tab',this)">Week 3 Paper</button>
+  <button class="mtab" onclick="showTab('mockTab',this)">🎯 WA2 Mock</button>
+  <button class="mtab" onclick="showTab('aiTab',this)">✦ AI Tutor</button>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="tab-content active" id="dashTab">
+  <div class="section-hd">Mokshith's Progress Dashboard</div>
+  <div class="dash-grid">
+    <div class="stat-card">
+      <div class="stat-label">Papers Done</div>
+      <div class="stat-big" id="dPapers">0</div>
+      <div class="stat-sub">of 4 papers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Best Score</div>
+      <div class="stat-big" id="dBest">—</div>
+      <div class="stat-sub">target: 90%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Study Streak</div>
+      <div class="stat-big" id="dStreak">0</div>
+      <div class="stat-sub">days in a row</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">WA2 Readiness</div>
+      <div class="stat-big" id="dReady">—</div>
+      <div class="stat-sub" id="dReadySub">based on skill scores</div>
+    </div>
+  </div>
+
+  <!-- TEACHER'S ASSESSMENT ALERT -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">T</div><div class="card-title">Teacher's Assessment — Mokshith (from tuition classwork)</div></div>
+    <div class="card-body" style="font-size:.85rem">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
+        <div>
+          <div style="font-weight:700;color:var(--green);margin-bottom:.3rem">✓ STRENGTHS</div>
+          <div style="font-size:.82rem;line-height:1.8;color:#374151">
+            • Prime factorisation — correct method, neat working<br>
+            • HCF/LCM word problems — applies concept well (bells, tiles)<br>
+            • Basic substitution into formulae — mostly accurate<br>
+            • Directed numbers — understands negative × negative = positive<br>
+            • Rounding to s.f. — applies rule correctly in most cases
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--red);margin-bottom:.3rem">✗ FOCUS AREAS</div>
+          <div style="font-size:.82rem;line-height:1.8;color:#374151">
+            • <strong>Negative brackets</strong>: -(x+1) written as x+1 (sign error)<br>
+            • <strong>Factorisation by grouping</strong> — not yet attempted<br>
+            • <strong>Algebraic fractions</strong> — no evidence of practice<br>
+            • <strong>Change of subject</strong> — sign errors when rearranging<br>
+            • <strong>Upper/lower bounds</strong> — confuses half-unit calculation
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILL BARS -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">S</div><div class="card-title">Skill Mastery Tracker</div></div>
+    <div class="card-body" id="skillBarsDiv"></div>
+  </div>
+
+  <!-- STUDY HEATMAP -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">H</div><div class="card-title">Study Activity <span id="streakBadge" style="font-size:.72rem;background:rgba(255,255,255,.15);padding:2px 8px;border-radius:10px;margin-left:.4rem"></span></div></div>
+    <div class="card-body">
+      <div class="hm-wrap">
+        <div class="hm-month-row" id="hmMonthLabels" style="display:flex;gap:2px;margin-bottom:2px"></div>
+        <div class="hm-grid" id="hmGrid"></div>
+      </div>
+      <div style="display:flex;gap:.5rem;margin-top:.4rem;font-size:.72rem;color:var(--muted);align-items:center">
+        <span>Less</span>
+        <span style="display:flex;gap:2px">
+          <span style="width:12px;height:12px;background:#e8e2d8;border-radius:2px;display:inline-block"></span>
+          <span style="width:12px;height:12px;background:#86efac;border-radius:2px;display:inline-block"></span>
+          <span style="width:12px;height:12px;background:#22c55e;border-radius:2px;display:inline-block"></span>
+          <span style="width:12px;height:12px;background:var(--green);border-radius:2px;display:inline-block"></span>
+        </span>
+        <span>More</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAPER HISTORY -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">P</div><div class="card-title">Paper History</div></div>
+    <div class="card-body" id="historyDiv"><div style="color:var(--muted);font-size:.85rem;text-align:center;padding:1rem">No papers completed yet. Start with Week 1!</div></div>
+  </div>
+</div>
+
+<!-- ═══ STUDY NOTES ═══ -->
+<div class="tab-content" id="notesTab">
+  <div class="section-hd">WA2 Study Notes — All 4 Chapters</div>
+  <div style="font-size:.83rem;color:var(--muted);margin-bottom:.8rem">Read each section carefully. Pay extra attention to ⚠️ Mokshith's Focus Areas.</div>
+
+  <!-- CHAPTER 1 -->
+  <div class="section-hd" style="color:var(--blue)">Chapter 1: Factors & Multiples</div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>1.1 Prime Numbers & Prime Factorisation</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="defbox"><strong>Definition</strong>A <strong>prime number</strong> has exactly 2 factors: 1 and itself. First 10 primes: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29. Note: 1 is NOT prime. 2 is the ONLY even prime.</div>
+      <div class="defbox"><strong>Prime Factorisation</strong>Expressing a number as a product of prime factors only. Use repeated division by smallest primes.</div>
+      <div class="exbox"><strong>Worked Example — Express 360 as product of prime factors</strong>
+360 ÷ 2 = 180 → 180 ÷ 2 = 90 → 90 ÷ 2 = 45 → 45 ÷ 3 = 15 → 15 ÷ 3 = 5 → 5 ÷ 5 = 1
+<strong>Answer: 360 = 2³ × 3² × 5</strong></div>
+      <div class="warnbox"><strong>✓ Mokshith does this WELL — keep it up!</strong>Always write final answer in index notation: 2³ × 3² × 5 (not 2 × 2 × 2 × 3 × 3 × 5). Divide by PRIMES only — never 4, 6, 9.</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>1.2 HCF — Highest Common Factor</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="defbox"><strong>Definition</strong>The HCF is the LARGEST number that divides all given numbers exactly. Take the LOWEST power of each COMMON prime factor.</div>
+      <div class="exbox"><strong>Example: HCF of 360 and 756</strong>
+360 = 2³ × 3² × 5
+756 = 2² × 3³ × 7
+Common factors: 2 and 3 only
+Lowest powers: 2² and 3²
+<strong>HCF = 2² × 3² = 4 × 9 = 36</strong></div>
+      <div class="rulebox"><strong>🔑 Key Rule: Use HCF when...</strong>Question says "largest", "biggest", "divide equally", "square tile" → HCF
+Example trigger: "Find the largest square tile that fits exactly into a room 48m × 36m" → HCF(48,36) = 12</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>1.3 LCM — Lowest Common Multiple</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="defbox"><strong>Definition</strong>The LCM is the SMALLEST number that is a multiple of all given numbers. Take the HIGHEST power of ALL prime factors that appear.</div>
+      <div class="exbox"><strong>Example: LCM of 12, 15, and 20 (bell problem)</strong>
+12 = 2² × 3,   15 = 3 × 5,   20 = 2² × 5
+All factors with highest powers: 2², 3, 5
+<strong>LCM = 2² × 3 × 5 = 60 minutes</strong>
+Bells ring together at 8:00am → next time = 9:00am</div>
+      <div class="rulebox"><strong>🔑 Key Rule: Use LCM when...</strong>Question says "smallest", "next time together", "same time again", "bells", "traffic lights" → LCM</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>1.4 Perfect Squares & Perfect Cubes</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="defbox"><strong>Perfect Square</strong>All indices in prime factorisation are EVEN. √: halve each index.
+Example: 1764 = 2² × 3² × 7² → all even → perfect square. √1764 = 2 × 3 × 7 = 42</div>
+      <div class="defbox"><strong>Perfect Cube</strong>All indices are multiples of 3. ∛: divide each index by 3.</div>
+      <div class="exbox"><strong>Find smallest k so 360k is a perfect square</strong>
+360 = 2³ × 3² × 5¹
+Odd indices: 2³ (need one more 2), 5¹ (need one more 5)
+k = 2 × 5 = 10
+Check: 360 × 10 = 3600 = 2⁴ × 3² × 5² ✓ (all even)</div>
+      <div class="exbox"><strong>Find smallest k so 360k is a perfect cube</strong>
+360 = 2³ × 3² × 5¹
+Need all indices to be multiples of 3:
+2³ ✓  |  3² needs one more 3 (to make 3³)  |  5¹ needs two more 5s (to make 5³)
+<strong>k = 3 × 5² = 75</strong></div>
+    </div>
+  </div>
+
+  <!-- CHAPTER 2 -->
+  <div class="section-hd" style="color:var(--blue)">Chapter 2.4: Real Numbers</div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>2.1 Types of Numbers — The Full System</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
+        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px;text-align:left">Type</th><th style="padding:6px 10px;text-align:left">Definition</th><th style="padding:6px 10px;text-align:left">Examples</th></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Natural (N)</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Counting numbers</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">1, 2, 3, 4...</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Integers (Z)</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Whole numbers + negatives</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">...-2, -1, 0, 1, 2...</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Rational (Q)</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Can write as p/q (q≠0)</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">½, -3, 0.75, 0.333..., √4, -√9</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Irrational</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Cannot write as p/q</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">π, √2, √3, √5, ∛2</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px">Real (R)</td><td style="padding:5px 10px">All rational + irrational</td><td style="padding:5px 10px">Everything EXCEPT √(negative)</td></tr>
+      </table></div>
+      <div class="rulebox" style="margin-top:.5rem"><strong>🔑 Quick Classification Test</strong>
+Is it a whole number or fraction? → Rational
+Is it a square root? Check if inside is a perfect square: √49 = 7 (rational), √50 (irrational)
+Is it π? → Always irrational
+Is it √(negative)? → NOT a real number at all!</div>
+      <div class="warnbox"><strong>⚠️ Common Traps</strong>
+√4 = 2 → RATIONAL (it equals an integer!)
+0.333... = ⅓ → RATIONAL (recurring decimal)
+π → ALWAYS irrational (3.14159... is just an approximation)
+√(-4) → NOT real</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>2.2 Ordering Numbers & Evaluating Squares/Cubes</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="exbox"><strong>Arrange in ascending order: √5, 2.3, -1¾, π/2, √9, -0.8</strong>
+Convert to decimals: √5≈2.236, 2.3, -1.75, π/2≈1.571, √9=3, -0.8
+<strong>Answer: -1¾ &lt; -0.8 &lt; π/2 &lt; √5 &lt; 2.3 &lt; √9</strong></div>
+      <div class="exbox"><strong>Evaluate: (-3)² + (-4)³</strong>
+(-3)² = 9
+(-4)³ = -64
+9 + (-64) = <strong>-55</strong></div>
+      <div class="warnbox"><strong>⚠️ CRITICAL — Square root does NOT distribute!</strong>
+√(a + b) ≠ √a + √b
+√(9 + 16) = √25 = 5 ≠ √9 + √16 = 3 + 4 = 7</div>
+    </div>
+  </div>
+
+  <!-- CHAPTER 3 -->
+  <div class="section-hd" style="color:var(--blue)">Chapter 3: Approximation & Estimation</div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>3.1 Rounding to Decimal Places & Significant Figures</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="rulebox"><strong>🔑 Rounding Rule (same for d.p. and s.f.)</strong>
+Look at the NEXT digit after your target:
+• ≥ 5 → Round UP the target digit
+• &lt; 5 → Keep the target digit (round down)</div>
+      <div style="margin:.5rem 0;font-size:.84rem;font-weight:600">Key difference: d.p. counts digits after decimal point. s.f. counts from first NON-ZERO digit.</div>
+      <div class="exbox"><strong>Examples (from past papers)</strong>
+0.003928 → 2 s.f.: 1st s.f.=3, 2nd s.f.=9, next=2 &lt;5 → keep → <strong>0.0039</strong>
+5919.4   → 3 s.f.: 1st=5,2nd=9,3rd=1, next=9 ≥5 → round up → <strong>5920</strong>
+0.09950  → 2 s.f.: 1st=9,2nd=9, next=5 ≥5 → round up → <strong>0.100</strong></div>
+      <div class="warnbox"><strong>⚠️ Leading zeros do NOT count as s.f.</strong>
+In 0.003928: the zeros are NOT significant. First s.f. is 3.
+Never drop trailing zeros after decimal: 3.00 (2 d.p.) not just 3.</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>3.2 Estimation by Rounding to 1 s.f.</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="rulebox"><strong>🔑 Estimation Steps (always show working!)</strong>
+Step 1: Round each number to 1 significant figure
+Step 2: For square roots → use nearest perfect square
+Step 3: Calculate with rounded values
+Step 4: Write your estimate clearly</div>
+      <div class="exbox"><strong>Example: Estimate (√63.8 × 25.1) / (19.7)²</strong>
+√63.8 → nearest perfect square is √64 = 8
+25.1  → 30 (1 s.f.) [or 25 if question allows]
+19.7  → 20, then 20² = 400
+Estimate = (8 × 25) / 400 = 200/400 = <strong>0.5</strong></div>
+      <div class="warnbox"><strong>⚠️ Mokshith's Focus Area — √ approximation</strong>
+Always convert √ to nearest perfect square FIRST before estimating.
+√63.8 → √64 = 8  (NOT √60 or √6)</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>3.3 Upper & Lower Bounds <span class="weak-flag">⚠️ Focus Area</span></span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="defbox"><strong>Key Formulas</strong>
+Upper Bound (UB) = given value + ½ × unit
+Lower Bound (LB) = given value - ½ × unit</div>
+      <div class="exbox"><strong>Examples from past papers</strong>
+36 cm (nearest cm): unit=1 → UB = 36.5 cm, LB = 35.5 cm
+12,400 spectators (nearest 100): unit=100 → UB = 12,450, LB = 12,350
+127.3 m (to 1 d.p.): unit=0.1 → UB = 127.35 m, LB = 127.25 m
+
+For COMBINED measurements:
+UB of sum = UB₁ + UB₂
+UB of area = UB(length) × UB(width)</div>
+      <div class="warnbox"><strong>⚠️ Mokshith's Focus — Half-unit confusion</strong>
+"Nearest cm" → unit is 1, half-unit is 0.5 (NOT 0.05 or 5)
+"Nearest hundred" → unit is 100, half-unit is 50
+"To 1 d.p." → unit is 0.1, half-unit is 0.05</div>
+      <div class="rulebox"><strong>🔑 Quick Check</strong>
+The unit is the precision of rounding (what it's rounded TO).
+Half-unit = unit ÷ 2. Always add/subtract the HALF-unit, not the full unit.</div>
+    </div>
+  </div>
+
+  <!-- CHAPTER 4 -->
+  <div class="section-hd" style="color:var(--blue)">Chapter 4: Basic Algebra & Algebraic Manipulations</div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>4.1 Writing & Simplifying Expressions</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="exbox"><strong>Common phrase → algebra translations</strong>
+"Subtract 3y from product of x and 4z" → 4xz - 3y
+"Divide 5 by sum of 7a and 2" → 5/(7a + 2)
+"Three times square of p minus twice q" → 3p² - 2q</div>
+      <div class="rulebox"><strong>🔑 Expanding Brackets — Golden Rule</strong>
+Multiply EVERY term inside by the term outside:
+3(4p - 2q) = 12p - 6q
+-2(2c + d) = -4c - 2d  ← negative × positive = negative</div>
+      <div class="warnbox"><strong>⚠️ Mokshith's #1 Focus — Negative Bracket Signs</strong>
+-(x + 1) = -x - 1  ✓   NOT  x + 1  ✗
+-(x - 3) = -x + 3  ✓   NOT  -x - 3  ✗
+
+Rule: When you remove a negative bracket, EVERY sign inside FLIPS.
+Practice saying: "Minus times plus = minus. Minus times minus = PLUS."</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>4.2 Factorisation — Common Factor</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="rulebox"><strong>🔑 Steps to Factorise by Common Factor</strong>
+1. Find HCF of all coefficients
+2. Find common variables with lowest power
+3. Write HCF × (remaining terms)
+4. CHECK by expanding back!</div>
+      <div class="exbox"><strong>Examples (from past papers)</strong>
+7x + 21xy = 7x(1 + 3y)
+5x² - 10x = 5x(x - 2)
+20pq - 4p = 4p(5q - 1)
+-8xyz - 18yz + 6xz = 2z(-4xy - 9y + 3x)</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>4.3 Factorisation by Grouping <span class="weak-flag">⚠️ Focus Area</span></span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="rulebox"><strong>🔑 Steps to Factorise by Grouping (4 terms)</strong>
+Step 1: Split the 4 terms into 2 pairs
+Step 2: Factorise each pair (take out HCF of each)
+Step 3: You should see the SAME bracket in both — take it out
+Step 4: Check by expanding</div>
+      <div class="exbox"><strong>Example 1: 3ax + 16y - 12ay - 4x (ACS Barker 2023)</strong>
+Rearrange: (3ax - 12ay) + (16y - 4x)
+Group 1: 3ax - 12ay = 3a(x - 4y)
+Group 2: 16y - 4x = -4(x - 4y)  ← factor -4 to get matching bracket
+Both have (x - 4y):
+<strong>= (x - 4y)(3a - 4)</strong>
+Check: (x-4y)(3a-4) = 3ax - 4x - 12ay + 16y ✓</div>
+      <div class="exbox"><strong>Example 2: b(b-3) - 2a(3-b)</strong>
+Notice: (3-b) = -(b-3)
+= b(b-3) + 2a(b-3)  ← changed -2a(-(b-3)) to +2a(b-3)
+<strong>= (b-3)(b + 2a)</strong></div>
+      <div class="warnbox"><strong>⚠️ Sign Trick for Grouping</strong>
+If brackets are OPPOSITES like (x-4y) and (4y-x):
+Factor out -1: (4y-x) = -(x-4y), then they match!</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>4.4 Algebraic Fractions <span class="weak-flag">⚠️ Focus Area</span></span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="rulebox"><strong>🔑 Adding/Subtracting Algebraic Fractions</strong>
+Step 1: Find LCD of all denominators
+Step 2: Convert each fraction to LCD denominator
+Step 3: Add/subtract numerators
+Step 4: Expand brackets in numerator
+Step 5: Collect like terms, simplify</div>
+      <div class="exbox"><strong>Example 1: (2x-1)/2 - 2x/3</strong>
+LCD = 6
+= 3(2x-1)/6 - 2(2x)/6
+= [6x - 3 - 4x] / 6
+= <strong>(2x - 3)/6</strong></div>
+      <div class="exbox"><strong>Example 2: (4m+3)/6 + (m-1)/2</strong>
+LCD = 6
+= (4m+3)/6 + 3(m-1)/6
+= [4m + 3 + 3m - 3] / 6
+= <strong>7m/6</strong></div>
+      <div class="warnbox"><strong>⚠️ Critical Errors to Avoid</strong>
+When multiplying: 3×(2x-1) = 6x-3, NOT 6x-1
+The WHOLE numerator gets multiplied, not just first term!
+Always expand brackets fully before collecting.</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>4.5 Formulae — Substitution & Change of Subject <span class="weak-flag">⚠️ Focus Area</span></span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="exbox"><strong>Substitution: v = √(u² + 2as), find v when u=12, a=9, s=10</strong>
+v = √(12² + 2×9×10)
+= √(144 + 180)
+= √324
+= <strong>18</strong></div>
+      <div class="rulebox"><strong>🔑 Change of Subject — Steps</strong>
+Use INVERSE operations, work outward from the variable:
+• Addition ↔ Subtraction
+• Multiplication ↔ Division  
+• Squaring ↔ Square root
+Do the SAME to BOTH sides at every step.</div>
+      <div class="exbox"><strong>Make h the subject: T = 20 - h/150</strong>
+T - 20 = -h/150       (subtract 20 from both sides)
+h/150 = 20 - T        (multiply both sides by -1)
+<strong>h = 150(20 - T)</strong>    (multiply both sides by 150)</div>
+      <div class="exbox"><strong>Make h the subject: S = 2πr(r + h)</strong>
+S = 2πr² + 2πrh       (expand bracket)
+S - 2πr² = 2πrh       (subtract 2πr²)
+<strong>h = (S - 2πr²) / (2πr)</strong>    (divide by 2πr)</div>
+      <div class="warnbox"><strong>⚠️ Mokshith's Focus — Sign errors when rearranging</strong>
+When you move a term across the equals sign, the sign CHANGES:
+T = 20 - h/150  →  h/150 = 20 - T  (not 20 + T!)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ WEEK 1 PAPER ═══ -->
+<div class="tab-content" id="p1Tab">
+  <div class="section-hd">Week 1 Practice Paper — Factors, Multiples & Real Numbers</div>
+  <div class="timer-bar"><span>⏱ Time yourself: 45 minutes</span><span class="timer-val" id="t1">45:00</span><button onclick="startTimer('t1',45)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+
+  <!-- Section A -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">A</div><div class="card-title">Section A — Factors & Multiples</div><div class="card-marks">24 marks</div></div>
+    <div class="card-body">
+      <!-- Q1 -->
+      <div class="qrow"><div class="qn">1</div><div class="qc">
+        Express each as a product of its prime factors.<br>
+        (a) 756 &nbsp;&nbsp; Answer: <input class="ainp md" id="q1a" placeholder="e.g. 2²×3³×7">
+        <button class="sab" onclick="chk('q1a','2²×3³×7',2,'756 = 2×2×3×3×3×7. Use repeated division: 756÷2=378÷2=189÷3=63÷3=21÷3=7÷7=1')">Check [2]</button>
+        <div class="reveal" id="q1a_r"></div><br>
+        (b) 2520 &nbsp; Answer: <input class="ainp md" id="q1b" placeholder="e.g. 2³×...">
+        <button class="sab" onclick="chk('q1b','2³×3²×5×7',2,'2520 = 2×2×2×3×3×5×7 = 2³×3²×5×7')">Check [2]</button>
+        <div class="reveal" id="q1b_r"></div>
+      </div></div>
+
+      <!-- Q2 -->
+      <div class="qrow"><div class="qn">2</div><div class="qc">
+        A = 2³ × 3² × 5 &nbsp;&nbsp; B = 2² × 3 × 5² × 7<br>
+        (a) HCF of A and B: <input class="ainp sm" id="q2a" placeholder="?">
+        <button class="sab" onclick="chk('q2a','60',2,'Common factors: 2 and 3 and 5. Lowest powers: 2²×3×5 = 60')">Check [2]</button>
+        <div class="reveal" id="q2a_r"></div><br>
+        (b) LCM of A and B: <input class="ainp md" id="q2b" placeholder="?">
+        <button class="sab" onclick="chk('q2b','12600',2,'All factors, highest powers: 2³×3²×5²×7 = 8×9×25×7 = 12600')">Check [2]</button>
+        <div class="reveal" id="q2b_r"></div>
+      </div></div>
+
+      <!-- Q3 -->
+      <div class="qrow"><div class="qn">3</div><div class="qc">
+        Three school bells ring every 12, 15 and 20 minutes. They ring together at 8:00 am.<br>
+        (a) When is the next time all three ring together? <input class="ainp md" id="q3a" placeholder="e.g. 9:00 am">
+        <button class="sab" onclick="chk('q3a','9:00 am',2,'LCM(12,15,20): 12=2²×3, 15=3×5, 20=2²×5 → LCM=2²×3×5=60 min → 8:00+60min=9:00am')">Check [2]</button>
+        <div class="reveal" id="q3a_r"></div><br>
+        (b) How many times do they ring together between 8:00am and 2:00pm (inclusive)? <input class="ainp sm" id="q3b" placeholder="?">
+        <button class="sab" onclick="chk('q3b','7',2,'6 hours = 360 min. 360÷60=6 intervals, so 7 times total (at 8,9,10,11,12,1,2)')">Check [2]</button>
+        <div class="reveal" id="q3b_r"></div>
+      </div></div>
+
+      <!-- Q4 -->
+      <div class="qrow"><div class="qn">4</div><div class="qc">
+        Given that 1764 = 2² × 3² × 7²:<br>
+        (a) Find √1764 as product of prime factors: <input class="ainp md" id="q4a" placeholder="?">
+        <button class="sab" onclick="chk('q4a','2×3×7',1,'Halve each index: 2²→2¹, 3²→3¹, 7²→7¹ → 2×3×7 = 42')">Check [1]</button>
+        <div class="reveal" id="q4a_r"></div><br>
+        (b) Smallest k so 1764k is a perfect cube: k = <input class="ainp sm" id="q4b" placeholder="?">
+        <button class="sab" onclick="chk('q4b','42',2,'Need all indices divisible by 3: 2²→need 2¹, 3²→need 3¹, 7²→need 7¹. k = 2×3×7 = 42')">Check [2]</button>
+        <div class="reveal" id="q4b_r"></div><br>
+        (c) Smallest m so 1764/m is a perfect square: m = <input class="ainp sm" id="q4c" placeholder="?">
+        <button class="sab" onclick="chk('q4c','1',2,'1764 = 2²×3²×7² already has all even indices → already a perfect square → m=1')">Check [2]</button>
+        <div class="reveal" id="q4c_r"></div>
+      </div></div>
+
+      <!-- Q5 -->
+      <div class="qrow"><div class="qn">5</div><div class="qc">
+        p = 2⁴ × 3 × 5² &nbsp; q = 2² × 3³ × 7<br>
+        (a) Smallest n so pn is a perfect square: n = <input class="ainp sm" id="q5a" placeholder="?">
+        <button class="sab" onclick="chk('q5a','3',2,'p = 2⁴×3¹×5². Indices: 2⁴✓, 3¹ (odd→need one more 3), 5²✓. So n=3')">Check [2]</button>
+        <div class="reveal" id="q5a_r"></div><br>
+        (b) HCF = <input class="ainp sm" id="q5bh" placeholder="?"> &nbsp; LCM = <input class="ainp md" id="q5bl" placeholder="?">
+        <button class="sab" onclick="chk2('q5bh','12','q5bl','75600',3,'HCF: common factors 2²×3=12. LCM: all factors 2⁴×3³×5²×7 = 16×27×25×7 = 75600')">Check [3]</button>
+        <div class="reveal" id="q5bh_r"></div>
+      </div></div>
+
+      <!-- Q6 -->
+      <div class="qrow"><div class="qn">6</div><div class="qc">
+        A hall is 48m long × 36m wide. Square tiles cover the entire floor without cutting.<br>
+        (a) Largest tile side length: <input class="ainp sm" id="q6a" placeholder="? m">
+        <button class="sab" onclick="chk('q6a','12',2,'HCF(48,36): 48=2⁴×3, 36=2²×3² → HCF=2²×3=12m')">Check [2]</button>
+        <div class="reveal" id="q6a_r"></div><br>
+        (b) Number of tiles needed: <input class="ainp sm" id="q6b" placeholder="?">
+        <button class="sab" onclick="chk('q6b','12',2,'Length: 48÷12=4 tiles. Width: 36÷12=3 tiles. Total = 4×3 = 12 tiles')">Check [2]</button>
+        <div class="reveal" id="q6b_r"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- Section B Real Numbers -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">B</div><div class="card-title">Section B — Real Numbers</div><div class="card-marks">16 marks</div></div>
+    <div class="card-body">
+      <!-- Q7 -->
+      <div class="qrow"><div class="qn">7</div><div class="qc">
+        Numbers: -3.5, &nbsp; √49, &nbsp; π, &nbsp; 0, &nbsp; √8, &nbsp; ²⁄₃, &nbsp; -√16, &nbsp; √(-4)<br>
+        (a) List all RATIONAL numbers:
+        <div class="mc-opts">
+          <button class="mcopt" onclick="mcSelect(this,'-3.5, √49, 0, ²⁄₃, -√16','q7a',2,'Rational = can write as p/q. √49=7, -√16=-4 are integers. √8 is irrational. √(-4) is not real.')">-3.5, √49, 0, ²⁄₃, -√16</button>
+          <button class="mcopt" onclick="mcSelect(this,'-3.5, √49, 0, √8, ²⁄₃','q7a',2,'Incorrect — √8 is irrational (8 is not a perfect square).')">-3.5, √49, 0, √8, ²⁄₃</button>
+          <button class="mcopt" onclick="mcSelect(this,'-3.5, 0, ²⁄₃','q7a',2,'Incomplete — √49=7 and -√16=-4 are also rational!')">-3.5, 0, ²⁄₃</button>
+        </div>
+        <div class="reveal" id="q7a_r"></div>
+        (b) List all IRRATIONAL numbers:
+        <div class="mc-opts">
+          <button class="mcopt" onclick="mcSelect(this,'π, √8','q7b',1,'Correct! π is always irrational. √8 = 2√2 (8 is not a perfect square). √(-4) is NOT real so excluded.')">π, √8</button>
+          <button class="mcopt" onclick="mcSelect(this,'π, √8, √(-4)','q7b',1,'√(-4) is not a real number — it cannot be irrational or rational!')">π, √8, √(-4)</button>
+          <button class="mcopt" onclick="mcSelect(this,'π only','q7b',1,'√8 is also irrational since 8 is not a perfect square.')">π only</button>
+        </div>
+        <div class="reveal" id="q7b_r"></div>
+        (c) Are all rational numbers also real numbers? <div class="mc-opts">
+          <button class="mcopt" onclick="mcSelect(this,'Yes','q7c',1,'Correct! Real = Rational ∪ Irrational. All rationals are real. The ONLY non-real in the list is √(-4).')">Yes</button>
+          <button class="mcopt" onclick="mcSelect(this,'No','q7c',1,'Incorrect — rational numbers are a SUBSET of real numbers.')">No</button>
+        </div>
+        <div class="reveal" id="q7c_r"></div>
+      </div></div>
+
+      <!-- Q8 -->
+      <div class="qrow"><div class="qn">8</div><div class="qc">
+        Arrange in ascending order: √5, &nbsp; 2.3, &nbsp; -1¾, &nbsp; π/2, &nbsp; √9, &nbsp; -0.8<br>
+        Choose the correct ascending order:
+        <div class="mc-opts">
+          <button class="mcopt" onclick="mcSelect(this,'-1¾ < -0.8 < π/2 < √5 < 2.3 < √9','q8',2,'Correct! In decimals: -1.75 < -0.8 < 1.571 < 2.236 < 2.3 < 3. Always convert to decimals first!')">[A] -1¾ &lt; -0.8 &lt; π/2 &lt; √5 &lt; 2.3 &lt; √9</button>
+          <button class="mcopt" onclick="mcSelect(this','wrong','q8',2,'Check: π/2≈1.571, √5≈2.236, √9=3 exactly. Convert ALL to decimals!')">[B] -0.8 &lt; -1¾ &lt; π/2 &lt; √5 &lt; 2.3 &lt; √9</button>
+          <button class="mcopt" onclick="mcSelect(this','wrong2','q8',2,'√9=3 exactly, which is bigger than 2.3!')">[C] -1¾ &lt; -0.8 &lt; π/2 &lt; √5 &lt; √9 &lt; 2.3</button>
+        </div>
+        <div class="reveal" id="q8_r"></div>
+      </div></div>
+
+      <!-- Q9 -->
+      <div class="qrow"><div class="qn">9</div><div class="qc">
+        Without a calculator, evaluate:<br>
+        (a) (-3)² + (-4)³ = <input class="ainp sm" id="q9a" placeholder="?">
+        <button class="sab" onclick="chk('q9a','-55',2,'(-3)²=9, (-4)³=-64. 9+(-64)=-55')">Check [2]</button>
+        <div class="reveal" id="q9a_r"></div><br>
+        (b) ³√(-125) × (-2)² = <input class="ainp sm" id="q9b" placeholder="?">
+        <button class="sab" onclick="chk('q9b','-20',2,'³√(-125)=-5, (-2)²=4. -5×4=-20')">Check [2]</button>
+        <div class="reveal" id="q9b_r"></div>
+      </div></div>
+
+      <!-- Q10 -->
+      <div class="qrow"><div class="qn">10</div><div class="qc">
+        x = 4 × 10⁴<br>
+        (a) √x in index notation: <input class="ainp md" id="q10a" placeholder="e.g. 2×10²">
+        <button class="sab" onclick="chk('q10a','2×10²',2,'√(4×10⁴) = √4 × √(10⁴) = 2 × 10²')">Check [2]</button>
+        <div class="reveal" id="q10a_r"></div><br>
+        (b) x² ÷ (2 × 10³) in standard form: <input class="ainp md" id="q10b" placeholder="?">
+        <button class="sab" onclick="chk('q10b','8×10⁵',2,'x²=(4×10⁴)²=16×10⁸. 16×10⁸÷(2×10³)=8×10⁵')">Check [2]</button>
+        <div class="reveal" id="q10b_r"></div>
+      </div></div>
+    </div>
+  </div>
+  <button class="csb" onclick="scorePaper('p1',40)">Submit Paper & Save Score</button>
+  <div class="reveal" id="p1_score_r" style="margin-top:.5rem"></div>
+</div>
+
+<!-- ═══ WEEK 2 PAPER ═══ -->
+<div class="tab-content" id="p2Tab">
+  <div class="section-hd">Week 2 Practice Paper — Approximation & Estimation</div>
+  <div class="timer-bar"><span>⏱ Time yourself: 40 minutes</span><span class="timer-val" id="t2">40:00</span><button onclick="startTimer('t2',40)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">A</div><div class="card-title">Section A — No Calculator</div><div class="card-marks">18 marks</div></div>
+    <div class="card-instr">Do NOT use a calculator for this section.</div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">1</div><div class="qc">
+        Round to the stated accuracy:<br>
+        (a) 0.003928 to 2 s.f.: <input class="ainp sm" id="w2q1a" placeholder="?">
+        <button class="sab" onclick="chk('w2q1a','0.0039',1,'1st s.f.=3, 2nd s.f.=9. Next digit=2 (<5) → keep → 0.0039')">Check [1]</button>
+        <div class="reveal" id="w2q1a_r"></div><br>
+        (b) 5919.4 to 3 s.f.: <input class="ainp sm" id="w2q1b" placeholder="?">
+        <button class="sab" onclick="chk('w2q1b','5920',1,'1st=5,2nd=9,3rd=1. Next=9 (≥5) → round up 1→2 → 5920')">Check [1]</button>
+        <div class="reveal" id="w2q1b_r"></div><br>
+        (c) 0.09950 to 2 s.f.: <input class="ainp sm" id="w2q1c" placeholder="?">
+        <button class="sab" onclick="chk('w2q1c','0.100',1,'1st s.f.=9, 2nd s.f.=9. Next=5 (≥5) → round up → 0.100')">Check [1]</button>
+        <div class="reveal" id="w2q1c_r"></div><br>
+        (d) 149.95 to 4 s.f.: <input class="ainp sm" id="w2q1d" placeholder="?">
+        <button class="sab" onclick="chk('w2q1d','150.0',1,'4th s.f.=9. Next=5 → round up → 150.0 (keep the .0 for 4 s.f.!)')">Check [1]</button>
+        <div class="reveal" id="w2q1d_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">2</div><div class="qc">
+        Population of a city = 4,200,000 (correct to nearest 100,000).<br>
+        (a) Maximum possible population: <input class="ainp md" id="w2q2a" placeholder="?">
+        <button class="sab" onclick="chk('w2q2a','4250000',1,'UB = 4,200,000 + 50,000 = 4,250,000')">Check [1]</button>
+        <div class="reveal" id="w2q2a_r"></div><br>
+        (b) Minimum possible population: <input class="ainp md" id="w2q2b" placeholder="?">
+        <button class="sab" onclick="chk('w2q2b','4150000',1,'LB = 4,200,000 - 50,000 = 4,150,000')">Check [1]</button>
+        <div class="reveal" id="w2q2b_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">3</div><div class="qc">
+        By rounding to 1 s.f., estimate:<br>
+        (a) 29.3 × 4.87 / 0.512 ≈ <input class="ainp sm" id="w2q3a" placeholder="?">
+        <button class="sab" onclick="chk('w2q3a','300',2,'30 × 5 / 0.5 = 150/0.5 = 300')">Check [2]</button>
+        <div class="reveal" id="w2q3a_r"></div><br>
+        (b) (√63.8 × 25.1) / (19.7)² ≈ <input class="ainp sm" id="w2q3b" placeholder="?">
+        <button class="sab" onclick="chk('w2q3b','0.5',3,'√63.8→√64=8. 25.1→25. 19.7→20→20²=400. (8×25)/400=200/400=0.5')">Check [3]</button>
+        <div class="reveal" id="w2q3b_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">4</div><div class="qc">
+        A rod = 36 cm, correct to nearest cm.<br>
+        (a) Upper bound: <input class="ainp sm" id="w2q4a" placeholder="? cm">
+        <button class="sab" onclick="chk('w2q4a','36.5',1,'Unit=1cm. Half-unit=0.5. UB=36+0.5=36.5cm')">Check [1]</button>
+        <div class="reveal" id="w2q4a_r"></div><br>
+        (b) Lower bound: <input class="ainp sm" id="w2q4b" placeholder="? cm">
+        <button class="sab" onclick="chk('w2q4b','35.5',1,'LB=36-0.5=35.5cm')">Check [1]</button>
+        <div class="reveal" id="w2q4b_r"></div><br>
+        (c) Second rod = 24 cm (nearest cm). Upper bound of TOTAL length: <input class="ainp sm" id="w2q4c" placeholder="? cm">
+        <button class="sab" onclick="chk('w2q4c','61',1,'UB(36)=36.5, UB(24)=24.5. Total UB = 36.5+24.5 = 61.0 cm')">Check [1]</button>
+        <div class="reveal" id="w2q4c_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">5</div><div class="qc">
+        Is the estimate of (8.94)² ÷ (2.06 × 0.98) an overestimate or underestimate?
+        <div class="mc-opts">
+          <button class="mcopt" onclick="mcSelect(this,'Overestimate','w2q5',4,'Correct! Estimate: 9²÷(2×1)=81÷2=40.5. Actual≈39.6. 8.94 rounded UP and 2.06×0.98 rounded DOWN → both push result UP → overestimate.')">Overestimate</button>
+          <button class="mcopt" onclick="mcSelect(this','Underestimate','w2q5',4,'Incorrect. 8.94 was rounded UP to 9 (larger numerator). 2.06×0.98≈2.02 was rounded down to 2×1=2 (smaller denominator). Both effects push the estimate UP.')">Underestimate</button>
+        </div>
+        <div class="reveal" id="w2q5_r"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">B</div><div class="card-title">Section B — Calculator Allowed</div><div class="card-marks">17 marks</div></div>
+    <div class="card-instr">Calculator is allowed for this section.</div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">6</div><div class="qc">
+        (a) 7.6³ / (6.14 - 0.15²) to 4 s.f.: <input class="ainp md" id="w2q6a" placeholder="?">
+        <button class="sab" onclick="chk('w2q6a','71.76',2,'=438.976/(6.14-0.0225)=438.976/6.1175≈71.76')">Check [2]</button>
+        <div class="reveal" id="w2q6a_r"></div><br>
+        (b) √19.8 × 2.009 / (-6.24)² to 2 s.f.: <input class="ainp sm" id="w2q6b" placeholder="?">
+        <button class="sab" onclick="chk('w2q6b','0.23',2,'=(4.450×2.009)/38.9376=8.940/38.94≈0.23')">Check [2]</button>
+        <div class="reveal" id="w2q6b_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">7</div><div class="qc">
+        Field: length=127.3m, width=84.6m (both to 1 d.p.)<br>
+        (a) Upper bound for area: <input class="ainp md" id="w2q7a" placeholder="? m²">
+        <button class="sab" onclick="chk('w2q7a','10780.3225',2,'UB(l)=127.35, UB(w)=84.65. Area UB=127.35×84.65=10780.3225 m²')">Check [2]</button>
+        <div class="reveal" id="w2q7a_r"></div><br>
+        (b) Lower bound for perimeter: <input class="ainp md" id="w2q7b" placeholder="? m">
+        <button class="sab" onclick="chk('w2q7b','423.6',2,'LB(l)=127.25, LB(w)=84.55. Perimeter LB=2(127.25+84.55)=2(211.80)=423.6m')">Check [2]</button>
+        <div class="reveal" id="w2q7b_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">8</div><div class="qc">
+        James says √(0.36 + 0.64) = √0.36 + √0.64. Is James correct?
+        <div class="mc-opts">
+          <button class="mcopt" onclick="mcSelect(this','No, James is wrong','w2q8',3,'Correct! LHS: √(0.36+0.64)=√1=1. RHS: √0.36+√0.64=0.6+0.8=1.4. 1≠1.4. √(a+b) ≠ √a + √b!')">No — James is wrong</button>
+          <button class="mcopt" onclick="mcSelect(this','Yes, James is correct','w2q8',3,'Incorrect! LHS=√1=1 but RHS=0.6+0.8=1.4. They are NOT equal.')">Yes — James is correct</button>
+        </div>
+        <div class="reveal" id="w2q8_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">9</div><div class="qc">
+        Speed of light = 3.00 × 10⁸ m/s. Distance Sun to Earth = 1.50 × 10¹¹ m.<br>
+        Time for light to travel from Sun to Earth (in minutes, 3 s.f.): <input class="ainp md" id="w2q9" placeholder="? min">
+        <button class="sab" onclick="chk('w2q9','8.33',3,'Time = distance÷speed = 1.50×10¹¹ ÷ 3.00×10⁸ = 500 seconds = 500÷60 = 8.33 minutes (3 s.f.)')">Check [3]</button>
+        <div class="reveal" id="w2q9_r"></div>
+      </div></div>
+    </div>
+  </div>
+  <button class="csb" onclick="scorePaper('p2',35)">Submit Paper & Save Score</button>
+  <div class="reveal" id="p2_score_r" style="margin-top:.5rem"></div>
+</div>
+
+<!-- ═══ WEEK 3 PAPER ═══ -->
+<div class="tab-content" id="p3Tab">
+  <div class="section-hd">Week 3 Practice Paper — Basic Algebra & Manipulations</div>
+  <div class="timer-bar"><span>⏱ Time yourself: 50 minutes</span><span class="timer-val" id="t3">50:00</span><button onclick="startTimer('t3',50)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">A</div><div class="card-title">Section A — Expressions & Simplification</div><div class="card-marks">12 marks</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">1</div><div class="qc">
+        Write algebraic expressions:<br>
+        (a) Subtract 3y from the product of x and 4z: <input class="ainp md" id="w3q1a" placeholder="?">
+        <button class="sab" onclick="chk('w3q1a','4xz-3y',1,'Product of x and 4z = 4xz. Subtract 3y → 4xz-3y')">Check [1]</button>
+        <div class="reveal" id="w3q1a_r"></div><br>
+        (b) Divide 5 by the sum of 7a and 2: <input class="ainp md" id="w3q1b" placeholder="?">
+        <button class="sab" onclick="chk('w3q1b','5/(7a+2)',1,'Sum of 7a and 2 = (7a+2). Divide 5 by it → 5/(7a+2)')">Check [1]</button>
+        <div class="reveal" id="w3q1b_r"></div><br>
+        (c) Three times the square of p, minus twice q: <input class="ainp md" id="w3q1c" placeholder="?">
+        <button class="sab" onclick="chk('w3q1c','3p²-2q',1,'Three times square of p = 3p². Minus twice q = -2q → 3p²-2q')">Check [1]</button>
+        <div class="reveal" id="w3q1c_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">2</div><div class="qc">
+        Simplify:<br>
+        (a) 2(x + 4) - 3(x - 1) = <input class="ainp md" id="w3q2a" placeholder="?">
+        <button class="sab" onclick="chk('w3q2a','-x+11',2,'=2x+8-3x+3=-x+11. Watch: -3×(-1)=+3 not -3!')">Check [2]</button>
+        <div class="reveal" id="w3q2a_r"></div><br>
+        (b) 2(4x - 5y) - 3(1 - 2y) = <input class="ainp md" id="w3q2b" placeholder="?">
+        <button class="sab" onclick="chk('w3q2b','8x-4y-3',2,'=8x-10y-3+6y=8x-4y-3. Note: -3×(-2y)=+6y')">Check [2]</button>
+        <div class="reveal" id="w3q2b_r"></div><br>
+        (c) 5(2a - b) - 2(3a + 4b) + 7b = <input class="ainp md" id="w3q2c" placeholder="?">
+        <button class="sab" onclick="chk('w3q2c','4a-6b',2,'=10a-5b-6a-8b+7b=4a-6b')">Check [2]</button>
+        <div class="reveal" id="w3q2c_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">3</div><div class="qc">
+        Simplify (2x + y) - 2(x - 2y): = <input class="ainp md" id="w3q3" placeholder="?">
+        <button class="sab" onclick="chk('w3q3','5y',2,'=2x+y-2x+4y=5y. Key: -2×(-2y)=+4y')">Check [2]</button>
+        <div class="reveal" id="w3q3_r"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">B</div><div class="card-title">Section B — Factorisation</div><div class="card-marks">14 marks</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">4</div><div class="qc">
+        Factorise completely:<br>
+        (a) 7x + 21xy = <input class="ainp md" id="w3q4a" placeholder="?">
+        <button class="sab" onclick="chk('w3q4a','7x(1+3y)',1,'HCF=7x → 7x(1+3y)')">Check [1]</button>
+        <div class="reveal" id="w3q4a_r"></div><br>
+        (b) 5x² - 10x = <input class="ainp md" id="w3q4b" placeholder="?">
+        <button class="sab" onclick="chk('w3q4b','5x(x-2)',1,'HCF=5x → 5x(x-2)')">Check [1]</button>
+        <div class="reveal" id="w3q4b_r"></div><br>
+        (c) 20pq - 4p = <input class="ainp md" id="w3q4c" placeholder="?">
+        <button class="sab" onclick="chk('w3q4c','4p(5q-1)',1,'HCF=4p → 4p(5q-1)')">Check [1]</button>
+        <div class="reveal" id="w3q4c_r"></div><br>
+        (d) -8xyz - 18yz + 6xz = <input class="ainp md" id="w3q4d" placeholder="?">
+        <button class="sab" onclick="chk('w3q4d','2z(-4xy-9y+3x)',2,'HCF=2z → 2z(-4xy-9y+3x). Check: 2z×(-4xy)=-8xyz ✓')">Check [2]</button>
+        <div class="reveal" id="w3q4d_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">5</div><div class="qc">
+        Factorise by grouping: <span class="weak-flag">⚠️ Mokshith's Focus Area</span><br>
+        (a) 3ax + 16y - 12ay - 4x = <input class="ainp md" id="w3q5a" placeholder="?">
+        <button class="sab" onclick="chk('w3q5a','(x-4y)(3a-4)',2,'Group: (3ax-12ay)+(-4x+16y)=3a(x-4y)-4(x-4y)=(x-4y)(3a-4)')">Check [2]</button>
+        <div class="reveal" id="w3q5a_r"></div><br>
+        (b) b(b - 3) - 2a(3 - b) = <input class="ainp md" id="w3q5b" placeholder="?">
+        <button class="sab" onclick="chk('w3q5b','(b-3)(b+2a)',2,'(3-b)=-(b-3) so: b(b-3)+2a(b-3)=(b-3)(b+2a)')">Check [2]</button>
+        <div class="reveal" id="w3q5b_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">6</div><div class="qc">
+        Area of rectangle = (6x² + 9xy) cm². Length = 3x cm. Find the width:
+        <input class="ainp md" id="w3q6" placeholder="? cm">
+        <button class="sab" onclick="chk('w3q6','(2x+3y)',2,'Width = (6x²+9xy)÷3x = 3x(2x+3y)÷3x = 2x+3y')">Check [2]</button>
+        <div class="reveal" id="w3q6_r"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">C</div><div class="card-title">Section C — Algebraic Fractions <span class="weak-flag">⚠️ Focus Area</span></div><div class="card-marks">9 marks</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">7</div><div class="qc">
+        Write as single fractions in simplest form:<br>
+        (a) (2x-1)/2 - 2x/3 = <input class="ainp md" id="w3q7a" placeholder="?">
+        <button class="sab" onclick="chk('w3q7a','(2x-3)/6',2,'LCD=6: 3(2x-1)/6-2(2x)/6=(6x-3-4x)/6=(2x-3)/6')">Check [2]</button>
+        <div class="reveal" id="w3q7a_r"></div><br>
+        (b) (2+x)/3 - 2(x-1)/5 = <input class="ainp md" id="w3q7b" placeholder="?">
+        <button class="sab" onclick="chk('w3q7b','(16-x)/15',2,'LCD=15: 5(2+x)/15-6(x-1)/15=(10+5x-6x+6)/15=(16-x)/15')">Check [2]</button>
+        <div class="reveal" id="w3q7b_r"></div><br>
+        (c) (4m+3)/6 + (m-1)/2 = <input class="ainp md" id="w3q7c" placeholder="?">
+        <button class="sab" onclick="chk('w3q7c','7m/6',2,'LCD=6: (4m+3)/6+3(m-1)/6=(4m+3+3m-3)/6=7m/6')">Check [2]</button>
+        <div class="reveal" id="w3q7c_r"></div><br>
+        (d) 2a/5 - (a-4)/3 = <input class="ainp md" id="w3q7d" placeholder="?">
+        <button class="sab" onclick="chk('w3q7d','(a+20)/15',3,'LCD=15: 6a/15-5(a-4)/15=(6a-5a+20)/15=(a+20)/15')">Check [3]</button>
+        <div class="reveal" id="w3q7d_r"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">D</div><div class="card-title">Section D — Formulae <span class="weak-flag">⚠️ Focus Area</span></div><div class="card-marks">10 marks</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">8</div><div class="qc">
+        v = √(u² + 2as). Find v when u=12, a=9, s=10: v = <input class="ainp sm" id="w3q8" placeholder="?">
+        <button class="sab" onclick="chk('w3q8','18',2,'v=√(144+180)=√324=18. Remember: always substitute carefully!')">Check [2]</button>
+        <div class="reveal" id="w3q8_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">9</div><div class="qc">
+        S = 2πr(r + h)<br>
+        (a) Find S when r=5, h=8 (3 s.f.): <input class="ainp md" id="w3q9a" placeholder="?">
+        <button class="sab" onclick="chk('w3q9a','408',2,'S=2π(5)(13)=130π≈408 (3 s.f.)')">Check [2]</button>
+        <div class="reveal" id="w3q9a_r"></div><br>
+        (b) Make h the subject: h = <input class="ainp md" id="w3q9b" placeholder="?">
+        <button class="sab" onclick="chk('w3q9b','(S-2πr²)/(2πr)',2,'S=2πr²+2πrh → S-2πr²=2πrh → h=(S-2πr²)/(2πr)')">Check [2]</button>
+        <div class="reveal" id="w3q9b_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">10</div><div class="qc">
+        T = 20 - h/150<br>
+        (a) T when h=3000: <input class="ainp sm" id="w3q10a" placeholder="?">
+        <button class="sab" onclick="chk('w3q10a','0',1,'T=20-3000/150=20-20=0')">Check [1]</button>
+        <div class="reveal" id="w3q10a_r"></div><br>
+        (b) h when T=0: <input class="ainp sm" id="w3q10b" placeholder="?">
+        <button class="sab" onclick="chk('w3q10b','3000',1,'0=20-h/150 → h/150=20 → h=3000')">Check [1]</button>
+        <div class="reveal" id="w3q10b_r"></div><br>
+        (c) Make h the subject: h = <input class="ainp md" id="w3q10c" placeholder="?">
+        <button class="sab" onclick="chk('w3q10c','150(20-T)',2,'h/150=20-T → h=150(20-T)')">Check [2]</button>
+        <div class="reveal" id="w3q10c_r"></div>
+      </div></div>
+    </div>
+  </div>
+  <button class="csb" onclick="scorePaper('p3',45)">Submit Paper & Save Score</button>
+  <div class="reveal" id="p3_score_r" style="margin-top:.5rem"></div>
+</div>
+
+<!-- ═══ WA2 MOCK ═══ -->
+<div class="tab-content" id="mockTab">
+  <div class="section-hd">WA2 Mock Examination — All Topics Combined</div>
+  <div class="timer-bar"><span>⏱ 1 hour 15 minutes</span><span class="timer-val" id="tmock">75:00</span><button onclick="startTimer('tmock',75)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start Timer</button></div>
+  <div style="font-size:.82rem;color:var(--muted);margin-bottom:.8rem">50 marks • Show all working • Give answers to 3 s.f. where not exact, unless stated</div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">1</div><div class="card-title">Approximation [4 marks]</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">a</div><div class="qc">Round 0.048596 correct to 3 significant figures: <input class="ainp sm" id="mq1a" placeholder="?"> <button class="sab" onclick="chk('mq1a','0.0486',1,'3rd s.f.=5, next=9 ≥5 → round up → 0.0486')">Check [1]</button><div class="reveal" id="mq1a_r"></div></div></div>
+      <div class="qrow"><div class="qn">b</div><div class="qc">12,400 spectators (nearest 100). Greatest possible number: <input class="ainp md" id="mq1b" placeholder="?"> <button class="sab" onclick="chk('mq1b','12450',1,'UB=12400+50=12450')">Check [1]</button><div class="reveal" id="mq1b_r"></div></div></div>
+      <div class="qrow"><div class="qn">c</div><div class="qc">Estimate (√63.5 × 24.8) / (2.04)²: <input class="ainp sm" id="mq1c" placeholder="?"> <button class="sab" onclick="chk('mq1c','50',2,'√63.5→√64=8, 24.8→25, 2.04→2, 2²=4. (8×25)/4=50')">Check [2]</button><div class="reveal" id="mq1c_r"></div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">2</div><div class="card-title">Factors & Multiples [4 marks]</div></div>
+    <div class="card-body">
+      <div class="card-instr">168 = 2³ × 3 × 7</div>
+      <div class="qrow"><div class="qn">a</div><div class="qc">Smallest k such that 168k is a perfect square: k = <input class="ainp sm" id="mq2a" placeholder="?"> <button class="sab" onclick="chk('mq2a','42',2,'168=2³×3¹×7¹. Need: 2→2⁴, 3→3², 7→7². k=2×3×7=42')">Check [2]</button><div class="reveal" id="mq2a_r"></div></div></div>
+      <div class="qrow"><div class="qn">b</div><div class="qc">x is between 100 and 200. HCF(x,168)=42. Smallest x: <input class="ainp sm" id="mq2b" placeholder="?"> <button class="sab" onclick="chk('mq2b','126',2,'Multiples of 42 between 100-200: 126,168. HCF(126,168)=42 ✓')">Check [2]</button><div class="reveal" id="mq2b_r"></div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">3</div><div class="card-title">Real Numbers [4 marks]</div></div>
+    <div class="card-body">
+      <div class="card-instr">Numbers: π, √(-1), -√4, 0.333..., √(100/9), ²/₇</div>
+      <div class="qrow"><div class="qn">a</div><div class="qc">List all irrational numbers: <input class="ainp sm" id="mq3a" placeholder="?"> <button class="sab" onclick="chk('mq3a','π',1,'Only π is irrational. √(-1) is not real. -√4=-2 (rational). 0.333...=1/3 (rational). √(100/9)=10/3 (rational). ²/₇ (rational).')">Check [1]</button><div class="reveal" id="mq3a_r"></div></div></div>
+      <div class="qrow"><div class="qn">b</div><div class="qc">³√(-8) × (-3)² = <input class="ainp sm" id="mq3b" placeholder="?"> <button class="sab" onclick="chk('mq3b','-18',2,'³√(-8)=-2. (-3)²=9. -2×9=-18')">Check [2]</button><div class="reveal" id="mq3b_r"></div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">4</div><div class="card-title">Algebra [10 marks]</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">a</div><div class="qc">Simplify 2(x+4) - 3(x-1): <input class="ainp md" id="mq4a" placeholder="?"> <button class="sab" onclick="chk('mq4a','-x+11',2,'=2x+8-3x+3=-x+11')">Check [2]</button><div class="reveal" id="mq4a_r"></div></div></div>
+      <div class="qrow"><div class="qn">b</div><div class="qc">(2x-1)/2 - 2x/3 as single fraction: <input class="ainp md" id="mq4b" placeholder="?"> <button class="sab" onclick="chk('mq4b','(2x-3)/6',2,'LCD=6: (6x-3-4x)/6=(2x-3)/6')">Check [2]</button><div class="reveal" id="mq4b_r"></div></div></div>
+      <div class="qrow"><div class="qn">c</div><div class="qc">Factorise 7x + 21xy: <input class="ainp md" id="mq4c" placeholder="?"> <button class="sab" onclick="chk('mq4c','7x(1+3y)',1,'HCF=7x')">Check [1]</button><div class="reveal" id="mq4c_r"></div></div></div>
+      <div class="qrow"><div class="qn">d</div><div class="qc">Factorise 3ax + 16y - 12ay - 4x: <input class="ainp md" id="mq4d" placeholder="?"> <button class="sab" onclick="chk('mq4d','(x-4y)(3a-4)',2,'Group: 3a(x-4y)-4(x-4y)=(x-4y)(3a-4)')">Check [2]</button><div class="reveal" id="mq4d_r"></div></div></div>
+      <div class="qrow"><div class="qn">e</div><div class="qc">Make h the subject of T = 20 - h/150: <input class="ainp md" id="mq4e" placeholder="h = ?"> <button class="sab" onclick="chk('mq4e','150(20-T)',3,'h/150=20-T → h=150(20-T)')">Check [3]</button><div class="reveal" id="mq4e_r"></div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">5</div><div class="card-title">LCM Word Problem [4 marks]</div></div>
+    <div class="card-body">
+      <div class="card-instr">Three traffic lights change every 40s, 60s and 90s. They all change at 9:00 am.</div>
+      <div class="qrow"><div class="qn">a</div><div class="qc">Next time all 3 change together: <input class="ainp md" id="mq5a" placeholder="?"> <button class="sab" onclick="chk('mq5a','9:06 am',2,'LCM(40,60,90)=360s=6min → 9:06am')">Check [2]</button><div class="reveal" id="mq5a_r"></div></div></div>
+      <div class="qrow"><div class="qn">b</div><div class="qc">How many times do they change together between 9:00am and 9:30am (inclusive)? <input class="ainp sm" id="mq5b" placeholder="?"> <button class="sab" onclick="chk('mq5b','6',2,'30min=1800s. 1800÷360=5 intervals → 6 times (9:00,9:06,9:12,9:18,9:24,9:30)')">Check [2]</button><div class="reveal" id="mq5b_r"></div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">6</div><div class="card-title">Percentage & Bounds [5 marks]</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">a</div><div class="qc">Ali's salary 2022=$84,000. 2023=$7,650/month. % increase? <input class="ainp md" id="mq6a" placeholder="? %"> <button class="sab" onclick="chk('mq6a','9.29',2,'2023 annual=7650×12=91800. Increase=7800. %=7800÷84000×100=9.29%')">Check [2]</button><div class="reveal" id="mq6a_r"></div></div></div>
+      <div class="qrow"><div class="qn">b</div><div class="qc">Laptop costs $16,200 incl. 9% GST. Friend says before GST = $14,862. Is friend correct?
+        <div class="mc-opts">
+          <button class="mcopt" onclick="mcSelect(this','No','mq6b',3,'Correct! $16200÷1.09=$14862.385..., not $14862 exactly. Friend is WRONG by ~39 cents.')">No — friend is wrong</button>
+          <button class="mcopt" onclick="mcSelect(this','Yes','mq6b',3,'Incorrect. $16200÷1.09=$14862.39, not $14862.00')">Yes — friend is correct</button>
+        </div>
+        <div class="reveal" id="mq6b_r"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <button class="csb" onclick="scorePaper('mock',50)">Submit Mock & Save Final Score</button>
+  <div class="reveal" id="mock_score_r" style="margin-top:.5rem"></div>
+</div>
+
+<!-- ═══ AI TUTOR ═══ -->
+<div class="tab-content" id="aiTab">
+  <div class="section-hd">✦ AI Tutor — Powered by Claude</div>
+  <div style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Ask for extra practice, request explanations, or let the AI generate targeted questions based on your weak areas.</div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">A</div><div class="card-title">Generate Practice Questions</div></div>
+    <div class="card-body">
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.7rem">
+        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on Factors & Multiples (HCF/LCM) for Sec 1 G2. Focus on word problems. Show full solutions.')">HCF/LCM Problems</button>
+        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on Upper and Lower Bounds for Sec 1 G2. Mokshith tends to confuse the half-unit. Include full worked solutions.')">Upper/Lower Bounds</button>
+        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on factorisation by grouping for Sec 1 G2 level. Include step-by-step solutions.')">Grouping Factorisation</button>
+        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on algebraic fractions (adding and subtracting) for Sec 1 G2. Include full solutions.')">Algebraic Fractions</button>
+        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on negative brackets and expansion for Sec 1 G2. Mokshith tends to miss sign changes. Include solutions.')">Negative Brackets</button>
+        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on Change of Subject of formula for Sec 1 G2. Mokshith makes sign errors when rearranging. Include solutions.')">Change of Subject</button>
+      </div>
+      <div style="display:flex;gap:.5rem;margin-bottom:.5rem">
+        <input id="aiInput" class="ainp" style="flex:1;min-width:0;border-bottom:2px solid var(--green)" placeholder="Or type your own question to the tutor...">
+        <button class="csb" style="display:inline-block;margin:0;padding:7px 16px" onclick="askAI()">Ask ✦</button>
+      </div>
+      <div id="aiOut" class="ai-out">
+        <span class="ai-loading">Hello Mokshith! I'm your AI Maths tutor. Click any topic above or ask me anything about your WA2 chapters. I can generate practice questions, explain concepts, or help you understand where you went wrong. Let's get you to 90%! 🎯</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">B</div><div class="card-title">Explain My Mistake</div></div>
+    <div class="card-body">
+      <div style="font-size:.84rem;color:var(--muted);margin-bottom:.5rem">Tell me what you tried and I'll explain the correct approach.</div>
+      <textarea id="mistakeInput" class="ainp" style="width:100%;min-height:65px;border:1.5px solid var(--border);border-radius:6px;padding:.4rem .6rem;font-family:inherit;font-size:.86rem;resize:vertical" placeholder="e.g. I tried to factorise 3ax+16y-12ay-4x and got stuck after the first group..."></textarea>
+      <button class="csb" onclick="explainMistake()">Explain My Mistake ✦</button>
+      <div id="mistakeOut" class="ai-out" style="display:none;margin-top:.5rem"></div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTOSAVE BAR -->
+<div class="autosave-bar" id="autosaveBar"><div class="as-dot"></div><span id="autosaveMsg">Auto-save active</span></div>
+
+<script>
+// ═══ DATA LAYER ═══
+var SKILL_KEYS=['HCF & LCM','Prime Factorisation','Perfect Sq./Cube','Real Numbers','Rounding (s.f./d.p.)','Estimation','Upper/Lower Bounds','Writing Expressions','Expanding Brackets','Common Factor','Grouping Factorisation','Algebraic Fractions','Substitution','Change of Subject'];
+var SKILL_INIT={
+  'HCF & LCM':75,'Prime Factorisation':80,'Perfect Sq./Cube':65,'Real Numbers':60,
+  'Rounding (s.f./d.p.)':70,'Estimation':55,'Upper/Lower Bounds':40,
+  'Writing Expressions':65,'Expanding Brackets':60,'Common Factor':70,
+  'Grouping Factorisation':20,'Algebraic Fractions':30,'Substitution':72,'Change of Subject':45
+};
+
+function loadD(){
+  try{var d=JSON.parse(localStorage.getItem('wa2maths')||'{}');
+  if(!d.skills){d.skills={};SKILL_KEYS.forEach(function(k){d.skills[k]=SKILL_INIT[k]||50;});}
+  if(!d.history)d.history=[];
+  if(!d.attempts)d.attempts=[];
+  return d;}catch(e){return{skills:{},history:[],attempts:[]};}
+}
+function saveD(d){try{localStorage.setItem('wa2maths',JSON.stringify(d));}catch(e){}}
+
+// ═══ TABS ═══
+function showTab(id,el){
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.mtab').forEach(function(t){t.classList.remove('active');});
+  var tc=document.getElementById(id);
+  if(tc)tc.classList.add('active');
+  if(el)el.classList.add('active');
+  if(id==='dashTab')setTimeout(renderDash,80);
+}
+
+// ═══ ACCORDION ═══
+function toggleAcc(hd){
+  var body=hd.nextElementSibling;
+  var arr=hd.querySelector('.acc-arrow');
+  body.classList.toggle('open');
+  if(arr)arr.style.transform=body.classList.contains('open')?'rotate(180deg)':'';
+}
+
+// ═══ CHECK ANSWERS ═══
+function normalise(s){return String(s).trim().replace(/\s+/g,'').toLowerCase().replace(/×/g,'*');}
+
+function chk(id,correct,marks,explanation){
+  var inp=document.getElementById(id);
+  var rev=document.getElementById(id+'_r');
+  if(!inp||!rev)return;
+  var val=inp.value;
+  var alts=Array.isArray(correct)?correct:[correct];
+  var ok=alts.some(function(c){return normalise(val)===normalise(c);});
+  inp.classList.toggle('ok',ok);
+  inp.classList.toggle('bad',!ok);
+  rev.className='reveal '+(ok?'ok':'info')+' show';
+  rev.innerHTML='<div class="rlabel">'+(ok?'✓ Correct':'Answer')+'</div><div class="rans">'+(Array.isArray(correct)?correct[0]:correct)+'</div>'+(explanation?'<div class="rreason">'+explanation+'</div>':'');
+  var d=loadD();
+  d.attempts.push({id:id,ok:ok,datetime:new Date().toISOString()});
+  saveD(d);
+}
+
+function chk2(id1,c1,id2,c2,marks,explanation){
+  var i1=document.getElementById(id1),i2=document.getElementById(id2);
+  var rev=document.getElementById(id1+'_r');
+  if(!i1||!i2||!rev)return;
+  var ok1=normalise(i1.value)===normalise(c1);
+  var ok2=normalise(i2.value)===normalise(c2);
+  i1.classList.toggle('ok',ok1);i1.classList.toggle('bad',!ok1);
+  i2.classList.toggle('ok',ok2);i2.classList.toggle('bad',!ok2);
+  var ok=ok1&&ok2;
+  rev.className='reveal '+(ok?'ok':'info')+' show';
+  rev.innerHTML='<div class="rlabel">'+(ok?'✓ Both correct':'Answers')+'</div><div class="rans">HCF='+c1+', LCM='+c2+'</div>'+(explanation?'<div class="rreason">'+explanation+'</div>':'');
+}
+
+function mcSelect(btn,val,id,marks,explanation){
+  var rev=document.getElementById(id+'_r');
+  if(!rev)return;
+  var correct=['q7a','q8','w2q5','w2q8','mq6b'].indexOf(id)>-1;
+  // determine correctness by first option pattern
+  var firstOpt=btn.closest('.mc-opts').querySelector('.mcopt');
+  var isCorrect=(btn===firstOpt);
+  btn.closest('.mc-opts').querySelectorAll('.mcopt').forEach(function(b){b.classList.remove('ok','bad');});
+  btn.classList.add(isCorrect?'ok':'bad');
+  rev.className='reveal '+(isCorrect?'ok':'info')+' show';
+  rev.innerHTML='<div class="rlabel">'+(isCorrect?'✓ Correct':'Incorrect')+'</div><div class="rans">'+val+'</div>'+(explanation?'<div class="rreason">'+explanation+'</div>':'');
+}
+
+// ═══ SCORE PAPER ═══
+function scorePaper(pid,total){
+  var inputs=[];
+  var section={'p1':'p1Tab','p2':'p2Tab','p3':'p3Tab','mock':'mockTab'}[pid];
+  var tab=document.getElementById(section);
+  if(!tab)return;
+  var correct=tab.querySelectorAll('.ainp.ok').length;
+  var mcCorrect=tab.querySelectorAll('.mcopt.ok').length;
+  var got=Math.min(correct+mcCorrect,total);
+  var pct=Math.round(got/total*100);
+  var label={'p1':'Week 1','p2':'Week 2','p3':'Week 3','mock':'WA2 Mock'}[pid];
+  var revId=pid+'_score_r';
+  var rev=document.getElementById(revId);
+  if(rev){
+    var col=pct>=90?'var(--green)':pct>=75?'var(--amber)':'var(--red)';
+    rev.className='reveal ok show';
+    rev.innerHTML='<div class="rlabel">Score Saved!</div><div class="rans" style="font-size:1.1rem;color:'+col+'">'+label+': ~'+pct+'% ('+got+'/'+total+')</div><div class="rreason">'+(pct>=90?'🎉 Excellent! On track for 90%+':pct>=75?'Good work! Review missed questions.':'Keep practising — check the Study Notes and try again.')+'</div>';
+  }
+  var d=loadD();
+  d.history.push({paper:label,score:pct,got:got,total:total,date:new Date().toLocaleDateString('en-SG'),datetime:new Date().toISOString()});
+  saveD(d);
+  renderDash();
+  var bar=document.getElementById('autosaveMsg');
+  if(bar){bar.textContent='Score saved! ✓';setTimeout(function(){bar.textContent='Auto-save active';},2500);}
+}
+
+// ═══ DASHBOARD ═══
+function renderDash(){
+  var d=loadD();
+  // Stats
+  var papers=d.history.length;
+  var best=papers?Math.max.apply(null,d.history.map(function(h){return h.score;})):null;
+  document.getElementById('dPapers').textContent=papers;
+  document.getElementById('dBest').textContent=best!==null?best+'%':'—';
+  // Readiness
+  var avgSkill=SKILL_KEYS.reduce(function(s,k){return s+(d.skills[k]||50);},0)/SKILL_KEYS.length;
+  var rdy=Math.round(avgSkill);
+  document.getElementById('dReady').textContent=rdy+'%';
+  document.getElementById('dReadySub').textContent=rdy>=90?'🎉 Ready!':rdy>=75?'Almost there!':'Keep studying';
+  // Streak
+  var today=new Date().toLocaleDateString('en-SG');
+  var streak=0;
+  if(d.attempts.length){
+    var days={};
+    d.attempts.forEach(function(a){var k=a.datetime?a.datetime.slice(0,10):today;days[k]=1;});
+    var chk=new Date();
+    for(var i=0;i<366;i++){var k=chk.getFullYear()+'-'+String(chk.getMonth()+1).padStart(2,'0')+'-'+String(chk.getDate()).padStart(2,'0');if(days[k]){streak++;chk.setDate(chk.getDate()-1);}else break;}
+  }
+  document.getElementById('dStreak').textContent=streak;
+  // Skill bars
+  var sDiv=document.getElementById('skillBarsDiv');
+  if(sDiv){
+    sDiv.innerHTML='';
+    SKILL_KEYS.forEach(function(k){
+      var pct=d.skills[k]||SKILL_INIT[k]||50;
+      var cls=pct>=80?'fill-green':pct>=60?'fill-amber':'fill-red';
+      sDiv.innerHTML+='<div class="skill-bar-wrap"><div class="skill-label"><span class="skill-name">'+k+'</span><span class="skill-pct">'+pct+'%</span></div><div class="skill-track"><div class="skill-fill '+cls+'" style="width:'+pct+'%"></div></div></div>';
+    });
+  }
+  // History
+  var hDiv=document.getElementById('historyDiv');
+  if(hDiv){
+    if(!d.history.length){
+      hDiv.innerHTML='<div style="color:var(--muted);font-size:.85rem;text-align:center;padding:1rem">No papers completed yet. Start with Week 1!</div>';
+    } else {
+      hDiv.innerHTML=d.history.slice(-6).reverse().map(function(h){
+        var col=h.score>=90?'var(--green)':h.score>=75?'var(--amber)':'var(--red)';
+        return '<div class="history-row"><div class="hist-paper">'+h.paper+'</div><div class="hist-bar-wrap"><div class="hist-bar" style="width:'+h.score+'%;background:'+col+'"></div></div><div class="hist-score" style="color:'+col+'">'+h.score+'%</div><div style="font-size:.75rem;color:var(--muted);min-width:70px;text-align:right">'+h.date+'</div></div>';
+      }).join('');
+    }
+  }
+  // Heatmap
+  heatmap(d.attempts);
+}
+
+function heatmap(a){
+  var g=document.getElementById('hmGrid'),lb=document.getElementById('hmMonthLabels'),b=document.getElementById('streakBadge');
+  if(!g||!lb)return;
+  var dm={};
+  a.forEach(function(h){var k=(h.datetime||'').slice(0,10);if(k)dm[k]=(dm[k]||0)+1;});
+  var today=new Date(),streak=0,chk=new Date(today);
+  for(var i=0;i<366;i++){var k=chk.getFullYear()+'-'+String(chk.getMonth()+1).padStart(2,'0')+'-'+String(chk.getDate()).padStart(2,'0');if(dm[k]){streak++;chk.setDate(chk.getDate()-1);}else break;}
+  if(b)b.textContent=streak+'-day streak';
+  var W=16;var sd=new Date(today);
+  sd.setDate(today.getDate()-(W-1)*7-today.getDay());
+  g.style.gridTemplateColumns='repeat('+W+',12px)';
+  g.style.gridTemplateRows='repeat(7,12px)';
+  g.innerHTML='';lb.innerHTML='';
+  var lm=-1;
+  for(var w=0;w<W;w++){var wd=new Date(sd);wd.setDate(wd.getDate()+w*7);var m=wd.getMonth();var sp=document.createElement('span');sp.style.cssText='width:12px;flex-shrink:0;text-align:center;font-size:9px;';sp.textContent=m!==lm?wd.toLocaleString('default',{month:'short'}):'';lb.appendChild(sp);lm=m;}
+  for(var w2=0;w2<W;w2++){for(var dy=0;dy<7;dy++){var dt=new Date(sd);dt.setDate(dt.getDate()+w2*7+dy);if(dt>today){var bl=document.createElement('div');bl.style.cssText='width:12px;height:12px;';g.appendChild(bl);continue;}var dk=dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');var cnt=dm[dk]||0;var lv=cnt===0?0:cnt===1?1:cnt<=3?2:3;var cell=document.createElement('div');cell.className='hm-cell';if(lv)cell.dataset.l=lv;g.appendChild(cell);}}
+}
+
+// ═══ TIMER ═══
+var timers={};
+function startTimer(id,mins){
+  if(timers[id])clearInterval(timers[id]);
+  var total=mins*60;
+  function tick(){
+    var m=Math.floor(total/60),s=total%60;
+    var el=document.getElementById(id);
+    if(el)el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    if(total<=0){clearInterval(timers[id]);if(el){el.textContent='Time!';el.style.color='var(--red)';}}
+    total--;
+  }
+  tick();
+  timers[id]=setInterval(tick,1000);
+}
+
+// ═══ AI TUTOR ═══
+async function askAI(){
+  var inp=document.getElementById('aiInput');
+  var out=document.getElementById('aiOut');
+  if(!inp||!out)return;
+  var q=inp.value.trim();
+  if(!q)return;
+  inp.value='';
+  out.textContent='✦ Thinking...';
+  var d=loadD();
+  var context='You are an expert Sec 1 Singapore Maths tutor helping Mokshith, a 13-year-old student preparing for his WA2 exam. WA2 covers: Chapter 1 (Factors & Multiples — primes, HCF, LCM, perfect squares/cubes), Chapter 2.4 (Real Numbers — rational/irrational, ordering, squares/cubes/roots), Chapter 3 (Approximation & Estimation — d.p., s.f., upper/lower bounds), Chapter 4 (Basic Algebra — expressions, expanding, factorising, algebraic fractions, substitution, change of subject). Mokshith\'s weak areas: negative bracket sign errors, factorisation by grouping, algebraic fractions, change of subject, upper/lower bounds. Be encouraging, clear, and use step-by-step working. Keep responses concise but complete.';
+  try{
+    var resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:context,
+        messages:[{role:'user',content:q}]
+      })
+    });
+    var data=await resp.json();
+    var text=data.content&&data.content[0]?data.content[0].text:'Sorry, could not get a response.';
+    out.textContent=text;
+  }catch(e){out.textContent='Could not connect to AI. Please check your connection and try again.';}
+}
+
+function aiQuickPrompt(prompt){
+  document.getElementById('aiInput').value=prompt;
+  askAI();
+}
+
+async function explainMistake(){
+  var inp=document.getElementById('mistakeInput');
+  var out=document.getElementById('mistakeOut');
+  if(!inp||!out)return;
+  var q=inp.value.trim();
+  if(!q)return;
+  out.style.display='block';
+  out.textContent='✦ Analysing your mistake...';
+  var system='You are an expert Sec 1 Singapore Maths tutor. A student named Mokshith has made a mistake or got stuck on a WA2 maths problem. Analyse what went wrong, explain the correct approach step-by-step, and give a similar practice question to consolidate. Be encouraging and specific.';
+  try{
+    var resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:system,messages:[{role:'user',content:q}]})
+    });
+    var data=await resp.json();
+    out.textContent=data.content&&data.content[0]?data.content[0].text:'Could not get response.';
+  }catch(e){out.textContent='Could not connect. Please try again.';}
+}
+
+// ═══ RESET ═══
+function resetAll(){
+  if(confirm('Reset ALL progress for Mokshith? This cannot be undone.')){
+    localStorage.removeItem('wa2maths');
+    location.reload();
+  }
+}
+
+// ═══ INIT ═══
+window.onload=function(){renderDash();};
+</script>
+</body>
+</html>
