@@ -147,16 +147,65 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--
 .ct-red{background:var(--redl);color:var(--red)}
 .weak-flag{display:inline-block;font-size:.68rem;background:var(--redl);color:var(--red);border:1px solid #fca5a5;padding:1px 6px;border-radius:4px;margin-left:.3rem;font-weight:600}
 </style>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<style>
+/* ── LOGIN OVERLAY ── */
+.login-overlay{position:fixed;inset:0;background:var(--paper);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem}
+.login-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem 2rem 1.5rem;width:100%;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,.08)}
+.login-logo{font-family:'Libre Baskerville',serif;font-size:1.4rem;font-weight:700;color:var(--ink);text-align:center;margin-bottom:.2rem}
+.login-logo span{color:var(--gold)}
+.login-sub{font-size:.82rem;color:var(--muted);text-align:center;margin-bottom:1.5rem}
+.login-label{font-size:.78rem;font-weight:600;color:var(--ink);margin-bottom:.3rem;display:block}
+.login-inp{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:.55rem .8rem;font-family:inherit;font-size:.9rem;color:var(--ink);outline:none;transition:border-color .2s;margin-bottom:.9rem;background:white}
+.login-inp:focus{border-color:var(--blue)}
+.login-btn{width:100%;padding:.7rem;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.92rem;font-weight:600;cursor:pointer;transition:background .18s;margin-top:.2rem}
+.login-btn:hover{background:#145530}
+.login-err{background:var(--redl);color:var(--red);border-radius:6px;padding:.45rem .7rem;font-size:.8rem;margin-bottom:.7rem;display:none;border-left:3px solid var(--red)}
+.login-loading{text-align:center;color:var(--muted);font-size:.84rem;padding:.5rem}
+.user-chip{display:flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.12);border-radius:20px;padding:3px 10px 3px 6px;font-size:.75rem;color:rgba(255,255,255,.85)}
+.user-avatar{width:20px;height:20px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:var(--ink)}
+.logout-btn{background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7);border-radius:5px;padding:3px 9px;font-size:.72rem;font-weight:600;cursor:pointer;font-family:inherit}
+.logout-btn:hover{background:rgba(255,255,255,.1)}
+.sync-dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:3px}
+.sync-ok{background:#22c55e}
+.sync-pending{background:var(--amber)}
+.sync-err{background:var(--red)}
+</style>
 </head>
 <body>
+
+<!-- LOGIN OVERLAY -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="login-logo">Sec 1 Maths <span>WA2</span></div>
+    <div class="login-sub">Mokshith's Personal Mastery App</div>
+    <div class="login-err" id="loginErr"></div>
+    <label class="login-label">Email</label>
+    <input class="login-inp" id="loginEmail" type="email" placeholder="mokshith@math.sg" autocomplete="email">
+    <label class="login-label">Password</label>
+    <input class="login-inp" id="loginPass" type="password" placeholder="Enter your password" autocomplete="current-password">
+    <button class="login-btn" onclick="doLogin()">Sign In →</button>
+    <div class="login-loading" id="loginLoading" style="display:none">Signing in...</div>
+    <div style="text-align:center;margin-top:1rem;font-size:.75rem;color:var(--muted)">🔒 Secure • Progress synced to cloud</div>
+  </div>
+</div>
 
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="logo">Sec 1 Maths <span>WA2</span> — Mokshith</div>
   <div class="top-btns">
     <button class="tbtn tbtn-primary" onclick="showTab('dashTab',this)">📊 Dashboard</button>
-    <button class="tbtn tbtn-gold" onclick="generateAIPaper()">✦ AI Practice</button>
-    <button class="tbtn tbtn-outline" onclick="resetAll()">Reset</button>
+    <button class="tbtn tbtn-gold" onclick="showTab('aiTab',this)">✦ AI Tutor</button>
+    <div class="user-chip" id="userChip" style="display:none">
+      <div class="user-avatar" id="userAvatar">M</div>
+      <span id="userEmail" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+    </div>
+    <button class="logout-btn" id="logoutBtn" style="display:none" onclick="doLogout()">Sign Out</button>
   </div>
 </div>
 
@@ -1060,9 +1109,121 @@ T = 20 - h/150  →  h/150 = 20 - T  (not 20 + T!)</div>
 </div>
 
 <!-- AUTOSAVE BAR -->
-<div class="autosave-bar" id="autosaveBar"><div class="as-dot"></div><span id="autosaveMsg">Auto-save active</span></div>
+<div class="autosave-bar" id="autosaveBar"><div class="as-dot"></div><span id="autosaveMsg">Auto-save active</span>&nbsp;·&nbsp;<span class="sync-dot sync-ok"></span><span style="font-size:.7rem">Cloud sync</span></div>
 
 <script>
+// ═══ FIREBASE INIT ═══
+const firebaseConfig = {
+  apiKey: "AIzaSyBpy6QKDaqQF5iXexsb4M0-gd_vxyIkuuM",
+  authDomain: "mokshith-sec-maths.firebaseapp.com",
+  projectId: "mokshith-sec-maths",
+  storageBucket: "mokshith-sec-maths.firebasestorage.app",
+  messagingSenderId: "368301717989",
+  appId: "1:368301717989:web:4dd51dc52ce82a1f03d70c"
+};
+firebase.initializeApp(firebaseConfig);
+var auth = firebase.auth();
+var db   = firebase.firestore();
+var currentUID = null;
+
+// ═══ AUTH ═══
+auth.onAuthStateChanged(function(user) {
+  if (user) {
+    currentUID = user.uid;
+    // Show app, hide login
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('userChip').style.display = 'flex';
+    document.getElementById('logoutBtn').style.display = 'block';
+    document.getElementById('userEmail').textContent = user.email;
+    var initials = user.email ? user.email[0].toUpperCase() : 'M';
+    document.getElementById('userAvatar').textContent = initials;
+    // Load data from Firestore
+    loadFromFirestore();
+  } else {
+    currentUID = null;
+    document.getElementById('loginOverlay').style.display = 'flex';
+    document.getElementById('userChip').style.display = 'none';
+    document.getElementById('logoutBtn').style.display = 'none';
+  }
+});
+
+function doLogin() {
+  var email = document.getElementById('loginEmail').value.trim();
+  var pass  = document.getElementById('loginPass').value;
+  var err   = document.getElementById('loginErr');
+  var loading = document.getElementById('loginLoading');
+  err.style.display = 'none';
+  if (!email || !pass) {
+    err.textContent = 'Please enter your email and password.';
+    err.style.display = 'block'; return;
+  }
+  loading.style.display = 'block';
+  document.querySelector('.login-btn').style.display = 'none';
+  auth.signInWithEmailAndPassword(email, pass)
+    .catch(function(e) {
+      loading.style.display = 'none';
+      document.querySelector('.login-btn').style.display = 'block';
+      var msg = 'Sign in failed. Please check your email and password.';
+      if (e.code === 'auth/user-not-found') msg = 'No account found with this email.';
+      if (e.code === 'auth/wrong-password') msg = 'Incorrect password. Please try again.';
+      if (e.code === 'auth/too-many-requests') msg = 'Too many attempts. Please wait a moment.';
+      if (e.code === 'auth/invalid-email') msg = 'Please enter a valid email address.';
+      err.textContent = msg;
+      err.style.display = 'block';
+    });
+}
+
+function doLogout() {
+  if (confirm('Sign out of Mokshith\'s Maths app?')) {
+    auth.signOut();
+  }
+}
+
+// Allow Enter key on login form
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('loginPass').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doLogin();
+  });
+  document.getElementById('loginEmail').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') document.getElementById('loginPass').focus();
+  });
+});
+
+// ═══ FIRESTORE SYNC ═══
+function fsDoc() {
+  if (!currentUID) return null;
+  return db.collection('students').doc(currentUID);
+}
+
+function loadFromFirestore() {
+  var ref = fsDoc();
+  if (!ref) return;
+  ref.get().then(function(doc) {
+    if (doc.exists) {
+      var data = doc.data();
+      // Merge with localStorage
+      try { localStorage.setItem('wa2maths', JSON.stringify(data)); } catch(e) {}
+    }
+    renderDash();
+  }).catch(function(e) {
+    console.warn('Firestore load error:', e);
+    renderDash();
+  });
+}
+
+function saveToFirestore(data) {
+  var ref = fsDoc();
+  if (!ref) return;
+  var bar = document.getElementById('autosaveMsg');
+  if (bar) bar.textContent = 'Saving...';
+  ref.set(data, { merge: true }).then(function() {
+    if (bar) { bar.textContent = 'Saved to cloud ✓'; setTimeout(function(){ bar.textContent='Auto-save active'; }, 2500); }
+  }).catch(function(e) {
+    console.warn('Firestore save error:', e);
+    if (bar) bar.textContent = 'Saved locally';
+  });
+}
+
 // ═══ DATA LAYER ═══
 var SKILL_KEYS=['HCF & LCM','Prime Factorisation','Perfect Sq./Cube','Real Numbers','Rounding (s.f./d.p.)','Estimation','Upper/Lower Bounds','Writing Expressions','Expanding Brackets','Common Factor','Grouping Factorisation','Algebraic Fractions','Substitution','Change of Subject'];
 var SKILL_INIT={
@@ -1079,7 +1240,10 @@ function loadD(){
   if(!d.attempts)d.attempts=[];
   return d;}catch(e){return{skills:{},history:[],attempts:[]};}
 }
-function saveD(d){try{localStorage.setItem('wa2maths',JSON.stringify(d));}catch(e){}}
+function saveD(d){
+  try{localStorage.setItem('wa2maths',JSON.stringify(d));}catch(e){}
+  saveToFirestore(d);
+}
 
 // ═══ TABS ═══
 function showTab(id,el){
@@ -1315,7 +1479,7 @@ function resetAll(){
 }
 
 // ═══ INIT ═══
-window.onload=function(){renderDash();};
+// renderDash is triggered by Firestore after auth — no manual call needed on load
 </script>
 </body>
 </html>
