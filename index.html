@@ -217,6 +217,9 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--
   <button class="mtab" onclick="showTab('p2Tab',this)">Week 2 Paper</button>
   <button class="mtab" onclick="showTab('p3Tab',this)">Week 3 Paper</button>
   <button class="mtab" onclick="showTab('mockTab',this)">🎯 WA2 Mock</button>
+  <button class="mtab" onclick="showTab('wa3NotesTab',this)">📗 WA3 Notes</button>
+  <button class="mtab" onclick="showTab('wa3PaperTab',this)">✏️ WA3 Paper</button>
+  <button class="mtab" onclick="showTab('planTab',this)">📅 Exam Plan</button>
   <button class="mtab" onclick="showTab('aiTab',this)">✦ AI Tutor</button>
 </div>
 
@@ -1072,6 +1075,542 @@ T = 20 - h/150  →  h/150 = 20 - T  (not 20 + T!)</div>
 </div>
 
 <!-- ═══ AI TUTOR ═══ -->
+
+<!-- ═══ WA3 STUDY NOTES ═══ -->
+<div class="tab-content" id="wa3NotesTab">
+  <div class="section-hd">WA3 Study Notes — 4 Chapters</div>
+  <div style="font-size:.83rem;color:var(--muted);margin-bottom:.8rem">Extracted directly from your textbook. Master these before Thursday. ⚠️ = common exam traps.</div>
+
+  <!-- CHAPTER 6 -->
+  <div class="section-hd" style="color:var(--blue)">Chapter 6: Angles & Parallel Lines</div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>6.1 Types of Angles — Quick Reference</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
+        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px;text-align:left">Type</th><th style="padding:6px 10px;text-align:left">Range (θ)</th><th style="padding:6px 10px;text-align:left">Key fact</th></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Acute</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">0° &lt; θ &lt; 90°</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Less than a right angle</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Right</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">θ = 90°</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Quarter turn — marked by □</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Obtuse</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">90° &lt; θ &lt; 180°</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Between right angle and straight line</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Straight</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">θ = 180°</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Half turn — forms a straight line</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px">Reflex</td><td style="padding:5px 10px">180° &lt; θ &lt; 360°</td><td style="padding:5px 10px">More than straight, less than full turn</td></tr>
+      </table></div>
+      <div class="rulebox" style="margin-top:.5rem"><strong>🔑 Key Relationships to Memorise</strong>
+Complementary angles: sum = 90° (a + b = 90°)
+Supplementary angles: sum = 180° (a + b = 180°)
+Angles on a straight line: sum = 180°
+Angles at a point: sum = 360°
+Vertically opposite angles: EQUAL (∠a = ∠b)</div>
+      <div class="warnbox"><strong>⚠️ Most Common Exam Error</strong>
+Complementary = 90° (think: C comes before S, 90 comes before 180)
+Supplementary = 180°
+Students often mix these up — memorise: Complementary = Corner (right angle)</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>6.2 Parallel Lines & Transversal — The Big 3</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="defbox"><strong>Parallel Lines</strong>Two lines are parallel if they never meet, no matter how far extended. Symbol: AB ∥ CD</div>
+      <div class="defbox"><strong>Transversal</strong>A line that crosses two or more parallel lines.</div>
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem;margin:.5rem 0">
+        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px">Angle Pair</th><th style="padding:6px 10px">Relationship</th><th style="padding:6px 10px">Memory Trick</th></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><strong>Alternate Angles</strong></td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">EQUAL (∠a = ∠b)</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Z-shape / N-shape between parallel lines</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><strong>Corresponding Angles</strong></td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">EQUAL (∠a = ∠b)</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">F-shape — same position at each parallel line</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px"><strong>Co-interior Angles</strong></td><td style="padding:5px 10px">ADD UP to 180° (∠a + ∠b = 180°)</td><td style="padding:5px 10px">C-shape / U-shape — between parallel lines</td></tr>
+      </table></div>
+      <div class="exbox"><strong>Worked Example — Find angle x</strong>
+Two parallel lines cut by a transversal. One angle = 65°.
+If they are alternate angles: x = 65°
+If they are corresponding angles: x = 65°
+If they are co-interior angles: x = 180° - 65° = 115°</div>
+      <div class="rulebox"><strong>🔑 Exam Strategy for Angle Questions</strong>
+Step 1: Identify if lines are parallel (look for arrows on lines)
+Step 2: Identify the angle pair type (Z=alternate, F=corresponding, C=co-interior)
+Step 3: Apply rule (equal OR supplementary)
+Step 4: Always state the reason: "alternate angles, AB ∥ CD"</div>
+      <div class="warnbox"><strong>⚠️ Must State Reasons in Exam!</strong>
+Just writing the angle value without reason = LOSES MARKS
+Always write: "∠x = 65° (alternate angles, AB ∥ CD)"</div>
+    </div>
+  </div>
+
+  <!-- CHAPTER 7 -->
+  <div class="section-hd" style="color:var(--blue)">Chapter 7: Triangles, Quadrilaterals & Polygons</div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>7.1 Triangles — Types & Properties</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
+        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px">Type</th><th style="padding:6px 10px">Sides</th><th style="padding:6px 10px">Angles</th></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Equilateral</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">All 3 equal</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">All 3 = 60°</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Isosceles</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">2 sides equal</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Base angles equal</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px">Scalene</td><td style="padding:5px 10px">All different</td><td style="padding:5px 10px">All different</td></tr>
+      </table></div>
+      <div class="rulebox" style="margin-top:.5rem"><strong>🔑 Key Triangle Rules — ALL must know</strong>
+1. Angle sum = 180° (∠A + ∠B + ∠C = 180°)
+2. Exterior angle = sum of two non-adjacent interior angles
+3. Triangle Inequality: sum of ANY two sides > third side
+4. Longest side opposite largest angle
+5. Shortest side opposite smallest angle</div>
+      <div class="exbox"><strong>Worked Example — Isosceles Triangle</strong>
+AB = 4 cm, BC = 8 cm. Can AC = 4 cm?
+Check: 4 + 4 = 8 — NOT strictly greater than 8 → CANNOT form triangle
+If AC = 8 cm: 4 + 8 = 12 > 8 ✓ → Perimeter = 4 + 8 + 8 = 20 cm</div>
+      <div class="warnbox"><strong>⚠️ Triangle Inequality Trap</strong>
+Must be STRICTLY greater than (>), not ≥
+4 + 4 = 8 means the three points are collinear — NOT a triangle!</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>7.2 Quadrilaterals & Polygons</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
+        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px">Shape</th><th style="padding:6px 10px">Key Properties</th></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Square</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">4 equal sides, 4 right angles, diagonals bisect at 90°</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Rectangle</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Opposite sides equal, 4 right angles, equal diagonals</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Parallelogram</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Opposite sides parallel & equal, opposite angles equal</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Rhombus</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">All 4 sides equal, diagonals bisect at 90°, opposite angles equal</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Trapezium</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">One pair of parallel sides</td></tr>
+        <tr><td style="padding:5px 10px">Kite</td><td style="padding:5px 10px">Two pairs of adjacent equal sides, one diagonal bisects other at 90°</td></tr>
+      </table></div>
+      <div class="rulebox" style="margin-top:.5rem"><strong>🔑 Polygon Angle Formulas</strong>
+Interior angle sum of n-sided polygon = (n − 2) × 180°
+Each interior angle of REGULAR polygon = (n − 2) × 180° ÷ n
+Each exterior angle of REGULAR polygon = 360° ÷ n
+Sum of ALL exterior angles of ANY polygon = 360°</div>
+      <div class="exbox"><strong>Worked Example — Regular Hexagon (n=6)</strong>
+Interior angle sum = (6−2) × 180° = 4 × 180° = 720°
+Each interior angle = 720° ÷ 6 = 120°
+Each exterior angle = 360° ÷ 6 = 60°
+Check: 120° + 60° = 180° ✓ (interior + exterior = 180° always)</div>
+      <div class="warnbox"><strong>⚠️ Regular Polygon Interior Angle = 152.5°?</strong>
+From past paper (Chung Cheng 2020): "Explain why 152.5° cannot be an interior angle of a regular polygon."
+Each exterior angle = 180° − 152.5° = 27.5°. Number of sides = 360° ÷ 27.5° = 13.09... → NOT a whole number → impossible!</div>
+    </div>
+  </div>
+
+  <!-- CHAPTER 8 -->
+  <div class="section-hd" style="color:var(--blue)">Chapter 8: Ratio, Rate & Speed</div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>8.1 Ratio — Simplifying & Comparing</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="defbox"><strong>Ratio</strong>Compares two similar quantities with NO units. a : b = ma : mb (equivalent ratios). Always simplify to lowest whole numbers.</div>
+      <div class="exbox"><strong>Worked Examples from Textbook</strong>
+(a) 1½ : ½ = 3/2 : 1/2 = 3 : 1 (multiply both by 2)
+(b) 2.25 : 3.6 = 225 : 360 = 45 : 72 = 5 : 8 (÷ HCF 9)
+(c) 0.280 : 0.182 → multiply by 1000 → 280 : 182 → ÷14 → 20 : 13</div>
+      <div class="rulebox"><strong>🔑 Three-Quantity Ratio (a : b : c)</strong>
+To combine ratios a:b and b:c, make b equal using LCM:
+a:b = 5:6 and b:c = 8:11
+LCM(6,8) = 24
+a:b = 20:24  and  b:c = 24:33
+Combined: a:b:c = 20:24:33</div>
+      <div class="exbox"><strong>Word Problem — Model Method</strong>
+Ratio of A to B = 3:5. Room B is 8 m² bigger. Find area of room A.
+Let A = 3x, B = 5x. Then 5x − 3x = 8 → x = 4.
+Area of A = 3 × 4 = 12 m²</div>
+      <div class="warnbox"><strong>⚠️ Units Must Match!</strong>
+Before writing a ratio, convert to SAME units.
+90 seconds : 2 minutes → convert to same unit first: 90s : 120s = 3:4</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>8.2 Rate & Speed</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="defbox"><strong>Rate</strong>Compares two DIFFERENT quantities (has units). E.g. $5/kg, 60 km/h, 3 words/min.</div>
+      <div class="rulebox"><strong>🔑 Speed Formula Triangle — Memorise This!</strong>
+Speed = Distance ÷ Time (S = D/T)
+Distance = Speed × Time (D = S × T)
+Time = Distance ÷ Speed (T = D/S)
+
+Cover what you want to find with your thumb — what remains is the formula!</div>
+      <div class="exbox"><strong>Speed Unit Conversions</strong>
+km/h → m/s: DIVIDE by 3.6 (or × 1000/3600)
+m/s → km/h: MULTIPLY by 3.6 (or × 3600/1000)
+Example: 72 km/h = 72 ÷ 3.6 = 20 m/s
+Example: 15 m/s = 15 × 3.6 = 54 km/h</div>
+      <div class="warnbox"><strong>⚠️ Average Speed Trap</strong>
+Average speed ≠ average of speeds!
+Average speed = TOTAL distance ÷ TOTAL time
+E.g. 60 km at 60 km/h then 60 km at 40 km/h:
+Total time = 1h + 1.5h = 2.5h. Avg speed = 120 ÷ 2.5 = 48 km/h (NOT 50!)</div>
+    </div>
+  </div>
+
+  <!-- CHAPTER 9 -->
+  <div class="section-hd" style="color:var(--blue)">Chapter 9: Percentage</div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>9.1 Conversions & One Quantity as % of Another</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
+        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px">From</th><th style="padding:6px 10px">To</th><th style="padding:6px 10px">Method</th><th style="padding:6px 10px">Example</th></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">%</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Fraction</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">÷ 100, simplify</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">50% = 50/100 = ½</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">%</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Decimal</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">÷ 100</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">4% = 0.04</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px">Fraction/Decimal</td><td style="padding:5px 10px">%</td><td style="padding:5px 10px">× 100%</td><td style="padding:5px 10px">¾ × 100% = 75%</td></tr>
+      </table></div>
+      <div class="rulebox" style="margin-top:.5rem"><strong>🔑 Express x as % of y</strong>
+Required % = (x ÷ y) × 100%
+MUST convert to SAME UNITS first!
+e.g. 4500g as % of 3kg → 3kg = 3000g → (4500/3000) × 100% = 150%</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>9.2 % Increase, % Decrease & Reverse Percentage <span class="weak-flag">⚠️ High Frequency</span></span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="rulebox"><strong>🔑 Key Formulas</strong>
+% increase = (Increase ÷ Original) × 100%
+% decrease = (Decrease ÷ Original) × 100%
+
+New value after x% increase = Original × (1 + x/100)
+New value after x% decrease = Original × (1 − x/100)
+
+Reverse % (find ORIGINAL): Original = New value ÷ (1 ± x/100)</div>
+      <div class="exbox"><strong>Worked Example — % Cheaper vs % More Expensive</strong>
+Buffet: weekday $28, weekend $35. Difference = $7.
+% cheaper on weekday (compared to weekend): 7/35 × 100% = 20%
+% more expensive on weekend (compared to weekday): 7/28 × 100% = 25%
+NOTE: Different denominators → different answers! Always divide by the REFERENCE value.</div>
+      <div class="exbox"><strong>Reverse Percentage</strong>
+After 9% GST, price = $16,200. Find original (before GST):
+Original = $16,200 ÷ 1.09 = $14,862.39
+(NOT $16,200 × 0.91 — that's a common wrong method!)</div>
+      <div class="warnbox"><strong>⚠️ Reverse % — Most Common WA3 Trap</strong>
+"After 20% discount, item costs $80. Find original price."
+WRONG: Original = $80 + 20% of $80 = $96
+CORRECT: Original × 0.8 = $80 → Original = $80 ÷ 0.8 = $100
+The 20% is of the ORIGINAL (unknown), not of $80!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ WA3 PRACTICE PAPER ═══ -->
+<div class="tab-content" id="wa3PaperTab">
+  <div class="section-hd">WA3 Practice Paper — All 4 Chapters</div>
+  <div class="timer-bar"><span>⏱ Time yourself: 1 hour 15 min</span><span class="timer-val" id="twa3">75:00</span><button onclick="startTimer('twa3',75)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+  <div style="font-size:.82rem;color:var(--muted);margin-bottom:.8rem">50 marks • Show all working • State reasons for all angle questions</div>
+
+  <!-- Section A: Angles -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">A</div><div class="card-title">Section A — Angles & Parallel Lines (Ch.6) [15 marks]</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">1</div><div class="qc">
+        Find the complement of 37°: <input class="ainp sm" id="wa3q1" placeholder="?°">
+        <button class="sab" onclick="chk('wa3q1','53',1,'Complementary angles sum to 90°. 90° − 37° = 53°')">Check [1]</button>
+        <div class="reveal" id="wa3q1_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">2</div><div class="qc">
+        Two angles on a straight line are in ratio 2:3. Find the larger angle: <input class="ainp sm" id="wa3q2" placeholder="?°">
+        <button class="sab" onclick="chk('wa3q2','108',2,'Sum = 180°. Larger = 3/5 × 180° = 108°')">Check [2]</button>
+        <div class="reveal" id="wa3q2_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">3</div><div class="qc">
+        AB ∥ CD. A transversal crosses them. One angle = 72°. Find the co-interior angle on the same side:
+        <div class="mc-opts">
+          <button class="mcopt" onclick="mcAns(this,'108°','wa3q3',2,'Co-interior (C-shape) angles add to 180°. 180°−72°=108°')">108°</button>
+          <button class="mcopt" onclick="mcAns(this,'72°','wa3q3',2,'72° would be alternate or corresponding. Co-interior angles are supplementary (sum=180°).')">72°</button>
+          <button class="mcopt" onclick="mcAns(this,'288°','wa3q3',2,'Incorrect. Co-interior angles sum to 180°, not 360°.')">288°</button>
+        </div>
+        <div class="reveal" id="wa3q3_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">4</div><div class="qc">
+        Two straight lines intersect. One angle = 145°. Find the vertically opposite angle: <input class="ainp sm" id="wa3q4" placeholder="?°">
+        <button class="sab" onclick="chk('wa3q4','145',1,'Vertically opposite angles are EQUAL. Answer = 145°')">Check [1]</button>
+        <div class="reveal" id="wa3q4_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">5</div><div class="qc">
+        AB ∥ CD. Angle PQB = 58° and angle QRC = x°. PQR is a transversal. Find x, stating your reason:
+        <input class="ainp sm" id="wa3q5" placeholder="x = ?°">
+        <button class="sab" onclick="chk('wa3q5','58',2,'x = 58° (alternate angles, AB ∥ CD). Z-shape between the parallel lines.')">Check [2]</button>
+        <div class="reveal" id="wa3q5_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">6</div><div class="qc">
+        Angles at a point are: 2x°, 3x°, x° and 90°. Find x: <input class="ainp sm" id="wa3q6" placeholder="x = ?">
+        <button class="sab" onclick="chk('wa3q6','45',3,'Sum of angles at point = 360°. 2x+3x+x+90=360 → 6x=270 → x=45')">Check [3]</button>
+        <div class="reveal" id="wa3q6_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">7</div><div class="qc">
+        A regular polygon has interior angle = 150°. How many sides does it have?
+        <input class="ainp sm" id="wa3q7" placeholder="? sides">
+        <button class="sab" onclick="chk('wa3q7','12',3,'Exterior angle = 180°-150°=30°. Number of sides = 360°÷30°=12 sides')">Check [3]</button>
+        <div class="reveal" id="wa3q7_r"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- Section B: Triangles -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">B</div><div class="card-title">Section B — Triangles & Polygons (Ch.7) [12 marks]</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">8</div><div class="qc">
+        Triangle ABC: ∠A = 2x°, ∠B = x°, ∠C = 3x°. Find x and state the type of triangle:
+        x = <input class="ainp sm" id="wa3q8a" placeholder="?"> &nbsp; Type: <input class="ainp md" id="wa3q8b" placeholder="?">
+        <button class="sab" onclick="chk2('wa3q8a','30','wa3q8b','scalene',3,'2x+x+3x=180 → 6x=180 → x=30. Angles: 60°,30°,90°. All different → scalene (also right-angled)')">Check [3]</button>
+        <div class="reveal" id="wa3q8a_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">9</div><div class="qc">
+        Can a triangle have sides of 5 cm, 7 cm and 12 cm? Explain.
+        <div class="mc-opts">
+          <button class="mcopt" onclick="mcAns(this,'No','wa3q9',2,'Correct! 5+7=12 which is NOT greater than 12. Triangle Inequality requires sum of any two sides to be STRICTLY greater than third side.')">No — cannot form a triangle</button>
+          <button class="mcopt" onclick="mcAns(this','Yes','wa3q9',2,'Incorrect! 5+7=12, not greater. The three points would be collinear, not forming a triangle.')">Yes — it can form a triangle</button>
+        </div>
+        <div class="reveal" id="wa3q9_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">10</div><div class="qc">
+        An isosceles triangle has two equal angles of 72° each. Find the third angle: <input class="ainp sm" id="wa3q10" placeholder="?°">
+        <button class="sab" onclick="chk('wa3q10','36',2,'Angle sum = 180°. Third angle = 180°-72°-72°=36°')">Check [2]</button>
+        <div class="reveal" id="wa3q10_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">11</div><div class="qc">
+        The interior angle sum of a polygon is 1080°. How many sides does it have?
+        <input class="ainp sm" id="wa3q11" placeholder="? sides">
+        <button class="sab" onclick="chk('wa3q11','8',3,'(n-2)×180=1080 → n-2=6 → n=8 sides (octagon)')">Check [3]</button>
+        <div class="reveal" id="wa3q11_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">12</div><div class="qc">
+        Exterior angle of a regular polygon = 24°. Find (a) number of sides and (b) each interior angle:
+        Sides = <input class="ainp sm" id="wa3q12a" placeholder="?"> &nbsp; Interior angle = <input class="ainp sm" id="wa3q12b" placeholder="?°">
+        <button class="sab" onclick="chk2('wa3q12a','15','wa3q12b','156',2,'Sides=360÷24=15. Interior=180-24=156°')">Check [2]</button>
+        <div class="reveal" id="wa3q12a_r"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- Section C: Ratio, Rate, Speed -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">C</div><div class="card-title">Section C — Ratio, Rate & Speed (Ch.8) [12 marks]</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">13</div><div class="qc">
+        Simplify 2¼ : 3.6 = <input class="ainp sm" id="wa3q13" placeholder="? : ?">
+        <button class="sab" onclick="chk('wa3q13','5:8',2,'2.25:3.6 → ×100 → 225:360 → ÷45 → 5:8')">Check [2]</button>
+        <div class="reveal" id="wa3q13_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">14</div><div class="qc">
+        If a:b = 3:4 and b:c = 5:6, find a:b:c = <input class="ainp md" id="wa3q14" placeholder="? : ? : ?">
+        <button class="sab" onclick="chk('wa3q14','15:20:24',3,'LCM(4,5)=20. a:b=15:20, b:c=20:24. Combined: 15:20:24')">Check [3]</button>
+        <div class="reveal" id="wa3q14_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">15</div><div class="qc">
+        The ratio of boys to girls in a class is 3:5. There are 12 boys. How many girls are there?
+        <input class="ainp sm" id="wa3q15" placeholder="?">
+        <button class="sab" onclick="chk('wa3q15','20',2,'3 units = 12 → 1 unit = 4. Girls = 5 × 4 = 20')">Check [2]</button>
+        <div class="reveal" id="wa3q15_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">16</div><div class="qc">
+        Convert 90 km/h to m/s: <input class="ainp sm" id="wa3q16" placeholder="? m/s">
+        <button class="sab" onclick="chk('wa3q16','25',2,'90 ÷ 3.6 = 25 m/s')">Check [2]</button>
+        <div class="reveal" id="wa3q16_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">17</div><div class="qc">
+        A car travels 150 km at 60 km/h then 100 km at 80 km/h. Find the average speed for the whole journey:
+        <input class="ainp md" id="wa3q17" placeholder="? km/h">
+        <button class="sab" onclick="chk('wa3q17','68.0',3,'Time1=150/60=2.5h. Time2=100/80=1.25h. Total=250km÷3.75h=66.7 km/h')">Check [3]</button>
+        <div class="reveal" id="wa3q17_r"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- Section D: Percentage -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">D</div><div class="card-title">Section D — Percentage (Ch.9) [11 marks]</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">18</div><div class="qc">
+        Express 450 ml as a percentage of 2 litres: <input class="ainp sm" id="wa3q18" placeholder="? %">
+        <button class="sab" onclick="chk('wa3q18','22.5',2,'2 litres = 2000 ml. (450/2000)×100% = 22.5%')">Check [2]</button>
+        <div class="reveal" id="wa3q18_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">19</div><div class="qc">
+        A shirt costs $45 after a 25% discount. Find the original price: $<input class="ainp sm" id="wa3q19" placeholder="?">
+        <button class="sab" onclick="chk('wa3q19','60',3,'Original × 0.75 = 45 → Original = 45 ÷ 0.75 = $60. DO NOT add 25% of $45!')">Check [3]</button>
+        <div class="reveal" id="wa3q19_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">20</div><div class="qc">
+        A price increased from $80 to $96. Find the percentage increase: <input class="ainp sm" id="wa3q20" placeholder="? %">
+        <button class="sab" onclick="chk('wa3q20','20',2,'Increase = $16. % increase = (16/80)×100% = 20%')">Check [2]</button>
+        <div class="reveal" id="wa3q20_r"></div>
+      </div></div>
+
+      <div class="qrow"><div class="qn">21</div><div class="qc">
+        In a school of 800 students, 45% are girls. After some new students join, the total is 880 and 50% are girls. How many new girls joined?
+        <input class="ainp sm" id="wa3q21" placeholder="?">
+        <button class="sab" onclick="chk('wa3q21','80',4,'Original girls=45%×800=360. New girls=50%×880=440. New girls joined=440-360=80')">Check [4]</button>
+        <div class="reveal" id="wa3q21_r"></div>
+      </div></div>
+    </div>
+  </div>
+  <button class="csb" onclick="scorePaper('wa3',50)">Submit WA3 Paper & Save Score</button>
+  <div class="reveal" id="wa3_score_r" style="margin-top:.5rem"></div>
+</div>
+
+<!-- ═══ EXAM PLAN ═══ -->
+<div class="tab-content" id="planTab">
+  <div class="section-hd">📅 Mokshith's 4-Day Exam Battle Plan</div>
+  <div style="background:var(--redl);border:1px solid #fca5a5;border-radius:8px;padding:.8rem 1rem;margin-bottom:1rem;font-size:.85rem;color:var(--red)">
+    <strong>⚡ Exam: Thursday. Today: Sunday. You have 4 days. Every hour counts.</strong>
+  </div>
+
+  <!-- DAY 1 -->
+  <div class="card">
+    <div class="card-head" style="background:#1e4d8c"><div class="card-letter" style="background:white;color:#1e4d8c">1</div><div class="card-title">SUNDAY — Foundation Day (Chapters 6 & 7)</div></div>
+    <div class="card-body">
+      <div style="font-size:.83rem;line-height:2">
+        <strong>Morning (9am–11am) — Chapter 6: Angles</strong><br>
+        &nbsp;&nbsp;① Read Ch.6 notes in this app (30 min)<br>
+        &nbsp;&nbsp;② Draw and label all 5 angle types from memory<br>
+        &nbsp;&nbsp;③ Memorise the Z/F/C rules for parallel lines<br>
+        &nbsp;&nbsp;④ Do Section A Q1–Q5 in WA3 Paper tab<br><br>
+        <strong>Afternoon (2pm–4pm) — Chapter 7: Triangles & Polygons</strong><br>
+        &nbsp;&nbsp;① Read Ch.7 notes in this app (30 min)<br>
+        &nbsp;&nbsp;② Write out all quadrilateral properties from memory<br>
+        &nbsp;&nbsp;③ Practice polygon formula: (n−2)×180°<br>
+        &nbsp;&nbsp;④ Do Section B Q8–Q12 in WA3 Paper tab<br><br>
+        <strong>Evening (7pm–8pm) — Review</strong><br>
+        &nbsp;&nbsp;① Correct all mistakes from today<br>
+        &nbsp;&nbsp;② Write down every formula used today on flashcard<br>
+      </div>
+      <div class="defbox"><strong>Sunday Target</strong>Complete Section A and B of WA3 Paper. Score ≥ 21/27 marks.</div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="card">
+    <div class="card-head" style="background:#1a6b3c"><div class="card-letter" style="background:white;color:#1a6b3c">2</div><div class="card-title">MONDAY — Problem Solving Day (Chapters 8 & 9)</div></div>
+    <div class="card-body">
+      <div style="font-size:.83rem;line-height:2">
+        <strong>Morning (9am–11am) — Chapter 8: Ratio, Rate & Speed</strong><br>
+        &nbsp;&nbsp;① Read Ch.8 notes in this app (30 min)<br>
+        &nbsp;&nbsp;② Practice the 3-quantity ratio method (LCM technique)<br>
+        &nbsp;&nbsp;③ Memorise speed triangle (S=D/T)<br>
+        &nbsp;&nbsp;④ Practice km/h ↔ m/s conversions (×3.6 trick)<br>
+        &nbsp;&nbsp;⑤ Do Section C Q13–Q17 in WA3 Paper tab<br><br>
+        <strong>Afternoon (2pm–4pm) — Chapter 9: Percentage</strong><br>
+        &nbsp;&nbsp;① Read Ch.9 notes in this app (30 min)<br>
+        &nbsp;&nbsp;② Master the reverse percentage method (÷ not ×)<br>
+        &nbsp;&nbsp;③ Practice % increase vs % decrease (denominator matters!)<br>
+        &nbsp;&nbsp;④ Do Section D Q18–Q21 in WA3 Paper tab<br><br>
+        <strong>Evening (7pm–8pm)</strong><br>
+        &nbsp;&nbsp;① Full WA3 Paper — timed (75 minutes, no peeking)<br>
+        &nbsp;&nbsp;② Mark and record score on Dashboard<br>
+      </div>
+      <div class="defbox"><strong>Monday Target</strong>Complete full WA3 Paper timed. Score ≥ 40/50 marks.</div>
+    </div>
+  </div>
+
+  <!-- DAY 3 -->
+  <div class="card">
+    <div class="card-head" style="background:#b5590a"><div class="card-letter" style="background:white;color:#b5590a">3</div><div class="card-title">TUESDAY — Weak Areas & Drilling Day</div></div>
+    <div class="card-body">
+      <div style="font-size:.83rem;line-height:2">
+        <strong>Morning (9am–11am) — Fix Monday's Mistakes</strong><br>
+        &nbsp;&nbsp;① Look at every question you got wrong on Monday<br>
+        &nbsp;&nbsp;② Use ✦ AI Tutor → "Explain My Mistake" for each one<br>
+        &nbsp;&nbsp;③ Re-do those questions without looking at solutions<br><br>
+        <strong>Afternoon (2pm–4pm) — AI-Generated Drill</strong><br>
+        &nbsp;&nbsp;① Go to AI Tutor tab<br>
+        &nbsp;&nbsp;② Click: "Ratio, Rate & Speed problems" → do 3 questions<br>
+        &nbsp;&nbsp;③ Click: "Percentage reverse problems" → do 3 questions<br>
+        &nbsp;&nbsp;④ Click: "Parallel lines angle questions" → do 3 questions<br><br>
+        <strong>Evening (6pm–7pm) — Speed Round</strong><br>
+        &nbsp;&nbsp;① Flashcards: write all formulas → test yourself<br>
+        &nbsp;&nbsp;② Re-read all ⚠️ Warning boxes in notes<br>
+        &nbsp;&nbsp;③ Early sleep — rest is part of exam prep!<br>
+      </div>
+      <div class="defbox"><strong>Tuesday Target</strong>Zero unresolved mistakes. All 4 chapter formulas memorised cold.</div>
+    </div>
+  </div>
+
+  <!-- DAY 4 -->
+  <div class="card">
+    <div class="card-head" style="background:#5b21b6"><div class="card-letter" style="background:white;color:#5b21b6">4</div><div class="card-title">WEDNESDAY — Light Review & Confidence Day</div></div>
+    <div class="card-body">
+      <div style="font-size:.83rem;line-height:2">
+        <strong>Morning (10am–12pm) — Light Revision Only</strong><br>
+        &nbsp;&nbsp;① Re-read Quick Reference Card below<br>
+        &nbsp;&nbsp;② Do 5 questions from each section (not full paper)<br>
+        &nbsp;&nbsp;③ Focus on question types most likely to appear<br><br>
+        <strong>Afternoon — REST</strong><br>
+        &nbsp;&nbsp;① No heavy studying after 2pm<br>
+        &nbsp;&nbsp;② Short walk, good meal<br>
+        &nbsp;&nbsp;③ Pack stationery: pencil, ruler, eraser, calculator<br><br>
+        <strong>Evening (7pm–8pm) — Final Check</strong><br>
+        &nbsp;&nbsp;① Write all formulas on ONE sheet from memory<br>
+        &nbsp;&nbsp;② Read it once, then sleep early (9:30pm latest)<br>
+      </div>
+      <div class="defbox"><strong>Wednesday Target</strong>Feel confident. Know all formulas. Get 8+ hours sleep before exam.</div>
+    </div>
+  </div>
+
+  <!-- EXAM DAY TIPS -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">★</div><div class="card-title">THURSDAY EXAM DAY — Rules to Follow</div></div>
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;font-size:.84rem">
+        <div>
+          <div style="font-weight:700;color:var(--green);margin-bottom:.4rem">✓ DO THIS</div>
+          <div style="line-height:2">
+            ✓ Read EVERY question fully before answering<br>
+            ✓ Show ALL working — even for 1-mark questions<br>
+            ✓ State reasons for angle questions<br>
+            ✓ Check units match before writing ratios<br>
+            ✓ For reverse %, divide by (1 ± %)<br>
+            ✓ Circle questions you skip — come back later<br>
+            ✓ Check answer makes sense (common sense check)<br>
+            ✓ Leave 5 min to review at the end
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--red);margin-bottom:.4rem">✗ AVOID THIS</div>
+          <div style="line-height:2">
+            ✗ Don't leave any question blank<br>
+            ✗ Don't mix up complementary/supplementary<br>
+            ✗ Don't forget to state reasons for angles<br>
+            ✗ Don't use average of speeds for avg speed<br>
+            ✗ Don't add % to new value in reverse %<br>
+            ✗ Don't mix units in ratios<br>
+            ✗ Don't spend too long on one question<br>
+            ✗ Don't panic — you've prepared well!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMULA CARD -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">F</div><div class="card-title">Quick Formula Card — Tear This Out!</div></div>
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;font-size:.82rem">
+        <div style="background:var(--bluel);padding:.6rem .8rem;border-radius:6px"><strong style="color:var(--blue);display:block;margin-bottom:.3rem">Angles</strong>Straight line = 180°<br>Point = 360°<br>Vert. opp. = equal<br>Alt. angles = equal (Z)<br>Corr. angles = equal (F)<br>Co-int. angles = 180° (C)<br>Comp. = 90°, Supp. = 180°</div>
+        <div style="background:var(--greenl);padding:.6rem .8rem;border-radius:6px"><strong style="color:var(--green);display:block;margin-bottom:.3rem">Polygons</strong>△ sum = 180°<br>Polygon sum = (n−2)×180°<br>Regular interior = (n−2)×180°÷n<br>Exterior = 360°÷n<br>Int + Ext = 180°<br>Sum of ext = 360°</div>
+        <div style="background:var(--amberl);padding:.6rem .8rem;border-radius:6px"><strong style="color:var(--amber);display:block;margin-bottom:.3rem">Ratio & Speed</strong>Simplify: ÷ HCF<br>3-qty: use LCM on middle<br>S = D ÷ T<br>km/h → m/s: ÷ 3.6<br>m/s → km/h: × 3.6<br>Avg speed = total D ÷ total T</div>
+        <div style="background:var(--redl);padding:.6rem .8rem;border-radius:6px"><strong style="color:var(--red);display:block;margin-bottom:.3rem">Percentage</strong>x as % of y = x/y × 100%<br>% inc = inc/original × 100%<br>After x% inc → × (1+x/100)<br>Reverse: ÷ (1 ± x/100)<br>NEVER add % to new value!<br>Same units before comparing</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="tab-content" id="aiTab">
   <div class="section-hd">✦ AI Tutor — Powered by Claude</div>
   <div style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Ask for extra practice, request explanations, or let the AI generate targeted questions based on your weak areas.</div>
@@ -1295,6 +1834,15 @@ function chk2(id1,c1,id2,c2,marks,explanation){
   rev.innerHTML='<div class="rlabel">'+(ok?'✓ Both correct':'Answers')+'</div><div class="rans">HCF='+c1+', LCM='+c2+'</div>'+(explanation?'<div class="rreason">'+explanation+'</div>':'');
 }
 
+function mcAns(btn,val,id,marks,explanation){
+  var rev=document.getElementById(id+'_r');
+  if(!rev)return;
+  var isCorrect=btn===btn.closest('.mc-opts').querySelector('.mcopt');
+  btn.closest('.mc-opts').querySelectorAll('.mcopt').forEach(function(b){b.classList.remove('ok','bad');});
+  btn.classList.add(isCorrect?'ok':'bad');
+  rev.className='reveal '+(isCorrect?'ok':'info')+' show';
+  rev.innerHTML='<div class="rlabel">'+(isCorrect?'✓ Correct':'Incorrect')+'</div><div class="rans">'+val+'</div>'+(explanation?'<div class="rreason">'+explanation+'</div>':'');
+}
 function mcSelect(btn,val,id,marks,explanation){
   var rev=document.getElementById(id+'_r');
   if(!rev)return;
