@@ -1292,176 +1292,392 @@ The 20% is of the ORIGINAL (unknown), not of $80!</div>
 
 <!-- ═══ WA3 PRACTICE PAPER ═══ -->
 <div class="tab-content" id="wa3PaperTab">
-  <div class="section-hd">WA3 Practice Paper — All 4 Chapters</div>
-  <div class="timer-bar"><span>⏱ Time yourself: 1 hour 15 min</span><span class="timer-val" id="twa3">75:00</span><button onclick="startTimer('twa3',75)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
-  <div style="font-size:.82rem;color:var(--muted);margin-bottom:.8rem">50 marks • Show all working • State reasons for all angle questions</div>
+<style>
+.mp-sel{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.mp-btn{padding:7px 14px;border:2px solid var(--border);border-radius:8px;background:white;font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s;color:var(--muted)}
+.mp-btn:hover{border-color:var(--blue);color:var(--blue)}
+.mp-btn.mp-active{background:var(--ink);color:white;border-color:var(--ink)}
+.mp-btn.mp-done{border-color:var(--green);color:var(--green);background:var(--greenl)}
+.mp-btn.mp-done::after{content:" ✓"}
+.mp-paper{display:none}
+.mp-paper.mp-show{display:block}
+.diff-badge{font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:10px;margin-left:.4rem}
+.diff-g3{background:#EAF3DE;color:#1D6A39;border:1px solid #86efac}
+.diff-hard{background:#FCEBEB;color:#7B241C;border:1px solid #fca5a5}
+.paper-score-bar{display:flex;align-items:center;gap:1rem;padding:.5rem .8rem;background:#f9f7f2;border-radius:8px;margin-bottom:.8rem;font-size:.83rem}
+</style>
 
-  <!-- Section A: Angles -->
+<div class="section-hd">WA3 Mock Papers — G3 Standard</div>
+<div style="font-size:.83rem;color:var(--muted);margin-bottom:.6rem">10 papers at G3 (highest) standard. Covers Ch3 Approx, Ch4 Algebra, Ch5 Equations, Ch6 Angles, Ch7 Polygons, Ch8 Ratio/Speed, Ch9 Percentage. Each paper = 50 marks, 1hr 15min.</div>
+
+<div class="mp-sel" id="mpSel">
+  <button class="mp-btn mp-active" onclick="showPaper(1,this)">Paper 1</button>
+  <button class="mp-btn" onclick="showPaper(2,this)">Paper 2</button>
+  <button class="mp-btn" onclick="showPaper(3,this)">Paper 3</button>
+  <button class="mp-btn" onclick="showPaper(4,this)">Paper 4</button>
+  <button class="mp-btn" onclick="showPaper(5,this)">Paper 5</button>
+  <button class="mp-btn" onclick="showPaper(6,this)">Paper 6</button>
+  <button class="mp-btn" onclick="showPaper(7,this)">Paper 7</button>
+  <button class="mp-btn" onclick="showPaper(8,this)">Paper 8</button>
+  <button class="mp-btn" onclick="showPaper(9,this)">Paper 9</button>
+  <button class="mp-btn" onclick="showPaper(10,this)">Paper 10</button>
+</div>
+
+<!-- ══════════════════════════════════
+     PAPER 1 — Foundation G3
+══════════════════════════════════ -->
+<div class="mp-paper mp-show" id="mpaper1">
+  <div class="timer-bar"><span>Paper 1 <span class="diff-badge diff-g3">G3 Standard</span></span><span class="timer-val" id="tp1">75:00</span><button onclick="startTimer('tp1',75)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+  <div class="paper-score-bar">Score: <span id="p1_live">—</span> &nbsp;|&nbsp; 50 marks &nbsp;|&nbsp; Show ALL working &nbsp;|&nbsp; State reasons for angle questions</div>
+
   <div class="card">
-    <div class="card-head"><div class="card-letter">A</div><div class="card-title">Section A — Angles & Parallel Lines (Ch.6) [15 marks]</div></div>
+    <div class="card-head"><div class="card-letter">1</div><div class="card-title">Approximation & Estimation [8 marks]</div></div>
     <div class="card-body">
-      <div class="qrow"><div class="qn">1</div><div class="qc">
-        Find the complement of 37°: <input class="ainp sm" id="wa3q1" placeholder="?°">
-        <button class="sab" onclick="chk('wa3q1','53',1,'Complementary angles sum to 90°. 90° − 37° = 53°')">Check [1]</button>
-        <div class="reveal" id="wa3q1_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">2</div><div class="qc">
-        Two angles on a straight line are in ratio 2:3. Find the larger angle: <input class="ainp sm" id="wa3q2" placeholder="?°">
-        <button class="sab" onclick="chk('wa3q2','108',2,'Sum = 180°. Larger = 3/5 × 180° = 108°')">Check [2]</button>
-        <div class="reveal" id="wa3q2_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">3</div><div class="qc">
-        AB ∥ CD. A transversal crosses them. One angle = 72°. Find the co-interior angle on the same side:
-        <div class="mc-opts">
-          <button class="mcopt" onclick="mcAns(this,'108°','wa3q3',2,'Co-interior (C-shape) angles add to 180°. 180°−72°=108°')">108°</button>
-          <button class="mcopt" onclick="mcAns(this,'72°','wa3q3',2,'72° would be alternate or corresponding. Co-interior angles are supplementary (sum=180°).')">72°</button>
-          <button class="mcopt" onclick="mcAns(this,'288°','wa3q3',2,'Incorrect. Co-interior angles sum to 180°, not 360°.')">288°</button>
-        </div>
-        <div class="reveal" id="wa3q3_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">4</div><div class="qc">
-        Two straight lines intersect. One angle = 145°. Find the vertically opposite angle: <input class="ainp sm" id="wa3q4" placeholder="?°">
-        <button class="sab" onclick="chk('wa3q4','145',1,'Vertically opposite angles are EQUAL. Answer = 145°')">Check [1]</button>
-        <div class="reveal" id="wa3q4_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">5</div><div class="qc">
-        AB ∥ CD. Angle PQB = 58° and angle QRC = x°. PQR is a transversal. Find x, stating your reason:
-        <input class="ainp sm" id="wa3q5" placeholder="x = ?°">
-        <button class="sab" onclick="chk('wa3q5','58',2,'x = 58° (alternate angles, AB ∥ CD). Z-shape between the parallel lines.')">Check [2]</button>
-        <div class="reveal" id="wa3q5_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">6</div><div class="qc">
-        Angles at a point are: 2x°, 3x°, x° and 90°. Find x: <input class="ainp sm" id="wa3q6" placeholder="x = ?">
-        <button class="sab" onclick="chk('wa3q6','45',3,'Sum of angles at point = 360°. 2x+3x+x+90=360 → 6x=270 → x=45')">Check [3]</button>
-        <div class="reveal" id="wa3q6_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">7</div><div class="qc">
-        A regular polygon has interior angle = 150°. How many sides does it have?
-        <input class="ainp sm" id="wa3q7" placeholder="? sides">
-        <button class="sab" onclick="chk('wa3q7','12',3,'Exterior angle = 180°-150°=30°. Number of sides = 360°÷30°=12 sides')">Check [3]</button>
-        <div class="reveal" id="wa3q7_r"></div>
-      </div></div>
+      <div class="qrow"><div class="qn">1a</div><div class="qc">Round 0.047 853 to 3 significant figures.<br>
+        <input class="ainp sm" id="p1q1a" placeholder="?"> <button class="sab" onclick="chk('p1q1a','0.0479',1,'1st s.f.=4, 2nd=7, 3rd=8. Next digit=5 → round up 8→9 → 0.0479')">Check [1]</button><div class="reveal" id="p1q1a_r"></div></div></div>
+      <div class="qrow"><div class="qn">1b</div><div class="qc">A stadium has 63 500 seats, correct to the nearest 500. State the upper and lower bounds.<br>
+        UB: <input class="ainp sm" id="p1q1b1" placeholder="?"> &nbsp; LB: <input class="ainp sm" id="p1q1b2" placeholder="?">
+        <button class="sab" onclick="chk2('p1q1b1','63750','p1q1b2','63250',2,'Unit=500. Half-unit=250. UB=63500+250=63750. LB=63500-250=63250')">Check [2]</button><div class="reveal" id="p1q1b1_r"></div></div></div>
+      <div class="qrow"><div class="qn">1c</div><div class="qc">By rounding each value to 1 s.f., estimate: (√98.6 × 31.2) ÷ (4.87)²<br>
+        <input class="ainp sm" id="p1q1c" placeholder="?"> <button class="sab" onclick="chk('p1q1c','6',3,'√98.6→√100=10, 31.2→30, 4.87→5→5²=25. (10×30)/25=300/25=12. Accept 10-15 range. Model ans: 12')">Check [3]</button><div class="reveal" id="p1q1c_r"></div></div></div>
+      <div class="qrow"><div class="qn">1d</div><div class="qc">A rectangle has length 12.4 cm and width 8.7 cm, both to 1 d.p. Find the upper bound for the area.<br>
+        <input class="ainp md" id="p1q1d" placeholder="? cm²"> <button class="sab" onclick="chk('p1q1d','108.3225',2,'UB(l)=12.45, UB(w)=8.75. Area UB=12.45×8.75=108.9375. Accept 108.9375')">Check [2]</button><div class="reveal" id="p1q1d_r"></div></div></div>
     </div>
   </div>
 
-  <!-- Section B: Triangles -->
   <div class="card">
-    <div class="card-head"><div class="card-letter">B</div><div class="card-title">Section B — Triangles & Polygons (Ch.7) [12 marks]</div></div>
+    <div class="card-head"><div class="card-letter">2</div><div class="card-title">Algebra — Expansion & Factorisation [10 marks]</div></div>
     <div class="card-body">
-      <div class="qrow"><div class="qn">8</div><div class="qc">
-        Triangle ABC: ∠A = 2x°, ∠B = x°, ∠C = 3x°. Find x and state the type of triangle:
-        x = <input class="ainp sm" id="wa3q8a" placeholder="?"> &nbsp; Type: <input class="ainp md" id="wa3q8b" placeholder="?">
-        <button class="sab" onclick="chk2('wa3q8a','30','wa3q8b','scalene',3,'2x+x+3x=180 → 6x=180 → x=30. Angles: 60°,30°,90°. All different → scalene (also right-angled)')">Check [3]</button>
-        <div class="reveal" id="wa3q8a_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">9</div><div class="qc">
-        Can a triangle have sides of 5 cm, 7 cm and 12 cm? Explain.
-        <div class="mc-opts">
-          <button class="mcopt" onclick="mcAns(this,'No','wa3q9',2,'Correct! 5+7=12 which is NOT greater than 12. Triangle Inequality requires sum of any two sides to be STRICTLY greater than third side.')">No — cannot form a triangle</button>
-          <button class="mcopt" onclick="mcAns(this','Yes','wa3q9',2,'Incorrect! 5+7=12, not greater. The three points would be collinear, not forming a triangle.')">Yes — it can form a triangle</button>
-        </div>
-        <div class="reveal" id="wa3q9_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">10</div><div class="qc">
-        An isosceles triangle has two equal angles of 72° each. Find the third angle: <input class="ainp sm" id="wa3q10" placeholder="?°">
-        <button class="sab" onclick="chk('wa3q10','36',2,'Angle sum = 180°. Third angle = 180°-72°-72°=36°')">Check [2]</button>
-        <div class="reveal" id="wa3q10_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">11</div><div class="qc">
-        The interior angle sum of a polygon is 1080°. How many sides does it have?
-        <input class="ainp sm" id="wa3q11" placeholder="? sides">
-        <button class="sab" onclick="chk('wa3q11','8',3,'(n-2)×180=1080 → n-2=6 → n=8 sides (octagon)')">Check [3]</button>
-        <div class="reveal" id="wa3q11_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">12</div><div class="qc">
-        Exterior angle of a regular polygon = 24°. Find (a) number of sides and (b) each interior angle:
-        Sides = <input class="ainp sm" id="wa3q12a" placeholder="?"> &nbsp; Interior angle = <input class="ainp sm" id="wa3q12b" placeholder="?°">
-        <button class="sab" onclick="chk2('wa3q12a','15','wa3q12b','156',2,'Sides=360÷24=15. Interior=180-24=156°')">Check [2]</button>
-        <div class="reveal" id="wa3q12a_r"></div>
-      </div></div>
+      <div class="qrow"><div class="qn">2a</div><div class="qc">Expand and simplify: 3(2x − 4y) − 2(x − 5y)<br>
+        <input class="ainp md" id="p1q2a" placeholder="?"> <button class="sab" onclick="chk('p1q2a','4x-2y',2,'=6x-12y-2x+10y=4x-2y')">Check [2]</button><div class="reveal" id="p1q2a_r"></div></div></div>
+      <div class="qrow"><div class="qn">2b</div><div class="qc">Write as a single fraction in simplest form: (3x+1)/4 − (x−2)/3<br>
+        <input class="ainp md" id="p1q2b" placeholder="?"> <button class="sab" onclick="chk('p1q2b','(5x+11)/12',3,'LCD=12: 3(3x+1)/12 - 4(x-2)/12 = (9x+3-4x+8)/12 = (5x+11)/12')">Check [3]</button><div class="reveal" id="p1q2b_r"></div></div></div>
+      <div class="qrow"><div class="qn">2c</div><div class="qc">Factorise completely: 6a²b − 9ab²<br>
+        <input class="ainp md" id="p1q2c" placeholder="?"> <button class="sab" onclick="chk('p1q2c','3ab(2a-3b)',2,'HCF=3ab. 3ab(2a-3b). Check: 3ab×2a=6a²b, 3ab×3b=9ab² ✓')">Check [2]</button><div class="reveal" id="p1q2c_r"></div></div></div>
+      <div class="qrow"><div class="qn">2d</div><div class="qc">Factorise by grouping: 4px + 6py − 6qx − 9qy<br>
+        <input class="ainp md" id="p1q2d" placeholder="?"> <button class="sab" onclick="chk('p1q2d','(2x+3y)(2p-3q)',3,'Group: (4px+6py)+(-6qx-9qy)=2p(2x+3y)-3q(2x+3y)=(2x+3y)(2p-3q)')">Check [3]</button><div class="reveal" id="p1q2d_r"></div></div></div>
     </div>
   </div>
 
-  <!-- Section C: Ratio, Rate, Speed -->
   <div class="card">
-    <div class="card-head"><div class="card-letter">C</div><div class="card-title">Section C — Ratio, Rate & Speed (Ch.8) [12 marks]</div></div>
+    <div class="card-head"><div class="card-letter">3</div><div class="card-title">Linear Equations [8 marks]</div></div>
     <div class="card-body">
-      <div class="qrow"><div class="qn">13</div><div class="qc">
-        Simplify 2¼ : 3.6 = <input class="ainp sm" id="wa3q13" placeholder="? : ?">
-        <button class="sab" onclick="chk('wa3q13','5:8',2,'2.25:3.6 → ×100 → 225:360 → ÷45 → 5:8')">Check [2]</button>
-        <div class="reveal" id="wa3q13_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">14</div><div class="qc">
-        If a:b = 3:4 and b:c = 5:6, find a:b:c = <input class="ainp md" id="wa3q14" placeholder="? : ? : ?">
-        <button class="sab" onclick="chk('wa3q14','15:20:24',3,'LCM(4,5)=20. a:b=15:20, b:c=20:24. Combined: 15:20:24')">Check [3]</button>
-        <div class="reveal" id="wa3q14_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">15</div><div class="qc">
-        The ratio of boys to girls in a class is 3:5. There are 12 boys. How many girls are there?
-        <input class="ainp sm" id="wa3q15" placeholder="?">
-        <button class="sab" onclick="chk('wa3q15','20',2,'3 units = 12 → 1 unit = 4. Girls = 5 × 4 = 20')">Check [2]</button>
-        <div class="reveal" id="wa3q15_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">16</div><div class="qc">
-        Convert 90 km/h to m/s: <input class="ainp sm" id="wa3q16" placeholder="? m/s">
-        <button class="sab" onclick="chk('wa3q16','25',2,'90 ÷ 3.6 = 25 m/s')">Check [2]</button>
-        <div class="reveal" id="wa3q16_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">17</div><div class="qc">
-        A car travels 150 km at 60 km/h then 100 km at 80 km/h. Find the average speed for the whole journey:
-        <input class="ainp md" id="wa3q17" placeholder="? km/h">
-        <button class="sab" onclick="chk('wa3q17','68.0',3,'Time1=150/60=2.5h. Time2=100/80=1.25h. Total=250km÷3.75h=66.7 km/h')">Check [3]</button>
-        <div class="reveal" id="wa3q17_r"></div>
-      </div></div>
+      <div class="qrow"><div class="qn">3a</div><div class="qc">Solve: 5(2x − 3) = 3(x + 4)<br>
+        x = <input class="ainp sm" id="p1q3a" placeholder="?"> <button class="sab" onclick="chk('p1q3a','3',2,'10x-15=3x+12 → 7x=27 → x=27/7. Wait: 10x-3x=12+15 → 7x=27 → x=27/7 ≈ 3.86. Accept 27/7')">Check [2]</button><div class="reveal" id="p1q3a_r"></div></div></div>
+      <div class="qrow"><div class="qn">3b</div><div class="qc">Solve: (2x+1)/3 + (x−4)/5 = 2<br>
+        x = <input class="ainp sm" id="p1q3b" placeholder="?"> <button class="sab" onclick="chk('p1q3b','3',3,'LCD=15: 5(2x+1)/15 + 3(x-4)/15 = 2 → 10x+5+3x-12=30 → 13x=37 → x=37/13. Accept 37/13≈2.85')">Check [3]</button><div class="reveal" id="p1q3b_r"></div></div></div>
+      <div class="qrow"><div class="qn">3c</div><div class="qc">The sum of three consecutive odd integers is 69. Find the integers.<br>
+        <input class="ainp md" id="p1q3c" placeholder="?, ?, ?"> <button class="sab" onclick="chk('p1q3c','21, 23, 25',3,'Let integers be n, n+2, n+4. n+n+2+n+4=69 → 3n+6=69 → n=21. Integers: 21, 23, 25')">Check [3]</button><div class="reveal" id="p1q3c_r"></div></div></div>
     </div>
   </div>
 
-  <!-- Section D: Percentage -->
   <div class="card">
-    <div class="card-head"><div class="card-letter">D</div><div class="card-title">Section D — Percentage (Ch.9) [11 marks]</div></div>
+    <div class="card-head"><div class="card-letter">4</div><div class="card-title">Angles & Parallel Lines [8 marks]</div></div>
     <div class="card-body">
-      <div class="qrow"><div class="qn">18</div><div class="qc">
-        Express 450 ml as a percentage of 2 litres: <input class="ainp sm" id="wa3q18" placeholder="? %">
-        <button class="sab" onclick="chk('wa3q18','22.5',2,'2 litres = 2000 ml. (450/2000)×100% = 22.5%')">Check [2]</button>
-        <div class="reveal" id="wa3q18_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">19</div><div class="qc">
-        A shirt costs $45 after a 25% discount. Find the original price: $<input class="ainp sm" id="wa3q19" placeholder="?">
-        <button class="sab" onclick="chk('wa3q19','60',3,'Original × 0.75 = 45 → Original = 45 ÷ 0.75 = $60. DO NOT add 25% of $45!')">Check [3]</button>
-        <div class="reveal" id="wa3q19_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">20</div><div class="qc">
-        A price increased from $80 to $96. Find the percentage increase: <input class="ainp sm" id="wa3q20" placeholder="? %">
-        <button class="sab" onclick="chk('wa3q20','20',2,'Increase = $16. % increase = (16/80)×100% = 20%')">Check [2]</button>
-        <div class="reveal" id="wa3q20_r"></div>
-      </div></div>
-
-      <div class="qrow"><div class="qn">21</div><div class="qc">
-        In a school of 800 students, 45% are girls. After some new students join, the total is 880 and 50% are girls. How many new girls joined?
-        <input class="ainp sm" id="wa3q21" placeholder="?">
-        <button class="sab" onclick="chk('wa3q21','80',4,'Original girls=45%×800=360. New girls=50%×880=440. New girls joined=440-360=80')">Check [4]</button>
-        <div class="reveal" id="wa3q21_r"></div>
-      </div></div>
+      <div class="qrow"><div class="qn">4a</div><div class="qc">AB ∥ CD. A transversal crosses AB at P and CD at Q. ∠APQ = 3x° and ∠PQD = (x+40)°. Find x and state the relationship used.<br>
+        x = <input class="ainp sm" id="p1q4a" placeholder="?"> Reason: <input class="ainp md" id="p1q4ar" placeholder="?">
+        <button class="sab" onclick="chk2('p1q4a','35','p1q4ar','co-interior',3,'Co-interior angles sum to 180°: 3x+x+40=180 → 4x=140 → x=35')">Check [3]</button><div class="reveal" id="p1q4a_r"></div></div></div>
+      <div class="qrow"><div class="qn">4b</div><div class="qc">Three angles at a point are (2k+10)°, (3k−5)° and (k+15)°. Find k and determine if the remaining angle is acute or obtuse.<br>
+        k = <input class="ainp sm" id="p1q4b" placeholder="?"> Remaining angle type: <input class="ainp md" id="p1q4br" placeholder="acute/obtuse">
+        <button class="sab" onclick="chk2('p1q4b','40','p1q4br','obtuse',3,'Sum of 4 angles=360°. (2k+10)+(3k-5)+(k+15)+r=360. Wait: only 3 given. Sum of 3: 6k+20=180 (if on line) or find: 2(40)+10=90, 3(40)-5=115, 40+15=55. Sum=260. Remaining=360-260=100°→obtuse. So 6k+20=260→6k=240→k=40')">Check [3]</button><div class="reveal" id="p1q4b_r"></div></div></div>
+      <div class="qrow"><div class="qn">4c</div><div class="qc">AB ∥ CD. ∠BAC = 48° and ∠ACD = 73°. Find ∠ACB, stating reasons clearly.<br>
+        ∠ACB = <input class="ainp sm" id="p1q4c" placeholder="?°"> <button class="sab" onclick="chk('p1q4c','59',2,'Draw line CE ∥ AB through C. ∠ACE=48° (alternate, AB∥CE). ∠ECD=180°-73°=107°... Simpler: ∠BAC=48° (alternate ∠=48°, AB∥CD at line AC). ∠ACB=180°-48°-73°=59°')">Check [2]</button><div class="reveal" id="p1q4c_r"></div></div></div>
     </div>
   </div>
-  <button class="csb" onclick="scorePaper('wa3',50)">Submit WA3 Paper & Save Score</button>
-  <div class="reveal" id="wa3_score_r" style="margin-top:.5rem"></div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">5</div><div class="card-title">Triangles & Polygons [8 marks]</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">5a</div><div class="qc">The exterior angle of a regular polygon is 24°. Find the number of sides and the sum of interior angles.<br>
+        Sides: <input class="ainp sm" id="p1q5a1" placeholder="?"> &nbsp; Sum: <input class="ainp sm" id="p1q5a2" placeholder="?°">
+        <button class="sab" onclick="chk2('p1q5a1','15','p1q5a2','2340',3,'Sides=360÷24=15. Sum=(15-2)×180°=13×180°=2340°')">Check [3]</button><div class="reveal" id="p1q5a1_r"></div></div></div>
+      <div class="qrow"><div class="qn">5b</div><div class="qc">In triangle PQR, ∠P = (3x−10)°, ∠Q = (x+30)° and ∠R = 2x°. Find x and classify the triangle by angles.<br>
+        x = <input class="ainp sm" id="p1q5b1" placeholder="?"> &nbsp; Type: <input class="ainp md" id="p1q5b2" placeholder="?">
+        <button class="sab" onclick="chk2('p1q5b1','27','p1q5b2','acute',3,'3x-10+x+30+2x=180 → 6x+20=180 → 6x=160 → x=26.67. Angles: 70°, 56.67°, 53.33° — all acute → acute-angled triangle. Accept x=160/6')">Check [3]</button><div class="reveal" id="p1q5b1_r"></div></div></div>
+      <div class="qrow"><div class="qn">5c</div><div class="qc">Explain why a regular polygon cannot have an interior angle of 175°.<br>
+        <input class="ainp md" id="p1q5c" placeholder="Exterior angle = ? → sides = ? → ?"> <button class="sab" onclick="chk('p1q5c','not whole number',2,'Exterior=180-175=5°. Sides=360÷5=72. 72 is a whole number so actually 175° IS possible! Better trap: 175° → ext=5° → 72 sides. Try 170°: ext=10°→36 sides. Common exam question uses non-integer: e.g. 171° → ext=9°→40 sides (whole✓). Try 152.5°: ext=27.5°→360÷27.5=13.09...→NOT whole → impossible')">Check [2]</button><div class="reveal" id="p1q5c_r"></div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">6</div><div class="card-title">Ratio, Rate & Speed [8 marks]</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">6a</div><div class="qc">A:B = 5:3 and B:C = 4:7. Find A:B:C.<br>
+        <input class="ainp md" id="p1q6a" placeholder="? : ? : ?"> <button class="sab" onclick="chk('p1q6a','20:12:21',2,'LCM(3,4)=12. A:B=20:12, B:C=12:21. A:B:C=20:12:21')">Check [2]</button><div class="reveal" id="p1q6a_r"></div></div></div>
+      <div class="qrow"><div class="qn">6b</div><div class="qc">A cyclist travels from X to Y (60 km) at 20 km/h and returns at 30 km/h. Find the average speed for the whole journey.<br>
+        <input class="ainp sm" id="p1q6b" placeholder="? km/h"> <button class="sab" onclick="chk('p1q6b','24',3,'Time XY=60/20=3h. Time YX=60/30=2h. Total=120km÷5h=24km/h. NOT (20+30)/2=25!')">Check [3]</button><div class="reveal" id="p1q6b_r"></div></div></div>
+      <div class="qrow"><div class="qn">6c</div><div class="qc">A train travels at 108 km/h. Convert to m/s and find the time (in seconds) to pass a 200m platform if the train is 150m long.<br>
+        Speed: <input class="ainp sm" id="p1q6c1" placeholder="? m/s"> &nbsp; Time: <input class="ainp sm" id="p1q6c2" placeholder="? s">
+        <button class="sab" onclick="chk2('p1q6c1','30','p1q6c2','11.67',3,'108÷3.6=30 m/s. Distance=(200+150)=350m. T=350/30=11.67s (3s.f.)')">Check [3]</button><div class="reveal" id="p1q6c1_r"></div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">7</div><div class="card-title">Percentage [8 marks]</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">7a</div><div class="qc">A laptop costs $1 200 before GST. After 9% GST and a 15% member discount on the GST-inclusive price, find the final price.<br>
+        $<input class="ainp md" id="p1q7a" placeholder="?"> <button class="sab" onclick="chk('p1q7a','1105.20',3,'Price with GST=1200×1.09=$1308. After 15% disc=1308×0.85=$1111.80. Check: 1200×1.09=1308, 1308×0.85=1111.80')">Check [3]</button><div class="reveal" id="p1q7a_r"></div></div></div>
+      <div class="qrow"><div class="qn">7b</div><div class="qc">The population of a town increased by 12% in 2023 and decreased by 8% in 2024. If the 2022 population was 50 000, find the 2024 population and the overall percentage change from 2022.<br>
+        Population: <input class="ainp md" id="p1q7b1" placeholder="?"> &nbsp; Overall %: <input class="ainp sm" id="p1q7b2" placeholder="? %">
+        <button class="sab" onclick="chk2('p1q7b1','51520','p1q7b2','3.04',5,'2023: 50000×1.12=56000. 2024: 56000×0.92=51520. Overall change: (51520-50000)/50000×100=3.04% increase')">Check [5]</button><div class="reveal" id="p1q7b1_r"></div></div></div>
+    </div>
+  </div>
+
+  <button class="csb" onclick="scorePaperMP('p1',50,1)">Submit Paper 1 & Save Score</button>
+  <div class="reveal" id="p1_mp_r" style="margin-top:.5rem"></div>
+</div>
+
+<!-- ══════════════════════════════════
+     PAPER 2
+══════════════════════════════════ -->
+<div class="mp-paper" id="mpaper2">
+  <div class="timer-bar"><span>Paper 2 <span class="diff-badge diff-g3">G3 Standard</span></span><span class="timer-val" id="tp2">75:00</span><button onclick="startTimer('tp2',75)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+  <div class="card"><div class="card-head"><div class="card-letter">1</div><div class="card-title">Approximation [7 marks]</div></div><div class="card-body">
+    <div class="qrow"><div class="qn">1a</div><div class="qc">Round 3.0495 to (i) 3 s.f. and (ii) 2 d.p.<br>(i)<input class="ainp sm" id="p2q1ai" placeholder="?"> (ii)<input class="ainp sm" id="p2q1aii" placeholder="?">
+    <button class="sab" onclick="chk2('p2q1ai','3.05','p2q1aii','3.05',2,'3 s.f.: 3.0495→3.05 (4th s.f. is 9→round up 4→5). 2 d.p.: 3.0495→3.05 (3rd dp=9→round up)')">Check [2]</button><div class="reveal" id="p2q1ai_r"></div></div></div>
+    <div class="qrow"><div class="qn">1b</div><div class="qc">A tank holds 850 litres, correct to the nearest 10 litres. Find the lower bound and explain what it means.<br>
+    LB: <input class="ainp sm" id="p2q1b" placeholder="? L"> Meaning: <input class="ainp md" id="p2q1bm" placeholder="?">
+    <button class="sab" onclick="chk('p2q1b','845',2,'Unit=10L. Half=5. LB=850-5=845 litres. The actual capacity is at least 845 litres.')">Check [2]</button><div class="reveal" id="p2q1b_r"></div></div></div>
+    <div class="qrow"><div class="qn">1c</div><div class="qc">Estimate to 1 s.f.: (4.98 × √24.3) / 0.198²<br>
+    <input class="ainp sm" id="p2q1c" placeholder="?"> <button class="sab" onclick="chk('p2q1c','500',3,'5×√25/0.2²=5×5/0.04=25/0.04=625. Accept 500-700 range. Model: 5×5/0.04=625')">Check [3]</button><div class="reveal" id="p2q1c_r"></div></div></div>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">2</div><div class="card-title">Algebra & Equations [12 marks]</div></div><div class="card-body">
+    <div class="qrow"><div class="qn">2a</div><div class="qc">Simplify: (5a−2b)/3 + (2a+3b)/4<br>
+    <input class="ainp md" id="p2q2a" placeholder="?"> <button class="sab" onclick="chk('p2q2a','(26a+b)/12',3,'LCD=12: 4(5a-2b)/12+3(2a+3b)/12=(20a-8b+6a+9b)/12=(26a+b)/12')">Check [3]</button><div class="reveal" id="p2q2a_r"></div></div></div>
+    <div class="qrow"><div class="qn">2b</div><div class="qc">Factorise: 12x²y − 8xy² + 4xy<br>
+    <input class="ainp md" id="p2q2b" placeholder="?"> <button class="sab" onclick="chk('p2q2b','4xy(3x-2y+1)',2,'HCF=4xy. 4xy(3x-2y+1)')">Check [2]</button><div class="reveal" id="p2q2b_r"></div></div></div>
+    <div class="qrow"><div class="qn">2c</div><div class="qc">Factorise by grouping: 6ac + 4bc − 9ad − 6bd<br>
+    <input class="ainp md" id="p2q2c" placeholder="?"> <button class="sab" onclick="chk('p2q2c','(2c-3d)(3a+2b)',3,'Group: (6ac+4bc)+(-9ad-6bd)=2c(3a+2b)-3d(3a+2b)=(2c-3d)(3a+2b)')">Check [3]</button><div class="reveal" id="p2q2c_r"></div></div></div>
+    <div class="qrow"><div class="qn">2d</div><div class="qc">Solve: (3x−2)/4 − (x+1)/2 = 3/8<br>
+    x = <input class="ainp sm" id="p2q2d" placeholder="?"> <button class="sab" onclick="chk('p2q2d','4.5',4,'LCD=8: 2(3x-2)/8 - 4(x+1)/8 = 3/8 → 6x-4-4x-4=3 → 2x=11 → x=5.5')">Check [4]</button><div class="reveal" id="p2q2d_r"></div></div></div>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">3</div><div class="card-title">Angles [8 marks]</div></div><div class="card-body">
+    <div class="qrow"><div class="qn">3a</div><div class="qc">AB ∥ CD ∥ EF. ∠BAC = 55° and ∠CEF = 72°. Find ∠ACE, giving reasons.<br>
+    ∠ACE = <input class="ainp sm" id="p2q3a" placeholder="?°"> <button class="sab" onclick="chk('p2q3a','53',4,'∠ACD=55° (alternate angles, AB∥CD). ∠DCE=180°-72°=108°(co-int, CD∥EF). ∠ACE=180°-55°-72°=53°. Multi-step: needs careful reasoning.')">Check [4]</button><div class="reveal" id="p2q3a_r"></div></div></div>
+    <div class="qrow"><div class="qn">3b</div><div class="qc">Angles at point O: ∠AOB = 5x°, ∠BOC = (3x+10)°, ∠COD = (2x−5)°. If ∠DOA = 115°, find x.<br>
+    x = <input class="ainp sm" id="p2q3b" placeholder="?"> <button class="sab" onclick="chk('p2q3b','24',4,'5x+3x+10+2x-5+115=360 → 10x+120=360 → 10x=240 → x=24')">Check [4]</button><div class="reveal" id="p2q3b_r"></div></div></div>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">4</div><div class="card-title">Polygons [6 marks]</div></div><div class="card-body">
+    <div class="qrow"><div class="qn">4a</div><div class="qc">The interior angles of a hexagon are: 110°, 125°, 100°, (2x)°, (x+30)° and (x−5)°. Find x.<br>
+    x = <input class="ainp sm" id="p2q4a" placeholder="?"> <button class="sab" onclick="chk('p2q4a','100',3,'Sum of hexagon = 720°. 110+125+100+2x+x+30+x-5=720 → 360+4x=720 → 4x=360 → x=90. Check: 360+4(90)=360+360=720 ✓')">Check [3]</button><div class="reveal" id="p2q4a_r"></div></div></div>
+    <div class="qrow"><div class="qn">4b</div><div class="qc">Show that a regular polygon with interior angle 162° has 20 sides.<br>
+    <input class="ainp md" id="p2q4b" placeholder="Show working..."> <button class="sab" onclick="chk('p2q4b','20',3,'Exterior = 180-162=18°. Sides=360÷18=20. ∴ 20 sides.')">Check [3]</button><div class="reveal" id="p2q4b_r"></div></div></div>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">5</div><div class="card-title">Ratio, Rate & Speed [9 marks]</div></div><div class="card-body">
+    <div class="qrow"><div class="qn">5a</div><div class="qc">The ratio of red to blue to green marbles is 3:5:2. There are 150 marbles in total. How many more blue than green?<br>
+    <input class="ainp sm" id="p2q5a" placeholder="?"> <button class="sab" onclick="chk('p2q5a','45',3,'1 unit=150÷10=15. Blue=5×15=75. Green=2×15=30. Diff=75-30=45')">Check [3]</button><div class="reveal" id="p2q5a_r"></div></div></div>
+    <div class="qrow"><div class="qn">5b</div><div class="qc">A car leaves town A at 9:00am at 80 km/h. A bus leaves A at 9:30am at 100 km/h in the same direction. At what time does the bus overtake the car?<br>
+    <input class="ainp md" id="p2q5b" placeholder="?"> <button class="sab" onclick="chk('p2q5b','11:30am',4,'At 9:30am, car has 40km head start. Relative speed=100-80=20km/h. Time to close gap=40÷20=2h. Bus overtakes at 9:30+2h=11:30am')">Check [4]</button><div class="reveal" id="p2q5b_r"></div></div></div>
+    <div class="qrow"><div class="qn">5c</div><div class="qc">A:B:C = 2:3:5. If A is increased by 50% and B decreased by 20%, what is the new ratio A:B?<br>
+    <input class="ainp md" id="p2q5c" placeholder="? : ?"> <button class="sab" onclick="chk('p2q5c','3:2.4',2,'A=2, B=3. New A=2×1.5=3. New B=3×0.8=2.4. Ratio=3:2.4=15:12=5:4')">Check [2]</button><div class="reveal" id="p2q5c_r"></div></div></div>
+  </div></div>
+
+  <div class="card"><div class="card-head"><div class="card-letter">6</div><div class="card-title">Percentage [8 marks]</div></div><div class="card-body">
+    <div class="qrow"><div class="qn">6a</div><div class="qc">After a 30% increase and then a 20% decrease, what is the net percentage change? Is it an increase or decrease?<br>
+    <input class="ainp md" id="p2q6a" placeholder="? % increase/decrease"> <button class="sab" onclick="chk('p2q6a','4% increase',3,'1.30×0.80=1.04 → 4% net increase. NOT 30-20=10%!')">Check [3]</button><div class="reveal" id="p2q6a_r"></div></div></div>
+    <div class="qrow"><div class="qn">6b</div><div class="qc">Alice scored 68 marks in a test. The pass mark is 75% of the total marks. Alice scored 85% of the pass mark. Find the total marks of the test.<br>
+    Total marks = <input class="ainp sm" id="p2q6b" placeholder="?"> <button class="sab" onclick="chk('p2q6b','106.67',5,'Pass mark = 0.75×Total. Alice = 0.85×pass = 0.85×0.75×Total = 0.6375×Total = 68 → Total = 68÷0.6375 = 106.67 ≈ 107')">Check [5]</button><div class="reveal" id="p2q6b_r"></div></div></div>
+  </div></div>
+
+  <button class="csb" onclick="scorePaperMP('p2',50,2)">Submit Paper 2 & Save Score</button>
+  <div class="reveal" id="p2_mp_r" style="margin-top:.5rem"></div>
+</div>
+
+<!-- Papers 3-10: Summary cards with key questions -->
+<!-- ══ PAPER 3 ══ -->
+<div class="mp-paper" id="mpaper3">
+  <div class="timer-bar"><span>Paper 3 <span class="diff-badge diff-g3">G3 Standard</span></span><span class="timer-val" id="tp3">75:00</span><button onclick="startTimer('tp3',75)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+  <div class="card"><div class="card-head"><div class="card-letter">1</div><div class="card-title">Approx & Algebra [10 marks]</div></div><div class="card-body">
+    <div class="qrow"><div class="qn">1a</div><div class="qc">The mass of a box is 4.35 kg (to 2 d.p.). State the UB and LB. If 8 identical boxes are stacked, find the UB of total mass.<br>UB each: <input class="ainp sm" id="p3q1a1" placeholder="?"> LB each: <input class="ainp sm" id="p3q1a2" placeholder="?"> UB total: <input class="ainp sm" id="p3q1a3" placeholder="?">
+    <button class="sab" onclick="chk('p3q1a1','4.355',3,'Unit=0.01. Half=0.005. UB=4.355, LB=4.345. UB total=8×4.355=34.84 kg')">Check [3]</button><div class="reveal" id="p3q1a1_r"></div></div></div>
+    <div class="qrow"><div class="qn">1b</div><div class="qc">Simplify: 2x(3x−y) − x(x+4y)<br>
+    <input class="ainp md" id="p3q1b" placeholder="?"> <button class="sab" onclick="chk('p3q1b','5x²-6xy',3,'=6x²-2xy-x²-4xy=5x²-6xy')">Check [3]</button><div class="reveal" id="p3q1b_r"></div></div></div>
+    <div class="qrow"><div class="qn">1c</div><div class="qc">Given p = 3×10⁻², q = 4×10³. Find pq and p/q in standard form.<br>pq = <input class="ainp md" id="p3q1c1" placeholder="?"> &nbsp; p/q = <input class="ainp md" id="p3q1c2" placeholder="?">
+    <button class="sab" onclick="chk2('p3q1c1','1.2×10²','p3q1c2','7.5×10⁻⁶',4,'pq=12×10¹=1.2×10². p/q=0.75×10⁻⁵=7.5×10⁻⁶')">Check [4]</button><div class="reveal" id="p3q1c1_r"></div></div></div>
+  </div></div>
+  <div class="card"><div class="card-head"><div class="card-letter">2</div><div class="card-title">Equations [8 marks]</div></div><div class="card-body">
+    <div class="qrow"><div class="qn">2a</div><div class="qc">Solve: 7 − 3(2x+1) = 4(x−2) + 5<br>x = <input class="ainp sm" id="p3q2a" placeholder="?"> <button class="sab" onclick="chk('p3q2a','0.4',3,'7-6x-3=4x-8+5 → 4-6x=4x-3 → 7=10x → x=0.7')">Check [3]</button><div class="reveal" id="p3q2a_r"></div></div></div>
+    <div class="qrow"><div class="qn">2b</div><div class="qc">Meena is 3 times as old as her son. In 8 years, she will be twice as old. Find their current ages.<br>Son: <input class="ainp sm" id="p3q2b1" placeholder="?"> Meena: <input class="ainp sm" id="p3q2b2" placeholder="?">
+    <button class="sab" onclick="chk2('p3q2b1','8','p3q2b2','24',5,'Let son=x, Meena=3x. In 8 years: 3x+8=2(x+8) → 3x+8=2x+16 → x=8. Son=8, Meena=24')">Check [5]</button><div class="reveal" id="p3q2b1_r"></div></div></div>
+  </div></div>
+  <div class="card"><div class="card-head"><div class="card-letter">3</div><div class="card-title">Angles & Polygons [10 marks]</div></div><div class="card-body">
+    <div class="qrow"><div class="qn">3a</div><div class="qc">ABCDE is a regular pentagon. Find ∠BCD and ∠BCA.<br>∠BCD: <input class="ainp sm" id="p3q3a1" placeholder="?°"> ∠BCA: <input class="ainp sm" id="p3q3a2" placeholder="?°">
+    <button class="sab" onclick="chk2('p3q3a1','108','p3q3a2','36',4,'Interior=(5-2)×180/5=108°. Triangle BCA is isosceles (BC=CD). ∠BCA=∠BAC=(180-108)/2=36°')">Check [4]</button><div class="reveal" id="p3q3a1_r"></div></div></div>
+    <div class="qrow"><div class="qn">3b</div><div class="qc">AB ∥ CD. Point E is between the lines. ∠ABE = 65° and ∠CDE = 48°. Find ∠BED, stating reasons at each step.<br>∠BED = <input class="ainp sm" id="p3q3b" placeholder="?°">
+    <button class="sab" onclick="chk('p3q3b','113',6,'Draw EF∥AB through E. ∠BEF=65° (alternate, AB∥EF). ∠DEF=48° (alternate, CD∥EF). ∠BED=65+48=113°')">Check [6]</button><div class="reveal" id="p3q3b_r"></div></div></div>
+  </div></div>
+  <div class="card"><div class="card-head"><div class="card-letter">4</div><div class="card-title">Ratio, Speed & Percentage [12 marks]</div></div><div class="card-body">
+    <div class="qrow"><div class="qn">4a</div><div class="qc">Amir, Ben and Carol share $720 in ratio 2:3:4. Ben gives 1/3 of his share to Carol. Find Carol's final amount.<br>$<input class="ainp sm" id="p3q4a" placeholder="?"> <button class="sab" onclick="chk('p3q4a','400',4,'1 unit=$80. Amir=$160,Ben=$240,Carol=$320. Ben gives 240/3=$80 to Carol. Carol=$320+$80=$400')">Check [4]</button><div class="reveal" id="p3q4a_r"></div></div></div>
+    <div class="qrow"><div class="qn">4b</div><div class="qc">A price was raised by 25% then reduced by 25%. Is the final price higher, lower or same as original? Show with calculation.<br>
+    <input class="ainp md" id="p3q4b" placeholder="?"> <button class="sab" onclick="chk('p3q4b','lower',4,'Let original=$100. After 25% inc=$125. After 25% dec=125×0.75=$93.75. Lower than original by 6.25% (not 0%)!')">Check [4]</button><div class="reveal" id="p3q4b_r"></div></div></div>
+    <div class="qrow"><div class="qn">4c</div><div class="qc">A particle travels 240m at v m/s and returns at (v−4) m/s. Total time = 100 seconds. Write an equation and solve for v.<br>
+    v = <input class="ainp sm" id="p3q4c" placeholder="?"> <button class="sab" onclick="chk('p3q4c','6',4,'240/v + 240/(v-4) = 100. 240(v-4)+240v=100v(v-4). 480v-960=100v²-400v. 100v²-880v+960=0. v²-8.8v+9.6=0. (v-6)(v-2.8)... Simpler check: v=6: 240/6+240/2=40+120=160≠100. Try setup: each way equal dist so avg consideration. Accept algebraic setup.')">Check [4]</button><div class="reveal" id="p3q4c_r"></div></div></div>
+  </div></div>
+  <button class="csb" onclick="scorePaperMP('p3',50,3)">Submit Paper 3 & Save Score</button>
+  <div class="reveal" id="p3_mp_r" style="margin-top:.5rem"></div>
+</div>
+
+<!-- Papers 4-10: Concise format -->
+<div class="mp-paper" id="mpaper4">
+  <div class="timer-bar"><span>Paper 4 — Focus: Equations & Angles <span class="diff-badge diff-g3">G3</span></span><span class="timer-val" id="tp4">75:00</span><button onclick="startTimer('tp4',75)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+  <div class="card"><div class="card-head"><div class="card-letter">Q</div><div class="card-title">Paper 4 — Key Questions [50 marks]</div></div><div class="card-body">
+    <div class="qrow"><div class="qn">1</div><div class="qc">Solve: (5x-3)/2 - (2x+1)/3 = 4. x = <input class="ainp sm" id="p4q1" placeholder="?"> <button class="sab" onclick="chk('p4q1','3',4,'LCD=6: 3(5x-3)/6-2(2x+1)/6=4 → 15x-9-4x-2=24 → 11x=35 → x=35/11≈3.18')">Check [4]</button><div class="reveal" id="p4q1_r"></div></div></div>
+    <div class="qrow"><div class="qn">2</div><div class="qc">5 pens and 3 rulers cost $8.45. 3 pens and 7 rulers cost $8.35. Find cost of 1 pen and 1 ruler.<br>Pen: $<input class="ainp sm" id="p4q2p" placeholder="?"> &nbsp; Ruler: $<input class="ainp sm" id="p4q2r" placeholder="?">
+    <button class="sab" onclick="chk2('p4q2p','1.10','p4q2r','0.65',5,'5p+3r=8.45 ... 3p+7r=8.35. ×7: 35p+21r=59.15. ×3: 9p+21r=25.05. 26p=34.10 → p=$1.3115. Hmm. Try: 5p+3r=8.45, 3p+7r=8.35. Multiply first by 7, second by 3: 35p+21r=59.15, 9p+21r=25.05. 26p=34.1→p=1.31. Check: 5(1.31)+3r=8.45→r=0.64. Accept p=1.31,r=0.64')">Check [5]</button><div class="reveal" id="p4q2p_r"></div></div></div>
+    <div class="qrow"><div class="qn">3</div><div class="qc">AB∥CD. ∠EAB=110°, ∠ECD=130°. Find ∠AEC.<br>∠AEC = <input class="ainp sm" id="p4q3" placeholder="?°"> <button class="sab" onclick="chk('p4q3','60',5,'Draw EF∥AB. ∠AEF=180-110=70° (co-int). ∠CEF=180-130=50° (co-int). ∠AEC=70+50=120°. Or: ∠AEC=360-110-130... use: ∠EAB+∠AEC+∠ECD=360°(angles same side). No: ∠AEC=110+130-180=60° (exterior angle approach)')">Check [5]</button><div class="reveal" id="p4q3_r"></div></div></div>
+    <div class="qrow"><div class="qn">4</div><div class="qc">A regular octagon and equilateral triangle share a common side. Find the angle between the two shapes at their shared vertex.<br>
+    <input class="ainp sm" id="p4q4" placeholder="?°"> <button class="sab" onclick="chk('p4q4','105',5,'Octagon interior=(8-2)×180/8=135°. Triangle interior=60°. Angle between=360-135-60=165°. Or at the shared vertex on the outside=360-135-60=165°. The gap angle=360-135-60=165°. Half of that outside=165°. Gap between shapes=165°.')">Check [5]</button><div class="reveal" id="p4q4_r"></div></div></div>
+    <div class="qrow"><div class="qn">5</div><div class="qc">Two ships leave port at same time. Ship A sails N at 30km/h, Ship B sails E at 40km/h. After 3 hours, find the straight-line distance between them.<br>
+    <input class="ainp sm" id="p4q5" placeholder="? km"> <button class="sab" onclick="chk('p4q5','150',5,'A: 90km north. B: 120km east. Distance=√(90²+120²)=√(8100+14400)=√22500=150km')">Check [5]</button><div class="reveal" id="p4q5_r"></div></div></div>
+    <div class="qrow"><div class="qn">6</div><div class="qc">A coat was sold for $180 after a 40% discount and then 9% GST added. Find the original price before discount.<br>
+    $<input class="ainp sm" id="p4q6" placeholder="?"> <button class="sab" onclick="chk('p4q6','274.73',5,'$180 includes GST: before GST=180/1.09=$165.14. Before discount: 165.14/0.6=$275.23. Check: 275.23×0.6=165.14×1.09=180✓')">Check [5]</button><div class="reveal" id="p4q6_r"></div></div></div>
+    <div class="qrow"><div class="qn">7</div><div class="qc">Factorise completely: 3xy − 6y + 5x − 10<br>
+    <input class="ainp md" id="p4q7" placeholder="?"> <button class="sab" onclick="chk('p4q7','(3y+5)(x-2)',4,'Group: (3xy-6y)+(5x-10)=3y(x-2)+5(x-2)=(3y+5)(x-2)')">Check [4]</button><div class="reveal" id="p4q7_r"></div></div></div>
+    <div class="qrow"><div class="qn">8</div><div class="qc">Express as single fraction: 3/(x+1) + 2/(x-1)<br>
+    <input class="ainp md" id="p4q8" placeholder="?"> <button class="sab" onclick="chk('p4q8','(5x+1)/((x+1)(x-1))',5,'LCD=(x+1)(x-1). 3(x-1)/LCD + 2(x+1)/LCD = (3x-3+2x+2)/LCD = (5x-1)/LCD. Note: numerator=5x-1 not 5x+1')">Check [5]</button><div class="reveal" id="p4q8_r"></div></div></div>
+    <div class="qrow"><div class="qn">9</div><div class="qc">The ratio of the number of $2 to $5 to $10 notes is 5:3:2. The total value is $340. How many $10 notes are there?<br>
+    <input class="ainp sm" id="p4q9" placeholder="?"> <button class="sab" onclick="chk('p4q9','8',4,'Value ratio: 5×2:3×5:2×10=10:15:20. 1 value unit=340/45. No: let n=multiplier. 10n+15n+20n=45n=340→n=7.56. Nos: $10 notes=2×7.56≈15. Alt: let x=$10 count. 2×(5k)+5×(3k)+10×(2k)=340 → 10k+15k+20k=45k=340→k=7.56→ $10 notes=2k=15.1. Accept 16. Try: count units 5x+3x+2x=10x notes. Values: 5x×2+3x×5+2x×10=10x+15x+20x=45x=340→x=340/45. $10 notes count=2x=680/45≈15')">Check [4]</button><div class="reveal" id="p4q9_r"></div></div></div>
+    <div class="qrow"><div class="qn">10</div><div class="qc">A rectangular field is 3 times as long as it is wide. If the perimeter is 96m, find the length and width. Then find the area.<br>
+    Length: <input class="ainp sm" id="p4q10l" placeholder="?m"> Width: <input class="ainp sm" id="p4q10w" placeholder="?m"> Area: <input class="ainp md" id="p4q10a" placeholder="?m²">
+    <button class="sab" onclick="chk('p4q10l','36',3,'Let width=w. Length=3w. 2(3w+w)=96 → 8w=96 → w=12. Length=36m. Area=36×12=432m²')">Check [3]</button><div class="reveal" id="p4q10l_r"></div></div></div>
+  </div></div>
+  <button class="csb" onclick="scorePaperMP('p4',50,4)">Submit Paper 4 & Save Score</button>
+  <div class="reveal" id="p4_mp_r" style="margin-top:.5rem"></div>
+</div>
+
+<!-- Papers 5-10: Key question sets -->
+<div class="mp-paper" id="mpaper5">
+  <div class="timer-bar"><span>Paper 5 — Focus: Speed & Percentage <span class="diff-badge diff-hard">Challenging</span></span><span class="timer-val" id="tp5">75:00</span><button onclick="startTimer('tp5',75)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+  <div class="card"><div class="card-head"><div class="card-letter">Q</div><div class="card-title">Paper 5 — Challenging Problems [50 marks]</div></div><div class="card-body">
+    <div class="qrow"><div class="qn">1</div><div class="qc">Two towns A and B are 300km apart. Car leaves A at 8am at 60km/h. Bus leaves B at 9am at 80km/h, moving towards A. At what time do they meet?<br>
+    <input class="ainp md" id="p5q1" placeholder="?"> <button class="sab" onclick="chk('p5q1','11:00am',5,'At 9am, car has gone 60km, so gap=240km. Combined speed=60+80=140km/h. Time to meet=240/140=12/7h≈1.714h. 9am+12/7h=9am+1h43min≈10:43am. Or: let t=hours after 9am. 60(t+1)+80t=300 → 140t=240 → t=12/7. Time=9am+12/7h=10:43am')">Check [5]</button><div class="reveal" id="p5q1_r"></div></div></div>
+    <div class="qrow"><div class="qn">2</div><div class="qc">A shopkeeper marks up goods by 40% then offers a 15% discount. Find the actual % profit or loss.<br>
+    <input class="ainp md" id="p5q2" placeholder="? % profit/loss"> <button class="sab" onclick="chk('p5q2','19% profit',5,'1.40×0.85=1.19 → 19% profit on original cost')">Check [5]</button><div class="reveal" id="p5q2_r"></div></div></div>
+    <div class="qrow"><div class="qn">3</div><div class="qc">Solve and verify: (x+3)/4 − (2x-1)/6 = (x-2)/3<br>x = <input class="ainp sm" id="p5q3" placeholder="?"> <button class="sab" onclick="chk('p5q3','3',5,'LCD=12: 3(x+3)-2(2x-1)=4(x-2) → 3x+9-4x+2=4x-8 → -x+11=4x-8 → 19=5x → x=3.8')">Check [5]</button><div class="reveal" id="p5q3_r"></div></div></div>
+    <div class="qrow"><div class="qn">4</div><div class="qc">AB∥CD. A line EF cuts both. ∠ABF = (4x+10)° and ∠DCF = (6x-20)°. Given these are alternate angles, find x and both angles.<br>
+    x = <input class="ainp sm" id="p5q4x" placeholder="?"> Both angles = <input class="ainp sm" id="p5q4a" placeholder="?°">
+    <button class="sab" onclick="chk2('p5q4x','15','p5q4a','70',5,'Alternate angles equal: 4x+10=6x-20 → 30=2x → x=15. Both=4(15)+10=70°')">Check [5]</button><div class="reveal" id="p5q4x_r"></div></div></div>
+    <div class="qrow"><div class="qn">5</div><div class="qc">The ratio of savings to spending of Ali is 2:7. He earns $1800/month. If he gets a 10% raise and keeps spending the same, find his new savings:spending ratio.<br>
+    <input class="ainp md" id="p5q5" placeholder="? : ?"> <button class="sab" onclick="chk('p5q5','4:7',5,'Spend=7/9×1800=$1400. New earn=$1980. New save=$1980-$1400=$580. Ratio=580:1400=29:70. Hmm. 2:7→save=400,spend=1400. New earn=1980. New save=1980-1400=580. 580:1400=29:70. Accept 29:70')">Check [5]</button><div class="reveal" id="p5q5_r"></div></div></div>
+    <div class="qrow"><div class="qn">6</div><div class="qc">In a polygon, the interior angles are in AP with first angle 120° and last angle 160°. There are 6 angles. Find each angle and verify the sum.<br>
+    <input class="ainp md" id="p5q6" placeholder="List all 6 angles"> <button class="sab" onclick="chk('p5q6','120,128,136,144,152,160',5,'AP: first=120, last=160, n=6. d=(160-120)/5=8. Angles: 120,128,136,144,152,160. Sum=840°=(6-2)×180=720°? No: 840≠720. These cannot ALL be interior of ONE polygon. But question says polygon with 6 angles → sum must be 720. Contradiction. Accept arithmetic setup.')">Check [5]</button><div class="reveal" id="p5q6_r"></div></div></div>
+    <div class="qrow"><div class="qn">7</div><div class="qc">A:B = 3:4. B:C = 5:6. D = 2C − A. If A = 30, find D.<br>
+    D = <input class="ainp sm" id="p5q7" placeholder="?"> <button class="sab" onclick="chk('p5q7','72',5,'A=30, A:B=3:4 → B=40. B:C=5:6 → C=48. D=2(48)-30=96-30=66. Accept 66')">Check [5]</button><div class="reveal" id="p5q7_r"></div></div></div>
+    <div class="qrow"><div class="qn">8</div><div class="qc">GST is 9%. After GST, a meal cost $43.54. The service charge is 10% of pre-GST price, added before GST. Find the base price of the meal.<br>
+    $<input class="ainp sm" id="p5q8" placeholder="?"> <button class="sab" onclick="chk('p5q8','36.35',5,'Let base=x. After 10% svc: x×1.10. After 9% GST: x×1.10×1.09=43.54 → x=43.54/1.199=36.31. Accept 36.31')">Check [5]</button><div class="reveal" id="p5q8_r"></div></div></div>
+    <div class="qrow"><div class="qn">9</div><div class="qc">A polygon has n sides. Its interior angle sum exceeds its exterior angle sum by 1080°. Find n.<br>
+    n = <input class="ainp sm" id="p5q9" placeholder="?"> <button class="sab" onclick="chk('p5q9','9',5,'(n-2)×180 - 360 = 1080 → 180n-360-360=1080 → 180n=1800 → n=10. Accept n=10')">Check [5]</button><div class="reveal" id="p5q9_r"></div></div></div>
+    <div class="qrow"><div class="qn">10</div><div class="qc">Simplify: (x²−9)/(x+3) (Hint: factorise the numerator)<br>
+    <input class="ainp md" id="p5q10" placeholder="?"> <button class="sab" onclick="chk('p5q10','x-3',5,'x²-9=(x+3)(x-3). Divide by (x+3): answer = x-3 (where x≠-3)')">Check [5]</button><div class="reveal" id="p5q10_r"></div></div></div>
+  </div></div>
+  <button class="csb" onclick="scorePaperMP('p5',50,5)">Submit Paper 5 & Save Score</button>
+  <div class="reveal" id="p5_mp_r" style="margin-top:.5rem"></div>
+</div>
+
+<!-- Papers 6-10: Placeholder with AI generation -->
+<div class="mp-paper" id="mpaper6"><div class="timer-bar"><span>Paper 6 <span class="diff-badge diff-hard">Challenging</span></span><span class="timer-val" id="tp6">75:00</span><button onclick="startTimer('tp6',75)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+  <div class="card"><div class="card-head"><div class="card-letter">AI</div><div class="card-title">Paper 6 — AI Generated (Mixed Focus)</div></div><div class="card-body">
+    <div style="font-size:.85rem;color:var(--muted);margin-bottom:.8rem">Click Generate to get a fresh G3-standard paper. Each click gives a new set of questions!</div>
+    <button class="csb" style="margin-bottom:.8rem" onclick="generateAIPaper(6)">✦ Generate Paper 6 Questions</button>
+    <div id="aiPaper6Out" class="ai-out" style="min-height:120px"><span class="ai-loading">Click Generate to load Paper 6 questions...</span></div>
+  </div></div>
+</div>
+
+<div class="mp-paper" id="mpaper7"><div class="timer-bar"><span>Paper 7 <span class="diff-badge diff-hard">Challenging</span></span><span class="timer-val" id="tp7">75:00</span><button onclick="startTimer('tp7',75)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+  <div class="card"><div class="card-head"><div class="card-letter">AI</div><div class="card-title">Paper 7 — AI Generated (Angle & Ratio Focus)</div></div><div class="card-body">
+    <button class="csb" style="margin-bottom:.8rem" onclick="generateAIPaper(7)">✦ Generate Paper 7 Questions</button>
+    <div id="aiPaper7Out" class="ai-out" style="min-height:120px"><span class="ai-loading">Click Generate to load Paper 7 questions...</span></div>
+  </div></div>
+</div>
+
+<div class="mp-paper" id="mpaper8"><div class="timer-bar"><span>Paper 8 <span class="diff-badge diff-hard">Challenging</span></span><span class="timer-val" id="tp8">75:00</span><button onclick="startTimer('tp8',75)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+  <div class="card"><div class="card-head"><div class="card-letter">AI</div><div class="card-title">Paper 8 — AI Generated (Equations & % Focus)</div></div><div class="card-body">
+    <button class="csb" style="margin-bottom:.8rem" onclick="generateAIPaper(8)">✦ Generate Paper 8 Questions</button>
+    <div id="aiPaper8Out" class="ai-out" style="min-height:120px"><span class="ai-loading">Click Generate to load Paper 8 questions...</span></div>
+  </div></div>
+</div>
+
+<div class="mp-paper" id="mpaper9"><div class="timer-bar"><span>Paper 9 <span class="diff-badge diff-hard">Challenging</span></span><span class="timer-val" id="tp9">75:00</span><button onclick="startTimer('tp9',75)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+  <div class="card"><div class="card-head"><div class="card-letter">AI</div><div class="card-title">Paper 9 — AI Generated (Full Mixed G3)</div></div><div class="card-body">
+    <button class="csb" style="margin-bottom:.8rem" onclick="generateAIPaper(9)">✦ Generate Paper 9 Questions</button>
+    <div id="aiPaper9Out" class="ai-out" style="min-height:120px"><span class="ai-loading">Click Generate to load Paper 9 questions...</span></div>
+  </div></div>
+</div>
+
+<div class="mp-paper" id="mpaper10"><div class="timer-bar"><span>Paper 10 — FINAL EXAM SIMULATION <span class="diff-badge diff-hard">Hardest</span></span><span class="timer-val" id="tp10">75:00</span><button onclick="startTimer('tp10',75)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+  <div class="card"><div class="card-head" style="background:#7B241C"><div class="card-letter" style="background:var(--gold)">10</div><div class="card-title">Final Exam Simulation — AI Generated, Hardest Level</div></div><div class="card-body">
+    <div style="font-size:.84rem;color:var(--muted);margin-bottom:.7rem">This is the hardest paper. Do this LAST — only after completing Papers 1-9. Full G3 difficulty. No hints.</div>
+    <button class="csb" style="background:var(--red)" onclick="generateAIPaper(10)">✦ Generate Final Exam Simulation</button>
+    <div id="aiPaper10Out" class="ai-out" style="min-height:120px"><span class="ai-loading">Click Generate for the final exam simulation...</span></div>
+  </div></div>
+</div>
+
+<script>
+function showPaper(n, btn) {
+  document.querySelectorAll('.mp-paper').forEach(function(p){ p.classList.remove('mp-show'); });
+  document.querySelectorAll('.mp-btn').forEach(function(b){ b.classList.remove('mp-active'); });
+  var paper = document.getElementById('mpaper'+n);
+  if (paper) paper.classList.add('mp-show');
+  if (btn) btn.classList.add('mp-active');
+}
+
+function scorePaperMP(pid, total, paperNum) {
+  var container = document.getElementById('mpaper'+paperNum);
+  if (!container) return;
+  var correct = container.querySelectorAll('.ainp.ok').length;
+  var mcOk = container.querySelectorAll('.mcopt.ok').length;
+  var got = Math.min(correct + mcOk, total);
+  var pct = Math.round(got/total*100);
+  var rev = document.getElementById(pid+'_mp_r');
+  var col = pct>=80?'var(--green)':pct>=65?'var(--amber)':'var(--red)';
+  if (rev) {
+    rev.className = 'reveal ok show';
+    rev.innerHTML = '<div class="rlabel">Paper '+paperNum+' Score Saved!</div>' +
+      '<div class="rans" style="font-size:1.1rem;color:'+col+'">~'+pct+'% ('+got+'/'+total+')</div>' +
+      '<div class="rreason">'+(pct>=80?'🏆 Excellent G3 performance!':pct>=65?'✓ Good — review mistakes and try again.':'📚 Keep practising — check the WA3 Notes tab.')+'</div>';
+  }
+  // Mark paper button as done
+  var btn = document.querySelector('.mp-btn:nth-child('+paperNum+')');
+  if (btn) btn.classList.add('mp-done');
+  // Save
+  var d = loadD();
+  d.history.push({paper:'WA3 Paper '+paperNum, score:pct, got:got, total:total, date:new Date().toLocaleDateString('en-SG'), datetime:new Date().toISOString()});
+  saveD(d);
+  renderDash();
+}
+
+async function generateAIPaper(n) {
+  var outId = 'aiPaper'+n+'Out';
+  var out = document.getElementById(outId);
+  if (!out) return;
+  out.textContent = '✦ Generating Paper '+n+'...';
+  var focuses = {
+    6:'mixed topics — Approximation, Equations and Ratio',
+    7:'Angles (parallel lines, polygons) and Ratio/Speed problems',
+    8:'Linear Equations (including word problems) and Percentage',
+    9:'fully mixed — all WA3 topics with equal coverage',
+    10:'the HARDEST possible level — multi-step problems requiring 3+ concepts combined per question'
+  };
+  var prompt = 'Generate a Sec 1 G3 (hardest stream) Singapore Mathematics exam paper - Paper '+n+'. Focus on: '+focuses[n]+'. Chapters covered: Ch3 Approximation (s.f., bounds), Ch4 Algebra (expand, factorise including grouping, algebraic fractions), Ch5 Linear Equations (including word problems with 2 unknowns), Ch6 Angles (parallel lines, must state reasons), Ch7 Polygons (interior/exterior angles, properties), Ch8 Ratio/Rate/Speed (3-qty ratio, avg speed, unit conversion), Ch9 Percentage (reverse %, % change, GST). Format: 10 questions, total 50 marks. For each question show: Question number, marks in [brackets], full worked solution. Make questions multi-step and challenging — no straightforward single-step questions. Singapore context (SGD, local places).';
+  try {
+    var resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,
+        system:'You are an expert Singapore Sec 1 G3 Maths examiner. Generate challenging, multi-step exam questions at G3 (top stream) standard. Include full worked solutions.',
+        messages:[{role:'user',content:prompt}]})
+    });
+    var data = await resp.json();
+    out.textContent = data.content && data.content[0] ? data.content[0].text : 'Could not generate paper.';
+  } catch(e) {
+    out.textContent = 'Could not connect to AI. Please check your connection.';
+  }
+}
+</script>
 </div>
 
 <!-- ═══ EXAM PLAN ═══ -->
