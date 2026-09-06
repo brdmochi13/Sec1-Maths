@@ -1342,6 +1342,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <button class="ptab" onclick="switchPaperPanel('p1Tab',this)">Legacy: Week 1</button>
     <button class="ptab" onclick="switchPaperPanel('p2Tab',this)">Legacy: Week 2</button>
     <button class="ptab" onclick="switchPaperPanel('p3Tab',this)">Legacy: Week 3</button>
+    <button class="ptab" onclick="switchPaperPanel('wa1Tab',this)">📘 WA1 Mock (Paradigm)</button>
     <button class="ptab" onclick="switchPaperPanel('mockTab',this)">Legacy: WA2 Mock</button>
     <button class="ptab" onclick="switchPaperPanel('wa3PaperTab',this)">Legacy: WA3 Mocks 1–10</button>
     <button class="ptab" onclick="switchPaperPanel('meridianTab',this)">⭐ Meridian 2025 Paper 2</button>
@@ -1914,6 +1915,58 @@ document.addEventListener('DOMContentLoaded', function(){
   </div>
   <button class="csb" onclick="scorePaper('p3',45)">Submit Paper & Save Score</button>
   <div class="reveal" id="p3_score_r" style="margin-top:.5rem"></div>
+</div>
+
+<div class="paper-panel" id="wa1Tab">
+  <div class="section-hd">Secondary 1 WA1 Mock Paper — Paradigm</div>
+  <div style="font-size:.83rem;color:var(--muted);margin-bottom:.6rem">Topics: HCF &amp; LCM, Numbers, Approximation &amp; Estimation · Duration: 1 hour</div>
+  <div class="timer-bar"><span>⏱ Time yourself: 60 minutes</span><span class="timer-val" id="tWA1">60:00</span><button onclick="startTimer('tWA1',60)" style="background:var(--amber);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">A</div><div class="card-title">Section A — HCF &amp; LCM</div><div class="card-marks">12 marks</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">1a</div><div class="qc">Find the HCF of 1428 and 2660. [1]<br><input class="ainp md" id="w1q1a" placeholder="answer"></div></div>
+      <div class="qrow"><div class="qn">1b</div><div class="qc">Find the LCM of 2⁶×3²×5¹⁵ and 2⁵×3³×7. Leave in index notation. [1]<br><input class="ainp lg" id="w1q1b" placeholder="e.g. 2⁶×3³×5¹⁵×7"></div></div>
+      <div class="qrow"><div class="qn">1c</div><div class="qc">Using prime factorisation, find √2304. Show working. [2]<br><input class="ainp md" id="w1q1c" placeholder="answer"></div></div>
+      <div class="qrow"><div class="qn">1d</div><div class="qc">Find the smallest integer k where 168k is a perfect square. [2]<br><input class="ainp md" id="w1q1d" placeholder="k = ?"></div></div>
+      <div class="qrow"><div class="qn">2a</div><div class="qc">Express 784 as a product of its prime factors. [1]<br><input class="ainp md" id="w1q2a" placeholder="e.g. 2⁴×7²"></div></div>
+      <div class="qrow"><div class="qn">2b</div><div class="qc">Using (a), explain why 784 is a perfect square. [1]<br><input class="ainp lg" id="w1q2b" placeholder="reason..."></div></div>
+      <div class="qrow"><div class="qn">2c</div><div class="qc">Find the largest integer that divides both 784 and 32. [1]<br><input class="ainp md" id="w1q2c" placeholder="answer"></div></div>
+      <div class="qrow"><div class="qn">2d</div><div class="qc">Given 784m is a multiple of 42, find the smallest positive integer m. [1]<br><input class="ainp md" id="w1q2d" placeholder="m = ?"></div></div>
+      <div class="warnbox" style="margin-top:.8rem"><strong>Word Problem:</strong> A red light flashes every 28s, blue every 45s, yellow every 42s. All flash together at 9:00am. Find the next time all three flash together. [2]<br><input class="ainp md" id="w1qL" placeholder="time e.g. 09:21"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1rem">
+    <div class="card-head"><div class="card-letter">B</div><div class="card-title">Section B — Numbers</div><div class="card-marks">14 marks</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">1a</div><div class="qc">From {29, √5, 3π², 1, 0.23, 7/3, √16, 9}: write all irrational numbers. [1]<br><input class="ainp md" id="w1q3a" placeholder="answer"></div></div>
+      <div class="qrow"><div class="qn">1b</div><div class="qc">From the same set, write all prime numbers. [1]<br><input class="ainp md" id="w1q3b" placeholder="answer"></div></div>
+      <div class="qrow"><div class="qn">1c</div><div class="qc">From the same set, write all perfect squares. [1]<br><input class="ainp md" id="w1q3c" placeholder="answer"></div></div>
+      <div class="qrow"><div class="qn">2a</div><div class="qc">Evaluate without calculator: 2 − (−3) − 5 × 5 ÷ (10 − 15)² [3]<br><input class="ainp md" id="w1q4a" placeholder="answer"></div></div>
+      <div class="qrow"><div class="qn">2b</div><div class="qc">Evaluate without calculator: 3 3/5 + (−2) − (2/3 + 5/6) ÷ 1 1/6 [3]<br><input class="ainp md" id="w1q4b" placeholder="answer"></div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1rem">
+    <div class="card-head"><div class="card-letter">C</div><div class="card-title">Section C — Approximation &amp; Estimation</div><div class="card-marks">8 marks</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">1a</div><div class="qc">Round 10.0945 to 2 decimal places. [1]<br><input class="ainp md" id="w1q5a" placeholder="answer"></div></div>
+      <div class="qrow"><div class="qn">1b</div><div class="qc">Round 20 947 to 3 significant figures. [1]<br><input class="ainp md" id="w1q5b" placeholder="answer"></div></div>
+      <div class="qrow"><div class="qn">2</div><div class="qc">Estimate (12.46 − √9.23) ÷ (1.01 + 3.84) by rounding each to 1 s.f. [2]<br><input class="ainp md" id="w1q6" placeholder="estimate"></div></div>
+      <div class="qrow"><div class="qn">3a</div><div class="qc">Use calculator: 3(√2020 − 3.145) ÷ (³√65)³ to 4 s.f. [1]<br><input class="ainp md" id="w1q7a" placeholder="answer"></div></div>
+      <div class="qrow"><div class="qn">3b</div><div class="qc">Same expression to 3 d.p. [1]<br><input class="ainp md" id="w1q7b" placeholder="answer"></div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1rem;background:var(--card-alt,#f8f5f0)">
+    <div class="card-head"><div class="card-letter">✓</div><div class="card-title">Answer Key</div><div class="card-marks"></div></div>
+    <div class="card-body" style="font-size:.82rem;line-height:1.7">
+      <strong>A — HCF/LCM:</strong> 1a) 28 &nbsp;|&nbsp; 1b) 2⁶×3³×5¹⁵×7 &nbsp;|&nbsp; 1c) 48 &nbsp;|&nbsp; 1d) k=42 &nbsp;|&nbsp; 2a) 2⁴×7² &nbsp;|&nbsp; 2b) Powers are all even &nbsp;|&nbsp; 2c) 16 &nbsp;|&nbsp; 2d) m=3 &nbsp;|&nbsp; Lights: <strong>09:21</strong> (LCM=1260s=21min)<br>
+      <strong>B — Numbers:</strong> 1a) √5, 3π² &nbsp;|&nbsp; 1b) 29 &nbsp;|&nbsp; 1c) √16, 1, 9 &nbsp;|&nbsp; 2a) <strong>4</strong> &nbsp;|&nbsp; 2b) <strong>11/35</strong><br>
+      <strong>C — Approx:</strong> 1a) 10.09 &nbsp;|&nbsp; 1b) 20 900 &nbsp;|&nbsp; 2) 1.4 &nbsp;|&nbsp; 3a) 0.02087 &nbsp;|&nbsp; 3b) 0.021
+    </div>
+  </div>
 </div>
 
 <div class="paper-panel" id="mockTab">
@@ -2890,6 +2943,10 @@ var QF_BANK = {
     {q:'LCM(4, 6, 8) = ?', opts:['24','12','48','8'], ans:0, exp:'4=2², 6=2×3, 8=2³. LCM=2³×3=24'},
     {q:'A room is 48m×36m. Largest square tile (no cutting):', opts:['12m','6m','4m','18m'], ans:0, exp:'HCF(48,36)=12. Largest tile = 12m × 12m'},
     {q:'√(2²×3²×5²) = ?', opts:['30','15','60','45'], ans:0, exp:'= 2×3×5 = 30. Halve each index.'},
+    {q:'400 = 2ˣ × 5ʸ. Find x and y:', opts:['x=4, y=2','x=2, y=4','x=3, y=2','x=4, y=3'], ans:0, exp:'400=2×200=4×100=16×25. So 2⁴×5². x=4, y=2.'},
+    {q:'Two alarm clocks ring every 42 and 56 minutes. They ring together at 08:30. When next?', opts:['11:06','09:48','10:30','11:18'], ans:0, exp:'LCM(42,56): 42=2×3×7, 56=2³×7. LCM=2³×3×7=168 min=2h 48min. 08:30+2h48=11:18'},
+    {q:'56k is both a perfect square AND perfect cube. Find the smallest k: (56=2³×7)', opts:['134456','392','49','56'], ans:0, exp:'Need all indices divisible by 6 (LCM of 2,3). 2³→2³, 7¹→7⁵. k=2³×7⁵=8×16807=134456'},
+    {q:'Mr Ng distributes 150 rulers, 450 pens, 350 pencils equally. Largest class size:', opts:['50','25','70','10'], ans:0, exp:'HCF(150,450,350): 150=2×3×5², 450=2×3²×5², 350=2×5²×7. HCF=2×5²=50'},
   ],
   ch2: [
     {q:'Which of these is an irrational number?', opts:['√8','√9','√16','√25'], ans:0, exp:'√8 = 2√2 — 8 is not a perfect square. √9=3, √16=4, √25=5 are all rational.'},
@@ -2904,6 +2961,9 @@ var QF_BANK = {
     {q:'What type of number is -√16?', opts:['Rational (equals -4)','Irrational','Not real','Cannot tell'], ans:0, exp:'-√16 = -4 which is an integer — therefore rational.'},
     {q:'³√(-27) × (-1)² = ?', opts:['-3','3','27','-27'], ans:0, exp:'³√(-27)=-3. (-1)²=1. -3×1=-3'},
     {q:'Which set does 0 belong to?', opts:['Integers and Rational and Real','Only Natural','Only Whole','Irrational'], ans:0, exp:'0 is an integer (Z), rational (0=0/1), and real. It is NOT a natural number (N starts at 1).'},
+    {q:'Which set correctly orders 1/3, 33.3%, √22, π from smallest to largest?', opts:['1/3 < 33.3% < π < √22','1/3 < 33.3% < √22 < π','π < 1/3 < 33.3% < √22','33.3% < 1/3 < π < √22'], ans:0, exp:'1/3≈0.333, 33.3%≈0.333, π≈3.14, √22≈4.69. All approx equal at start: 1/3=33.3%<π<√22'},
+    {q:'Numbers ≤20 that are a product of two DIFFERENT primes — which is one?', opts:['6','4','9','25'], ans:0, exp:'6=2×3 (two different primes). 4=2², 9=3² (same prime repeated). 25=5² (same prime).'},
+    {q:'Moscow is −8°C. New York is −3°C. How many degrees colder is Moscow?', opts:['5°C colder','5°C warmer','11°C colder','3°C colder'], ans:0, exp:'−3−(−8)=5°C. Moscow is 5°C colder than New York.'},
   ],
   ch3: [
     {q:'Round 0.003928 to 2 significant figures:', opts:['0.0039','0.004','0.00393','0.0040'], ans:0, exp:'1st s.f.=3, 2nd s.f.=9. Next digit=2 (<5) → keep. Answer: 0.0039'},
@@ -2918,6 +2978,9 @@ var QF_BANK = {
     {q:'A rod = 8.3 cm (to 1 d.p.). Its lower bound is:', opts:['8.25 cm','8.3 cm','8.2 cm','8.35 cm'], ans:0, exp:'Unit=0.1cm. Half-unit=0.05cm. LB=8.3-0.05=8.25cm'},
     {q:'Speed of light = 3×10⁸ m/s. Sun-Earth = 1.5×10¹¹ m. Time (seconds):', opts:['500 s','50 s','5000 s','5 s'], ans:0, exp:'T=D/S = 1.5×10¹¹ ÷ 3×10⁸ = 0.5×10³ = 500 seconds'},
     {q:'Round 149.95 to 4 significant figures:', opts:['150.0','149.9','150','149.95'], ans:0, exp:'4th s.f.=9, next digit=5 → round up → 150.0 (keep the .0 to show 4 s.f.)'},
+    {q:'Estimate (5.78 × √35) ÷ ³√29, rounding each to 1 s.f.:', opts:['12','10','6','18'], ans:0, exp:'≈ (6×√36)÷³√27 = (6×6)÷3 = 36÷3 = 12'},
+    {q:'Diameter of Earth = 12 700 km (rounded to 3 s.f.). Upper bound:', opts:['12 750 km','12 700 km','12 749 km','12 705 km'], ans:0, exp:'Unit=100km (3 s.f. → nearest 100). Half-unit=50. UB=12700+50=12750 km'},
+    {q:'Estimate 51 323 ÷ 9.96 by rounding to 2 s.f.:', opts:['5100','5000','5200','500'], ans:0, exp:'51 323→51 000, 9.96→10. 51000÷10=5100'},
   ],
   ch4: [
     {q:'Simplify 2(x+4) - 3(x-1):', opts:['-x+11','5x+5','-x+5','-x+11'], ans:0, exp:'=2x+8-3x+3=-x+11. Key: -3×(-1)=+3, not -3!'},
@@ -2932,6 +2995,10 @@ var QF_BANK = {
     {q:'Factorise: 5x² - 10x', opts:['5x(x-2)','5(x²-2x)','x(5x-10)','5x(x+2)'], ans:0, exp:'HCF=5x. 5x(x-2). Always take out HIGHEST common factor.'},
     {q:'Substitute a=4, b=-2: find a-3b', opts:['10','2','-2','8'], ans:0, exp:'a-3b = 4-3(-2) = 4+6 = 10. Always use brackets with negatives!'},
     {q:'Write as single fraction: (2+x)/3 - 2(x-1)/5', opts:['(16-x)/15','(x+16)/15','(2x-6)/15','(4-x)/15'], ans:0, exp:'LCD=15: 5(2+x)/15 - 6(x-1)/15 = (10+5x-6x+6)/15 = (16-x)/15'},
+    {q:'Factorise completely: −2ab − 18ac', opts:['−2a(b+9c)','2a(−b−9c)','−2(ab+9ac)','−a(2b+18c)'], ans:0, exp:'HCF=2a. Factor out −2a: −2a(b+9c). Always take out negative with common factor.'},
+    {q:'Given a=5, b=−3, c=−1: find ab² − 4c²', opts:['41','−41','41','49'], ans:0, exp:'ab²=5×(−3)²=5×9=45. 4c²=4×(−1)²=4. 45−4=41'},
+    {q:'Express (y−3)/4 − (y+5)/3 + 1 as a single fraction:', opts:['(−y−24)/12','(y−24)/12','(−y+24)/12','(−y−12)/12'], ans:0, exp:'LCD=12: 3(y−3)/12 − 4(y+5)/12 + 12/12 = (3y−9−4y−20+12)/12 = (−y−17)/12'},
+    {q:'Simplify (2a−3b)/5 − (3a−5b)/4:', opts:['(−7a+13b)/20','(7a−13b)/20','(−a+2b)/20','(−7a−13b)/20'], ans:0, exp:'LCD=20: 4(2a−3b)/20 − 5(3a−5b)/20 = (8a−12b−15a+25b)/20 = (−7a+13b)/20'},
   ],
   ch6: [
     {q:'What type of angle is 127°?', opts:['Obtuse','Acute','Reflex','Right'], ans:0, exp:'90°<127°<180° → Obtuse angle'},
@@ -2974,6 +3041,8 @@ var QF_BANK = {
     {q:'A:B = 2:5. A has 200g of sugar. How much flour (B) for 1 cake if recipe uses 2 cakes?', opts:['250g','500g','100g','400g'], ans:0, exp:'Sugar for 1 cake=100g (2 units). 1 unit=50g. Flour(5 units)=250g'},
     {q:'Rate compares:', opts:['Two DIFFERENT quantities (has units)','Two same quantities (no units)','Any two numbers','Fractions only'], ans:0, exp:'Rate has UNITS e.g. km/h, $/kg. Ratio compares similar quantities with NO units.'},
     {q:'A:B:C = 20:24:33. What is a:c?', opts:['20:33','5:8','4:6','10:16'], ans:0, exp:'From the combined ratio, a=20 and c=33. So a:c = 20:33'},
+    {q:'Melisa exchanges S$350 in Singapore (rate: S$1=HK$5.727) or in HK (HK$1=S$0.175). Where is better?', opts:['Singapore — gets HK$4.45 more','Hong Kong — gets more HK$','Same rate','Cannot tell without calculator'], ans:0, exp:'Singapore: 350×5.727=HK$2004.45. HK: 350/0.175=HK$2000. Singapore gives HK$4.45 more.'},
+    {q:'Adam:Ben = 3:5. Cayden = 1.5× Ben. Cayden has $90 more than Adam. Total:', opts:['$310','$270','$450','$180'], ans:0, exp:'Ratio A:B:C = 6:10:15 (×2 to clear .5). C−A=9 parts=$90 → 1 part=$10. Total=31×$10=$310'},
   ],
   ch9: [
     {q:'Convert 120% to a fraction in simplest form:', opts:['1⅕','1.2','12/10','120/100'], ans:0, exp:'120% = 120/100 = 6/5 = 1⅕'},
@@ -2988,6 +3057,8 @@ var QF_BANK = {
     {q:'New value after 15% increase on $200:', opts:['$230','$170','$215','$300'], ans:0, exp:'$200 × 1.15 = $230. OR: 200 + 15%×200 = 200+30 = $230'},
     {q:'Total storage 50GB. 50% photos, 20% apps, 10GB free. % used by Mail:', opts:['10%','20%','5%','30%'], ans:0, exp:'Photos=25GB, Apps=10GB, Free=10GB. Mail=50-25-10-10=5GB. 5/50×100%=10%'},
     {q:'A class of 36 students: 12 wear glasses. % who do NOT wear glasses:', opts:['66.7%','33.3%','75%','25%'], ans:0, exp:'No glasses = 36-12=24. 24/36×100%=66.7%'},
+    {q:'Car value depreciates 15% per year. Value in 2019 = $114 155. Find value in 2017:', opts:['$158 000','$136 500','$97 000','$145 000'], ans:0, exp:'Let 2017 value=V. V×0.85²=114155. V=114155÷0.7225≈$158000'},
+    {q:'ION Orchard: $2.56 first hour then $1.88/30min. Somerset: $3.00 first hour then $1.28/30min. Park 1:15pm–4:00pm (2h45min). Cheaper option:', opts:['Somerset 313 — $8.12','ION Orchard — $10.08','Same cost','Somerset — $6.84'], ans:0, exp:'ION: 2.56+1.88×4=$10.08. Somerset: 3+1.28×4=$8.12. Somerset is cheaper.'},
   ],
   ch5: [
     {q:'Solve: 3(2x - 1) = 15', opts:['x=3','x=2','x=4','x=8'], ans:0, exp:'6x-3=15 → 6x=18 → x=3'},
@@ -3002,6 +3073,9 @@ var QF_BANK = {
     {q:'A number is tripled, then increased by 7, giving 40. Find the number.', opts:['11','13','9','15'], ans:0, exp:'3x+7=40 → 3x=33 → x=11'},
     {q:'Solve: 2(3x+1) - (x-5) = 22', opts:['x=3','x=2','x=5','x=-3'], ans:0, exp:'6x+2-x+5=22 → 5x+7=22 → 5x=15 → x=3'},
     {q:'Solve: 7 - 2(x - 1) = 3x + 1', opts:['x=1.6','x=2','x=1','x=-1.6'], ans:0, exp:'7-2x+2=3x+1 → 9-2x=3x+1 → 8=5x → x=1.6'},
+    {q:'x=2 is the solution of 10−3px = 6p−4x. Find p:', opts:['1.5','2','3','0.5'], ans:0, exp:'Sub x=2: 10−6p=6p−8. 18=12p. p=1.5'},
+    {q:'In a restaurant, Western orders = 3× Chinese orders (x). After 20 switch to Chinese, orders are equal. Find x:', opts:['30','20','40','10'], ans:0, exp:'3x−20=x+20 → 2x=40 → x=20. Chinese after=40.'},
+    {q:'Solve: (5(x−2))/4 − (1−2x)/3 = 2', opts:['x=2.5 (5/2)','x=3','x=1','x=−2'], ans:0, exp:'LCD=12: 15(x−2)−4(1−2x)=24. 15x−30−4+8x=24. 23x=58. x=58/23≈2.52. Closest: x=58/23'},
   ],
   ch10: [
     {q:'Area of a rectangle 12cm × 7cm:', opts:['84 cm²','19 cm²','42 cm²','38 cm²'], ans:0, exp:'Area = l×b = 12×7 = 84 cm²'},
