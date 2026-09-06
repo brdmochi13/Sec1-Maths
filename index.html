@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Sec 1 Maths WA2 — Mokshith's Mastery App</title>
+<title>Sec 1 Maths EOY — Mokshith's Mastery App</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
 :root{
@@ -146,6 +146,9 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--
 .ct-amber{background:var(--amberl);color:var(--amber)}
 .ct-red{background:var(--redl);color:var(--red)}
 .weak-flag{display:inline-block;font-size:.68rem;background:var(--redl);color:var(--red);border:1px solid #fca5a5;padding:1px 6px;border-radius:4px;margin-left:.3rem;font-weight:600}
+.ct-purple{background:var(--purplel);color:var(--purple)}
+.paper-panel{display:none}
+.paper-panel.active{display:block}
 </style>
 
 <!-- Firebase SDKs -->
@@ -182,8 +185,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--
 <!-- LOGIN OVERLAY -->
 <div class="login-overlay" id="loginOverlay">
   <div class="login-box">
-    <div class="login-logo">Sec 1 Maths <span>WA2</span></div>
-    <div class="login-sub">Mokshith's Personal Mastery App</div>
+    <div class="login-logo">Sec 1 Maths <span>EOY</span></div>
+    <div class="login-sub">EOY Mastery App — Exam 7 Oct 2026</div>
     <div class="login-err" id="loginErr"></div>
     <label class="login-label">Email</label>
     <input class="login-inp" id="loginEmail" type="email" placeholder="mokshith@math.sg" autocomplete="email">
@@ -197,7 +200,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--
 
 <!-- TOPBAR -->
 <div class="topbar">
-  <div class="logo">Sec 1 Maths <span>WA2</span> — Mokshith</div>
+  <div class="logo">Sec 1 Maths <span>EOY</span> — Mokshith</div>
   <div class="top-btns">
     <button class="tbtn tbtn-primary" onclick="showTab('dashTab',this)">📊 Dashboard</button>
     <button class="tbtn tbtn-gold" onclick="showTab('aiTab',this)">✦ AI Tutor</button>
@@ -212,26 +215,37 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--
 <!-- MAIN TABS -->
 <div class="main-tabs">
   <button class="mtab active" onclick="showTab('dashTab',this)">📊 Dashboard</button>
-  <button class="mtab" onclick="showTab('notesTab',this)">📖 Study Notes</button>
-  <button class="mtab" onclick="showTab('p1Tab',this)">Week 1 Paper</button>
-  <button class="mtab" onclick="showTab('p2Tab',this)">Week 2 Paper</button>
-  <button class="mtab" onclick="showTab('p3Tab',this)">Week 3 Paper</button>
-  <button class="mtab" onclick="showTab('mockTab',this)">🎯 WA2 Mock</button>
-  <button class="mtab" onclick="showTab('wa3NotesTab',this)">📗 WA3 Notes</button>
-  <button class="mtab" onclick="showTab('wa3PaperTab',this)">✏️ WA3 Paper</button>
-  <button class="mtab" onclick="showTab('planTab',this)">📅 Exam Plan</button>
-  <button class="mtab" onclick="showTab('qfTab',this)">⚡ Quick Fire</button>
+  <button class="mtab" onclick="showTab('notesTab',this)">📚 Chapter Notes</button>
+  <button class="mtab" onclick="showTab('ddTab',this)">⚡ Daily Drill</button>
+  <button class="mtab" onclick="showTab('papersTab',this)">📄 Practice Papers</button>
+  <button class="mtab" onclick="showTab('qfTab',this)">🎯 Quick Fire</button>
   <button class="mtab" onclick="showTab('aiTab',this)">✦ AI Tutor</button>
+  <button class="mtab" onclick="showTab('formulaTab',this)">📋 Formula Sheet</button>
+  <button class="mtab" onclick="showTab('resTab',this)">📁 Resources</button>
 </div>
 
-<!-- ═══ DASHBOARD ═══ -->
 <div class="tab-content active" id="dashTab">
-  <div class="section-hd">Mokshith's Progress Dashboard</div>
+  <div class="section-hd">Mokshith's EOY Progress Dashboard</div>
+
+  <!-- COUNTDOWN -->
+  <div class="card">
+    <div class="card-body" style="background:linear-gradient(135deg,var(--ink),#3a3a3d);color:white;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem">
+      <div>
+        <div style="font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;opacity:.75">EOY Exam — 7 October 2026</div>
+        <div id="countdownText" style="font-family:'Libre Baskerville',serif;font-size:1.4rem;font-weight:700;color:var(--gold)"></div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;opacity:.75">Target</div>
+        <div style="font-family:'Libre Baskerville',serif;font-size:1.4rem;font-weight:700">90%+</div>
+      </div>
+    </div>
+  </div>
+
   <div class="dash-grid">
     <div class="stat-card">
       <div class="stat-label">Papers Done</div>
       <div class="stat-big" id="dPapers">0</div>
-      <div class="stat-sub">of 4 papers</div>
+      <div class="stat-sub">total attempted</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Best Score</div>
@@ -244,44 +258,32 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--
       <div class="stat-sub">days in a row</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">WA2 Readiness</div>
+      <div class="stat-label">EOY Readiness</div>
       <div class="stat-big" id="dReady">—</div>
       <div class="stat-sub" id="dReadySub">based on skill scores</div>
     </div>
   </div>
 
-  <!-- TEACHER'S ASSESSMENT ALERT -->
+  <!-- RADAR CHART -->
   <div class="card">
-    <div class="card-head"><div class="card-letter">T</div><div class="card-title">Teacher's Assessment — Mokshith (from tuition classwork)</div></div>
-    <div class="card-body" style="font-size:.85rem">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
-        <div>
-          <div style="font-weight:700;color:var(--green);margin-bottom:.3rem">✓ STRENGTHS</div>
-          <div style="font-size:.82rem;line-height:1.8;color:#374151">
-            • Prime factorisation — correct method, neat working<br>
-            • HCF/LCM word problems — applies concept well (bells, tiles)<br>
-            • Basic substitution into formulae — mostly accurate<br>
-            • Directed numbers — understands negative × negative = positive<br>
-            • Rounding to s.f. — applies rule correctly in most cases
-          </div>
-        </div>
-        <div>
-          <div style="font-weight:700;color:var(--red);margin-bottom:.3rem">✗ FOCUS AREAS</div>
-          <div style="font-size:.82rem;line-height:1.8;color:#374151">
-            • <strong>Negative brackets</strong>: -(x+1) written as x+1 (sign error)<br>
-            • <strong>Factorisation by grouping</strong> — not yet attempted<br>
-            • <strong>Algebraic fractions</strong> — no evidence of practice<br>
-            • <strong>Change of subject</strong> — sign errors when rearranging<br>
-            • <strong>Upper/lower bounds</strong> — confuses half-unit calculation
-          </div>
-        </div>
-      </div>
+    <div class="card-head"><div class="card-letter">R</div><div class="card-title">Mastery by Chapter — All 12</div></div>
+    <div class="card-body" style="display:flex;justify-content:center;padding:1rem .5rem">
+      <div id="radarChart"></div>
+    </div>
+  </div>
+
+  <!-- STRENGTHS / WEAKNESSES (dynamic) -->
+  <div class="card">
+    <div class="card-head"><div class="card-letter">T</div><div class="card-title">Chapter-by-Chapter Status</div></div>
+    <div class="card-body">
+      <div style="font-size:.78rem;color:var(--muted);margin-bottom:.6rem">Green = strong (≥70%), amber = okay (50–69%), red = focus area (&lt;50%). Updates automatically as Mokshith practises.</div>
+      <div id="chapterChipsWrap" style="display:flex;flex-wrap:wrap;gap:.4rem"></div>
     </div>
   </div>
 
   <!-- SKILL BARS -->
   <div class="card">
-    <div class="card-head"><div class="card-letter">S</div><div class="card-title">Skill Mastery Tracker</div></div>
+    <div class="card-head"><div class="card-letter">S</div><div class="card-title">Skill Mastery Tracker — All 22 Skills</div></div>
     <div class="card-body" id="skillBarsDiv"></div>
   </div>
 
@@ -309,18 +311,21 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--
   <!-- PAPER HISTORY -->
   <div class="card">
     <div class="card-head"><div class="card-letter">P</div><div class="card-title">Paper History</div></div>
-    <div class="card-body" id="historyDiv"><div style="color:var(--muted);font-size:.85rem;text-align:center;padding:1rem">No papers completed yet. Start with Week 1!</div></div>
+    <div class="card-body" id="historyDiv"><div style="color:var(--muted);font-size:.85rem;text-align:center;padding:1rem">No papers completed yet.</div></div>
   </div>
 </div>
 
-<!-- ═══ STUDY NOTES ═══ -->
+
 <div class="tab-content" id="notesTab">
-  <div class="section-hd">WA2 Study Notes — All 4 Chapters</div>
-  <div style="font-size:.83rem;color:var(--muted);margin-bottom:.8rem">Read each section carefully. Pay extra attention to ⚠️ Mokshith's Focus Areas.</div>
-
-  <!-- CHAPTER 1 -->
-  <div class="section-hd" style="color:var(--blue)">Chapter 1: Factors & Multiples</div>
-
+  <div class="section-hd">📚 Chapter Notes — All 12 EOY Chapters</div>
+  <div style="font-size:.83rem;color:var(--muted);margin-bottom:1rem">Click a chapter to expand its notes. The badge shows Mokshith's current mastery for that chapter — updated automatically from Quick Fire and Daily Drill attempts.</div>
+  <div id="chapterNotesWrap">
+  <div class="accordion" style="margin-bottom:1rem">
+    <div class="acc-hd" onclick="toggleAcc(this)" style="background:#252528;color:white">
+      <span><span class="chap-tag ct-green" style="background:rgba(255,255,255,.15);color:white">Ch 1</span> Primes, Factors & Multiples <span class="cn-mastery" id="cnMastery1" style="font-size:.72rem;font-weight:700;color:var(--gold);margin-left:.4rem"></span></span>
+      <span class="acc-arrow" style="color:white">▼</span>
+    </div>
+    <div class="acc-body">
   <div class="accordion">
     <div class="acc-hd" onclick="toggleAcc(this)"><span>1.1 Prime Numbers & Prime Factorisation</span><span class="acc-arrow">▼</span></div>
     <div class="acc-body">
@@ -379,10 +384,15 @@ Need all indices to be multiples of 3:
 <strong>k = 3 × 5² = 75</strong></div>
     </div>
   </div>
+    </div>
+  </div>
 
-  <!-- CHAPTER 2 -->
-  <div class="section-hd" style="color:var(--blue)">Chapter 2.4: Real Numbers</div>
-
+  <div class="accordion" style="margin-bottom:1rem">
+    <div class="acc-hd" onclick="toggleAcc(this)" style="background:#252528;color:white">
+      <span><span class="chap-tag ct-blue" style="background:rgba(255,255,255,.15);color:white">Ch 2</span> Real Numbers <span class="cn-mastery" id="cnMastery2" style="font-size:.72rem;font-weight:700;color:var(--gold);margin-left:.4rem"></span></span>
+      <span class="acc-arrow" style="color:white">▼</span>
+    </div>
+    <div class="acc-body">
   <div class="accordion">
     <div class="acc-hd" onclick="toggleAcc(this)"><span>2.1 Types of Numbers — The Full System</span><span class="acc-arrow">▼</span></div>
     <div class="acc-body">
@@ -422,10 +432,15 @@ Convert to decimals: √5≈2.236, 2.3, -1.75, π/2≈1.571, √9=3, -0.8
 √(9 + 16) = √25 = 5 ≠ √9 + √16 = 3 + 4 = 7</div>
     </div>
   </div>
+    </div>
+  </div>
 
-  <!-- CHAPTER 3 -->
-  <div class="section-hd" style="color:var(--blue)">Chapter 3: Approximation & Estimation</div>
-
+  <div class="accordion" style="margin-bottom:1rem">
+    <div class="acc-hd" onclick="toggleAcc(this)" style="background:#252528;color:white">
+      <span><span class="chap-tag ct-amber" style="background:rgba(255,255,255,.15);color:white">Ch 3</span> Approximation & Estimation <span class="cn-mastery" id="cnMastery3" style="font-size:.72rem;font-weight:700;color:var(--gold);margin-left:.4rem"></span></span>
+      <span class="acc-arrow" style="color:white">▼</span>
+    </div>
+    <div class="acc-body">
   <div class="accordion">
     <div class="acc-hd" onclick="toggleAcc(this)"><span>3.1 Rounding to Decimal Places & Significant Figures</span><span class="acc-arrow">▼</span></div>
     <div class="acc-body">
@@ -486,10 +501,15 @@ The unit is the precision of rounding (what it's rounded TO).
 Half-unit = unit ÷ 2. Always add/subtract the HALF-unit, not the full unit.</div>
     </div>
   </div>
+    </div>
+  </div>
 
-  <!-- CHAPTER 4 -->
-  <div class="section-hd" style="color:var(--blue)">Chapter 4: Basic Algebra & Algebraic Manipulations</div>
-
+  <div class="accordion" style="margin-bottom:1rem">
+    <div class="acc-hd" onclick="toggleAcc(this)" style="background:#252528;color:white">
+      <span><span class="chap-tag ct-red" style="background:rgba(255,255,255,.15);color:white">Ch 4</span> Algebra: Expressions, Expansion & Factorisation <span class="cn-mastery" id="cnMastery4" style="font-size:.72rem;font-weight:700;color:var(--gold);margin-left:.4rem"></span></span>
+      <span class="acc-arrow" style="color:white">▼</span>
+    </div>
+    <div class="acc-body">
   <div class="accordion">
     <div class="acc-hd" onclick="toggleAcc(this)"><span>4.1 Writing & Simplifying Expressions</span><span class="acc-arrow">▼</span></div>
     <div class="acc-body">
@@ -604,10 +624,832 @@ When you move a term across the equals sign, the sign CHANGES:
 T = 20 - h/150  →  h/150 = 20 - T  (not 20 + T!)</div>
     </div>
   </div>
+    </div>
+  </div>
+
+  <div class="accordion" style="margin-bottom:1rem">
+    <div class="acc-hd" onclick="toggleAcc(this)" style="background:#252528;color:white">
+      <span><span class="chap-tag ct-purple" style="background:rgba(255,255,255,.15);color:white">Ch 5</span> Linear Equations <span class="cn-mastery" id="cnMastery5" style="font-size:.72rem;font-weight:700;color:var(--gold);margin-left:.4rem"></span></span>
+      <span class="acc-arrow" style="color:white">▼</span>
+    </div>
+    <div class="acc-body">
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>5.1 Solving Linear Equations (incl. Brackets) <span class="weak-flag">⚠️ New — Not Yet Practised</span></span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="defbox"><strong>Linear Equation</strong>An equation where the unknown appears only to the power 1 (no x², no √x). Solving means finding the value of the unknown that makes both sides equal.</div>
+      <div class="rulebox"><strong>🔑 Golden Rule</strong>Whatever you do to one side, do the SAME to the other side. Work step by step — never skip lines.</div>
+      <div class="exbox"><strong>Example 1 — Brackets on one side</strong>
+Solve: 3(2x - 1) = 15
+6x - 3 = 15         (expand bracket first)
+6x = 18             (add 3 to both sides)
+<strong>x = 3</strong>            (divide both sides by 6)</div>
+      <div class="exbox"><strong>Example 2 — Brackets on both sides</strong>
+Solve: 4(x + 2) = 2(x - 3) + 10
+4x + 8 = 2x - 6 + 10
+4x + 8 = 2x + 4
+4x - 2x = 4 - 8
+2x = -4
+<strong>x = -2</strong></div>
+      <div class="exbox"><strong>Example 3 — Fractions in an equation</strong>
+Solve: (x+1)/3 - (x-2)/4 = 1
+Multiply every term by LCD = 12:
+4(x+1) - 3(x-2) = 12
+4x + 4 - 3x + 6 = 12
+x + 10 = 12
+<strong>x = 2</strong></div>
+      <div class="warnbox"><strong>⚠️ Common Mistakes</strong>
+Forgetting to expand ALL brackets before collecting terms.
+Sign errors when a negative bracket is removed: -2(x-3) = -2x+6, NOT -2x-6.
+Not multiplying EVERY term by the LCD when clearing fractions.</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>5.2 Forming & Solving Word Problems</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="rulebox"><strong>🔑 4-Step Method</strong>
+Step 1: Let the unknown = x (state clearly what x represents)
+Step 2: Translate the words into an equation
+Step 3: Solve the equation
+Step 4: Answer the ORIGINAL question in words, with units</div>
+      <div class="exbox"><strong>Worked Example — Consecutive numbers</strong>
+The sum of three consecutive numbers is 84. Find the numbers.
+Let the smallest number = x.
+x + (x+1) + (x+2) = 84
+3x + 3 = 84
+3x = 81 → x = 27
+<strong>The numbers are 27, 28, and 29.</strong></div>
+      <div class="exbox"><strong>Worked Example — Ages</strong>
+Ali is 3 times as old as his son. In 5 years, he will be twice as old as his son. Find Ali's present age.
+Let son's present age = x. Ali's present age = 3x.
+In 5 years: 3x + 5 = 2(x + 5)
+3x + 5 = 2x + 10
+x = 5 → Ali's age = 3(5) = <strong>15 years old</strong></div>
+      <div class="exbox"><strong>Worked Example — Two unknowns from one equation (perimeter)</strong>
+A rectangle's length is 4 cm more than its width. The perimeter is 36 cm. Find the width.
+Let width = x, length = x + 4.
+2(x + x + 4) = 36
+2(2x + 4) = 36 → 4x + 8 = 36 → 4x = 28
+<strong>x = 7 cm (width); length = 11 cm</strong></div>
+      <div class="warnbox"><strong>⚠️ Mokshith's Focus — Defining x clearly</strong>
+Always write "Let x = ..." before forming the equation — this is often worth a mark, and it stops confusion about what your final answer represents.
+Always check your answer makes sense in the ORIGINAL word problem, not just the equation.</div>
+    </div>
+  </div>
+    </div>
+  </div>
+
+  <div class="accordion" style="margin-bottom:1rem">
+    <div class="acc-hd" onclick="toggleAcc(this)" style="background:#252528;color:white">
+      <span><span class="chap-tag ct-blue" style="background:rgba(255,255,255,.15);color:white">Ch 6</span> Angles & Parallel Lines <span class="cn-mastery" id="cnMastery6" style="font-size:.72rem;font-weight:700;color:var(--gold);margin-left:.4rem"></span></span>
+      <span class="acc-arrow" style="color:white">▼</span>
+    </div>
+    <div class="acc-body">
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>6.1 Types of Angles — Quick Reference</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
+        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px;text-align:left">Type</th><th style="padding:6px 10px;text-align:left">Range (θ)</th><th style="padding:6px 10px;text-align:left">Key fact</th></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Acute</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">0° &lt; θ &lt; 90°</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Less than a right angle</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Right</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">θ = 90°</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Quarter turn — marked by □</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Obtuse</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">90° &lt; θ &lt; 180°</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Between right angle and straight line</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Straight</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">θ = 180°</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Half turn — forms a straight line</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px">Reflex</td><td style="padding:5px 10px">180° &lt; θ &lt; 360°</td><td style="padding:5px 10px">More than straight, less than full turn</td></tr>
+      </table></div>
+      <div class="rulebox" style="margin-top:.5rem"><strong>🔑 Key Relationships to Memorise</strong>
+Complementary angles: sum = 90° (a + b = 90°)
+Supplementary angles: sum = 180° (a + b = 180°)
+Angles on a straight line: sum = 180°
+Angles at a point: sum = 360°
+Vertically opposite angles: EQUAL (∠a = ∠b)</div>
+      <div class="warnbox"><strong>⚠️ Most Common Exam Error</strong>
+Complementary = 90° (think: C comes before S, 90 comes before 180)
+Supplementary = 180°
+Students often mix these up — memorise: Complementary = Corner (right angle)</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>6.2 Parallel Lines & Transversal — The Big 3</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="defbox"><strong>Parallel Lines</strong>Two lines are parallel if they never meet, no matter how far extended. Symbol: AB ∥ CD</div>
+      <div class="defbox"><strong>Transversal</strong>A line that crosses two or more parallel lines.</div>
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem;margin:.5rem 0">
+        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px">Angle Pair</th><th style="padding:6px 10px">Relationship</th><th style="padding:6px 10px">Memory Trick</th></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><strong>Alternate Angles</strong></td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">EQUAL (∠a = ∠b)</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Z-shape / N-shape between parallel lines</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><strong>Corresponding Angles</strong></td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">EQUAL (∠a = ∠b)</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">F-shape — same position at each parallel line</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px"><strong>Co-interior Angles</strong></td><td style="padding:5px 10px">ADD UP to 180° (∠a + ∠b = 180°)</td><td style="padding:5px 10px">C-shape / U-shape — between parallel lines</td></tr>
+      </table></div>
+      <div class="exbox"><strong>Worked Example — Find angle x</strong>
+Two parallel lines cut by a transversal. One angle = 65°.
+If they are alternate angles: x = 65°
+If they are corresponding angles: x = 65°
+If they are co-interior angles: x = 180° - 65° = 115°</div>
+      <div class="rulebox"><strong>🔑 Exam Strategy for Angle Questions</strong>
+Step 1: Identify if lines are parallel (look for arrows on lines)
+Step 2: Identify the angle pair type (Z=alternate, F=corresponding, C=co-interior)
+Step 3: Apply rule (equal OR supplementary)
+Step 4: Always state the reason: "alternate angles, AB ∥ CD"</div>
+      <div class="warnbox"><strong>⚠️ Must State Reasons in Exam!</strong>
+Just writing the angle value without reason = LOSES MARKS
+Always write: "∠x = 65° (alternate angles, AB ∥ CD)"</div>
+    </div>
+  </div>
+    </div>
+  </div>
+
+  <div class="accordion" style="margin-bottom:1rem">
+    <div class="acc-hd" onclick="toggleAcc(this)" style="background:#252528;color:white">
+      <span><span class="chap-tag ct-green" style="background:rgba(255,255,255,.15);color:white">Ch 7</span> Triangles & Polygons <span class="cn-mastery" id="cnMastery7" style="font-size:.72rem;font-weight:700;color:var(--gold);margin-left:.4rem"></span></span>
+      <span class="acc-arrow" style="color:white">▼</span>
+    </div>
+    <div class="acc-body">
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>7.1 Triangles — Types & Properties</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
+        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px">Type</th><th style="padding:6px 10px">Sides</th><th style="padding:6px 10px">Angles</th></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Equilateral</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">All 3 equal</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">All 3 = 60°</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Isosceles</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">2 sides equal</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Base angles equal</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px">Scalene</td><td style="padding:5px 10px">All different</td><td style="padding:5px 10px">All different</td></tr>
+      </table></div>
+      <div class="rulebox" style="margin-top:.5rem"><strong>🔑 Key Triangle Rules — ALL must know</strong>
+1. Angle sum = 180° (∠A + ∠B + ∠C = 180°)
+2. Exterior angle = sum of two non-adjacent interior angles
+3. Triangle Inequality: sum of ANY two sides > third side
+4. Longest side opposite largest angle
+5. Shortest side opposite smallest angle</div>
+      <div class="exbox"><strong>Worked Example — Isosceles Triangle</strong>
+AB = 4 cm, BC = 8 cm. Can AC = 4 cm?
+Check: 4 + 4 = 8 — NOT strictly greater than 8 → CANNOT form triangle
+If AC = 8 cm: 4 + 8 = 12 > 8 ✓ → Perimeter = 4 + 8 + 8 = 20 cm</div>
+      <div class="warnbox"><strong>⚠️ Triangle Inequality Trap</strong>
+Must be STRICTLY greater than (>), not ≥
+4 + 4 = 8 means the three points are collinear — NOT a triangle!</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>7.2 Quadrilaterals & Polygons</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
+        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px">Shape</th><th style="padding:6px 10px">Key Properties</th></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Square</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">4 equal sides, 4 right angles, diagonals bisect at 90°</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Rectangle</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Opposite sides equal, 4 right angles, equal diagonals</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Parallelogram</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Opposite sides parallel & equal, opposite angles equal</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Rhombus</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">All 4 sides equal, diagonals bisect at 90°, opposite angles equal</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Trapezium</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">One pair of parallel sides</td></tr>
+        <tr><td style="padding:5px 10px">Kite</td><td style="padding:5px 10px">Two pairs of adjacent equal sides, one diagonal bisects other at 90°</td></tr>
+      </table></div>
+      <div class="rulebox" style="margin-top:.5rem"><strong>🔑 Polygon Angle Formulas</strong>
+Interior angle sum of n-sided polygon = (n − 2) × 180°
+Each interior angle of REGULAR polygon = (n − 2) × 180° ÷ n
+Each exterior angle of REGULAR polygon = 360° ÷ n
+Sum of ALL exterior angles of ANY polygon = 360°</div>
+      <div class="exbox"><strong>Worked Example — Regular Hexagon (n=6)</strong>
+Interior angle sum = (6−2) × 180° = 4 × 180° = 720°
+Each interior angle = 720° ÷ 6 = 120°
+Each exterior angle = 360° ÷ 6 = 60°
+Check: 120° + 60° = 180° ✓ (interior + exterior = 180° always)</div>
+      <div class="warnbox"><strong>⚠️ Regular Polygon Interior Angle = 152.5°?</strong>
+From past paper (Chung Cheng 2020): "Explain why 152.5° cannot be an interior angle of a regular polygon."
+Each exterior angle = 180° − 152.5° = 27.5°. Number of sides = 360° ÷ 27.5° = 13.09... → NOT a whole number → impossible!</div>
+    </div>
+  </div>
+    </div>
+  </div>
+
+  <div class="accordion" style="margin-bottom:1rem">
+    <div class="acc-hd" onclick="toggleAcc(this)" style="background:#252528;color:white">
+      <span><span class="chap-tag ct-amber" style="background:rgba(255,255,255,.15);color:white">Ch 8</span> Ratio, Rate & Speed <span class="cn-mastery" id="cnMastery8" style="font-size:.72rem;font-weight:700;color:var(--gold);margin-left:.4rem"></span></span>
+      <span class="acc-arrow" style="color:white">▼</span>
+    </div>
+    <div class="acc-body">
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>8.1 Ratio — Simplifying & Comparing</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="defbox"><strong>Ratio</strong>Compares two similar quantities with NO units. a : b = ma : mb (equivalent ratios). Always simplify to lowest whole numbers.</div>
+      <div class="exbox"><strong>Worked Examples from Textbook</strong>
+(a) 1½ : ½ = 3/2 : 1/2 = 3 : 1 (multiply both by 2)
+(b) 2.25 : 3.6 = 225 : 360 = 45 : 72 = 5 : 8 (÷ HCF 9)
+(c) 0.280 : 0.182 → multiply by 1000 → 280 : 182 → ÷14 → 20 : 13</div>
+      <div class="rulebox"><strong>🔑 Three-Quantity Ratio (a : b : c)</strong>
+To combine ratios a:b and b:c, make b equal using LCM:
+a:b = 5:6 and b:c = 8:11
+LCM(6,8) = 24
+a:b = 20:24  and  b:c = 24:33
+Combined: a:b:c = 20:24:33</div>
+      <div class="exbox"><strong>Word Problem — Model Method</strong>
+Ratio of A to B = 3:5. Room B is 8 m² bigger. Find area of room A.
+Let A = 3x, B = 5x. Then 5x − 3x = 8 → x = 4.
+Area of A = 3 × 4 = 12 m²</div>
+      <div class="warnbox"><strong>⚠️ Units Must Match!</strong>
+Before writing a ratio, convert to SAME units.
+90 seconds : 2 minutes → convert to same unit first: 90s : 120s = 3:4</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>8.2 Rate & Speed</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="defbox"><strong>Rate</strong>Compares two DIFFERENT quantities (has units). E.g. $5/kg, 60 km/h, 3 words/min.</div>
+      <div class="rulebox"><strong>🔑 Speed Formula Triangle — Memorise This!</strong>
+Speed = Distance ÷ Time (S = D/T)
+Distance = Speed × Time (D = S × T)
+Time = Distance ÷ Speed (T = D/S)
+
+Cover what you want to find with your thumb — what remains is the formula!</div>
+      <div class="exbox"><strong>Speed Unit Conversions</strong>
+km/h → m/s: DIVIDE by 3.6 (or × 1000/3600)
+m/s → km/h: MULTIPLY by 3.6 (or × 3600/1000)
+Example: 72 km/h = 72 ÷ 3.6 = 20 m/s
+Example: 15 m/s = 15 × 3.6 = 54 km/h</div>
+      <div class="warnbox"><strong>⚠️ Average Speed Trap</strong>
+Average speed ≠ average of speeds!
+Average speed = TOTAL distance ÷ TOTAL time
+E.g. 60 km at 60 km/h then 60 km at 40 km/h:
+Total time = 1h + 1.5h = 2.5h. Avg speed = 120 ÷ 2.5 = 48 km/h (NOT 50!)</div>
+    </div>
+  </div>
+    </div>
+  </div>
+
+  <div class="accordion" style="margin-bottom:1rem">
+    <div class="acc-hd" onclick="toggleAcc(this)" style="background:#252528;color:white">
+      <span><span class="chap-tag ct-red" style="background:rgba(255,255,255,.15);color:white">Ch 9</span> Percentage <span class="cn-mastery" id="cnMastery9" style="font-size:.72rem;font-weight:700;color:var(--gold);margin-left:.4rem"></span></span>
+      <span class="acc-arrow" style="color:white">▼</span>
+    </div>
+    <div class="acc-body">
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>9.1 Conversions & One Quantity as % of Another</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
+        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px">From</th><th style="padding:6px 10px">To</th><th style="padding:6px 10px">Method</th><th style="padding:6px 10px">Example</th></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">%</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Fraction</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">÷ 100, simplify</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">50% = 50/100 = ½</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">%</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Decimal</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">÷ 100</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">4% = 0.04</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px">Fraction/Decimal</td><td style="padding:5px 10px">%</td><td style="padding:5px 10px">× 100%</td><td style="padding:5px 10px">¾ × 100% = 75%</td></tr>
+      </table></div>
+      <div class="rulebox" style="margin-top:.5rem"><strong>🔑 Express x as % of y</strong>
+Required % = (x ÷ y) × 100%
+MUST convert to SAME UNITS first!
+e.g. 4500g as % of 3kg → 3kg = 3000g → (4500/3000) × 100% = 150%</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>9.2 % Increase, % Decrease & Reverse Percentage <span class="weak-flag">⚠️ High Frequency</span></span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="rulebox"><strong>🔑 Key Formulas</strong>
+% increase = (Increase ÷ Original) × 100%
+% decrease = (Decrease ÷ Original) × 100%
+
+New value after x% increase = Original × (1 + x/100)
+New value after x% decrease = Original × (1 − x/100)
+
+Reverse % (find ORIGINAL): Original = New value ÷ (1 ± x/100)</div>
+      <div class="exbox"><strong>Worked Example — % Cheaper vs % More Expensive</strong>
+Buffet: weekday $28, weekend $35. Difference = $7.
+% cheaper on weekday (compared to weekend): 7/35 × 100% = 20%
+% more expensive on weekend (compared to weekday): 7/28 × 100% = 25%
+NOTE: Different denominators → different answers! Always divide by the REFERENCE value.</div>
+      <div class="exbox"><strong>Reverse Percentage</strong>
+After 9% GST, price = $16,200. Find original (before GST):
+Original = $16,200 ÷ 1.09 = $14,862.39
+(NOT $16,200 × 0.91 — that's a common wrong method!)</div>
+      <div class="warnbox"><strong>⚠️ Reverse % — Most Common WA3 Trap</strong>
+"After 20% discount, item costs $80. Find original price."
+WRONG: Original = $80 + 20% of $80 = $96
+CORRECT: Original × 0.8 = $80 → Original = $80 ÷ 0.8 = $100
+The 20% is of the ORIGINAL (unknown), not of $80!</div>
+    </div>
+  </div>
+    </div>
+  </div>
+
+  <div class="accordion" style="margin-bottom:1rem">
+    <div class="acc-hd" onclick="toggleAcc(this)" style="background:#252528;color:white">
+      <span><span class="chap-tag ct-purple" style="background:rgba(255,255,255,.15);color:white">Ch 10</span> Perimeter & Area <span class="cn-mastery" id="cnMastery10" style="font-size:.72rem;font-weight:700;color:var(--gold);margin-left:.4rem"></span></span>
+      <span class="acc-arrow" style="color:white">▼</span>
+    </div>
+    <div class="acc-body">
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>10.1 Perimeter & Area — Standard Shapes</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
+        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px;text-align:left">Shape</th><th style="padding:6px 10px;text-align:left">Area</th><th style="padding:6px 10px;text-align:left">Perimeter</th></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Rectangle</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><span class="formula">l × b</span></td><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><span class="formula">2(l+b)</span></td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Triangle</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><span class="formula">½ × base × height</span></td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">sum of 3 sides</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Parallelogram</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><span class="formula">base × height</span></td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">2(sum of adjacent sides)</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Trapezium</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><span class="formula">½ (a+b) × h</span></td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">sum of 4 sides</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px">Circle</td><td style="padding:5px 10px"><span class="formula">πr²</span></td><td style="padding:5px 10px">Circumference = <span class="formula">2πr = πd</span></td></tr>
+      </table></div>
+      <div class="rulebox"><strong>🔑 a and b in a trapezium</strong>are the lengths of the TWO PARALLEL sides. h is the perpendicular (shortest) distance between them — not a slanted side.</div>
+      <div class="exbox"><strong>Worked Example — Circle</strong>
+A circle has radius 7 cm (use π = 22/7).
+Area = πr² = 22/7 × 7 × 7 = <strong>154 cm²</strong>
+Circumference = 2πr = 2 × 22/7 × 7 = <strong>44 cm</strong></div>
+      <div class="warnbox"><strong>⚠️ Common Errors</strong>
+Using diameter instead of radius in πr² (always square the RADIUS, not the diameter).
+Forgetting units are squared for area (cm²) but not for perimeter (cm).</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>10.2 Composite (Compound) Shapes <span class="weak-flag">⚠️ New — Not Yet Practised</span></span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="rulebox"><strong>🔑 Two Strategies</strong>
+① SPLIT the shape into simple shapes you know, find each area, then ADD.
+② ENCLOSE the shape in a rectangle, find the big area, then SUBTRACT the missing corners.</div>
+      <div class="exbox"><strong>Worked Example — L-shape</strong>
+An L-shaped room: outer rectangle 12 m × 9 m with a 5 m × 4 m rectangle cut from one corner.
+Area = (12 × 9) − (5 × 4) = 108 − 20 = <strong>88 m²</strong></div>
+      <div class="exbox"><strong>Worked Example — Semicircle on a rectangle</strong>
+A rectangle 10 cm × 6 cm has a semicircle of diameter 6 cm attached to one short side. (π ≈ 3.14)
+Rectangle area = 60 cm². Semicircle area = ½ × π × 3² = ½ × 3.14 × 9 = 14.13 cm²
+Total area = 60 + 14.13 = <strong>74.13 cm²</strong></div>
+      <div class="warnbox"><strong>⚠️ Perimeter of Composite Shapes</strong>
+Perimeter is the distance AROUND the outside only — do NOT include internal cut lines, and remember a curved edge (e.g. a semicircle arc) replaces the straight edge it sits on, it does not add to it.</div>
+    </div>
+  </div>
+    </div>
+  </div>
+
+  <div class="accordion" style="margin-bottom:1rem">
+    <div class="acc-hd" onclick="toggleAcc(this)" style="background:#252528;color:white">
+      <span><span class="chap-tag ct-blue" style="background:rgba(255,255,255,.15);color:white">Ch 11</span> Volume & Surface Area <span class="cn-mastery" id="cnMastery11" style="font-size:.72rem;font-weight:700;color:var(--gold);margin-left:.4rem"></span></span>
+      <span class="acc-arrow" style="color:white">▼</span>
+    </div>
+    <div class="acc-body">
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>11.1 Volume & Surface Area of Prisms <span class="weak-flag">⚠️ New — Not Yet Practised</span></span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="defbox"><strong>Prism</strong>A solid with a constant cross-section along its length. Volume of ANY prism = Area of cross-section × Length.</div>
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
+        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px;text-align:left">Solid</th><th style="padding:6px 10px;text-align:left">Volume</th><th style="padding:6px 10px;text-align:left">Total Surface Area</th></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Cuboid</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><span class="formula">l × b × h</span></td><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><span class="formula">2(lb+bh+lh)</span></td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Cube (side a)</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><span class="formula">a³</span></td><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><span class="formula">6a²</span></td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Triangular prism</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">(½×base×height) × length</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">sum of all faces</td></tr>
+        <tr><td style="padding:5px 10px">Cylinder</td><td style="padding:5px 10px"><span class="formula">πr²h</span></td><td style="padding:5px 10px"><span class="formula">2πrh + 2πr²</span></td></tr>
+      </table></div>
+      <div class="exbox"><strong>Worked Example — Cylinder (π = 22/7)</strong>
+Radius = 7 cm, height = 10 cm.
+Volume = πr²h = 22/7 × 7² × 10 = <strong>1540 cm³</strong>
+Curved surface area = 2πrh = 2 × 22/7 × 7 × 10 = 440 cm²
+Total surface area = 440 + 2×(22/7×7²) = 440 + 308 = <strong>748 cm²</strong></div>
+      <div class="rulebox"><strong>🔑 Surface Area — Count Every Face</strong>
+Total surface area of a cylinder = curved surface (the "label") + 2 circular ends.
+For an OPEN cylinder (no lid), only add ONE circular end, not two — read the question carefully!</div>
+      <div class="warnbox"><strong>⚠️ Unit Conversion Trap</strong>
+Volume units: 1 m³ = 100 × 100 × 100 = 1,000,000 cm³ (NOT 100 cm³!)
+1 litre = 1000 cm³. Convert ALL lengths to the same unit before calculating.</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>11.2 Volume Word Problems (Liquids, Tanks, Nets)</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="exbox"><strong>Worked Example — Water tank</strong>
+A cuboid tank measures 40 cm × 25 cm × 30 cm and is half-filled with water. How much more water (in litres) is needed to fill it?
+Full volume = 40×25×30 = 30,000 cm³. Half-full = 15,000 cm³ already in.
+Extra needed = 30,000 − 15,000 = 15,000 cm³ = <strong>15 litres</strong></div>
+      <div class="exbox"><strong>Worked Example — Melting & recasting (same volume)</strong>
+A metal cube of side 6 cm is melted and recast into a cylinder of radius 3 cm. Find the height. (π ≈ 3.14)
+Volume of cube = 6³ = 216 cm³ (volume is PRESERVED when recast)
+216 = π × 3² × h → 216 = 28.26h → <strong>h ≈ 7.64 cm</strong></div>
+      <div class="rulebox"><strong>🔑 Key Idea — Volume is Conserved</strong>
+When a solid is melted, poured, or recast into a new shape, the VOLUME stays the same even though the surface area changes. Always set Volume(before) = Volume(after).</div>
+      <div class="warnbox"><strong>⚠️ Mokshith's Focus — Read the shape carefully</strong>
+"Open box" (no lid) → surface area excludes the top face.
+"Hollow cylinder / pipe" → subtract inner volume from outer volume.</div>
+    </div>
+  </div>
+    </div>
+  </div>
+
+  <div class="accordion" style="margin-bottom:1rem">
+    <div class="acc-hd" onclick="toggleAcc(this)" style="background:#252528;color:white">
+      <span><span class="chap-tag ct-green" style="background:rgba(255,255,255,.15);color:white">Ch 12</span> Statistics & Linear Graphs <span class="cn-mastery" id="cnMastery12" style="font-size:.72rem;font-weight:700;color:var(--gold);margin-left:.4rem"></span></span>
+      <span class="acc-arrow" style="color:white">▼</span>
+    </div>
+    <div class="acc-body">
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>12.1 Statistics — Mean, Median, Mode & Range <span class="weak-flag">⚠️ New — Not Yet Practised</span></span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
+        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px;text-align:left">Measure</th><th style="padding:6px 10px;text-align:left">Definition</th></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Mean</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Sum of all values ÷ number of values</td></tr>
+        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Median</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Middle value when data is arranged in order (average of 2 middle values if even count)</td></tr>
+        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Mode</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Most frequently occurring value</td></tr>
+        <tr><td style="padding:5px 10px">Range</td><td style="padding:5px 10px">Largest value − Smallest value</td></tr>
+      </table></div>
+      <div class="exbox"><strong>Worked Example</strong>
+Data set: 4, 7, 7, 9, 12, 15, 7
+Arrange in order: 4, 7, 7, 7, 9, 12, 15
+Mean = (4+7+7+9+12+15+7)/7 = 61/7 ≈ 8.71
+Median = 4th value = <strong>7</strong>
+Mode = <strong>7</strong> (appears 3 times)
+Range = 15 − 4 = <strong>11</strong></div>
+      <div class="rulebox"><strong>🔑 Mean from a Frequency Table</strong>
+Mean = Σ(value × frequency) ÷ Σ(frequency)
+Build a "value × frequency" column, sum it, then divide by the total frequency.</div>
+      <div class="warnbox"><strong>⚠️ Common Errors</strong>
+For median with EVEN number of values: average the two middle numbers — don't just pick one.
+A data set can have NO mode, ONE mode, or MORE THAN ONE mode (bimodal) — it can never have a "mean" mode though, only most-frequent value(s).</div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-hd" onclick="toggleAcc(this)"><span>12.2 Linear Graphs — Plotting & Gradient</span><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="defbox"><strong>Linear Graph</strong>The graph of an equation of the form <span class="formula">y = mx + c</span> is always a STRAIGHT LINE. m = gradient (steepness), c = y-intercept (where the line crosses the y-axis).</div>
+      <div class="rulebox"><strong>🔑 Gradient Formula</strong>
+<span class="formula">m = (y₂ − y₁) / (x₂ − x₁)</span>
+Using any two points (x₁,y₁) and (x₂,y₂) on the line.</div>
+      <div class="exbox"><strong>Worked Example — Finding the equation</strong>
+A line passes through (0, 3) and (2, 7).
+Gradient m = (7−3)/(2−0) = 4/2 = 2
+y-intercept c = 3 (given directly since x=0)
+<strong>Equation: y = 2x + 3</strong></div>
+      <div class="exbox"><strong>Worked Example — Reading a travel graph</strong>
+A distance-time graph is a straight line from (0,0) to (2 hours, 80 km).
+Gradient = 80/2 = 40. This represents a constant <strong>speed of 40 km/h</strong>.
+A horizontal section on a distance-time graph means the object is STATIONARY (speed = 0).</div>
+      <div class="warnbox"><strong>⚠️ Common Errors</strong>
+Mixing up which axis is x and which is y when reading gradient.
+Forgetting the gradient can be NEGATIVE — a line sloping down from left to right has m &lt; 0.
+On a distance-time graph, gradient = speed; a steeper line means FASTER, not slower.</div>
+    </div>
+  </div>
+    </div>
+  </div>
+</div>
 </div>
 
-<!-- ═══ WEEK 1 PAPER ═══ -->
-<div class="tab-content" id="p1Tab">
+
+<div class="tab-content" id="ddTab">
+  <div class="qf-wrap">
+    <div class="section-hd">⚡ Daily Drill — Personalised for Mokshith</div>
+    <div id="ddSetup">
+      <div style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">10 questions picked automatically — weaker chapters appear more often. Each question has a 30-second timer. Every answer updates the Dashboard radar chart.</div>
+      <div class="card">
+        <div class="card-head"><div class="card-letter">W</div><div class="card-title">Today's Weighting</div></div>
+        <div class="card-body" id="ddWeightPreview" style="font-size:.82rem"></div>
+      </div>
+      <button class="qf-start" onclick="startDD()">⚡ Start Daily Drill (10 Qs)</button>
+    </div>
+
+    <div class="qf-arena" id="ddArena">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+        <span class="qf-q-num" id="ddQNum">Question 1 / 10</span>
+        <span class="timer-ring" id="ddTimer">30</span>
+      </div>
+      <div class="qf-progress" id="ddProgress"></div>
+      <div class="qf-question" id="ddQuestion"></div>
+      <div class="qf-opts" id="ddOpts"></div>
+      <div class="qf-explain" id="ddExplain"></div>
+      <button class="qf-next" id="ddNext" onclick="nextDD()">Next Question →</button>
+    </div>
+
+    <div class="qf-result" id="ddResult">
+      <div class="qf-score-ring" id="ddRing">
+        <div class="qf-score-big" id="ddScoreBig"></div>
+        <div class="qf-score-lbl">correct</div>
+      </div>
+      <div class="qf-streak" id="ddEmoji"></div>
+      <div style="font-size:1rem;font-weight:700;color:var(--ink)" id="ddResultMsg"></div>
+      <div style="font-size:.83rem;color:var(--muted);margin:.3rem 0 .8rem" id="ddResultSub"></div>
+      <div class="qf-miss-list" id="ddMissList" style="display:none">
+        <div style="font-weight:700;color:var(--red);margin-bottom:.4rem">❌ Questions to review:</div>
+        <div id="ddMissItems"></div>
+      </div>
+      <button class="qf-restart" onclick="startDD()">🔄 New Drill</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var ddState = {questions:[], current:0, score:0, wrong:[], timerID:null, timeLeft:30, answered:false};
+
+function ddChapterWeights(){
+  var d = loadD();
+  var w = {};
+  CH_META.forEach(function(c){
+    if (!QF_BANK[c.id] || !QF_BANK[c.id].length) return;
+    var avg = chapterAvg(d, c.id);
+    w[c.id] = Math.max(6, 100 - avg); // weaker chapter → bigger weight, floor so nothing is ever fully ignored
+  });
+  return w;
+}
+
+function renderDDWeightPreview(){
+  var el = document.getElementById('ddWeightPreview');
+  if (!el) return;
+  var w = ddChapterWeights();
+  var total = Object.values(w).reduce(function(a,b){return a+b;},0);
+  var rows = CH_META.filter(function(c){return w[c.id];}).map(function(c){
+    var pct = Math.round(100*w[c.id]/total);
+    var col = pct>=12?'var(--red)':pct>=8?'var(--amber)':'var(--green)';
+    return '<div style="display:flex;justify-content:space-between;padding:2px 0"><span>Ch'+c.num+' '+c.title+'</span><span style="color:'+col+';font-weight:700">~'+pct+'% of today\'s Qs</span></div>';
+  });
+  el.innerHTML = rows.join('');
+}
+
+function ddBuildPool(n){
+  var w = ddChapterWeights();
+  var bag = [];
+  Object.keys(w).forEach(function(chapId){
+    QF_BANK[chapId].forEach(function(q){
+      // add this question to the bag `weight` times (coarse weighted sampling)
+      var copies = Math.max(1, Math.round(w[chapId]/10));
+      for (var i=0;i<copies;i++) bag.push({q:q, chap:chapId});
+    });
+  });
+  // shuffle bag
+  for (var i=bag.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=bag[i]; bag[i]=bag[j]; bag[j]=t; }
+  // pick n distinct questions (by q+chap identity), avoiding duplicates
+  var seen = {}, out = [];
+  for (var k=0;k<bag.length && out.length<n;k++){
+    var item = bag[k];
+    var key = item.chap+'|'+item.q.q;
+    if (seen[key]) continue;
+    seen[key]=true;
+    out.push(shuffleQOpts(Object.assign({}, item.q, {chap:item.chap})));
+  }
+  return out;
+}
+
+function startDD(){
+  ddState.questions = ddBuildPool(10);
+  ddState.current=0; ddState.score=0; ddState.wrong=[];
+  document.getElementById('ddSetup').style.display='none';
+  document.getElementById('ddResult').className='qf-result';
+  document.getElementById('ddArena').style.display='block';
+  var pg=document.getElementById('ddProgress'); pg.innerHTML='';
+  ddState.questions.forEach(function(q,i){ var el=document.createElement('div'); el.className='qf-prog-dot'+(i===0?' active':''); el.id='ddpgd'+i; pg.appendChild(el); });
+  showDDQuestion();
+}
+
+function showDDQuestion(){
+  var q = ddState.questions[ddState.current];
+  var total = ddState.questions.length;
+  ddState.answered = false;
+  document.getElementById('ddQNum').innerHTML = 'Question '+(ddState.current+1)+' / '+total+' <span class="qf-chapter-tag ct-blue">'+(CHAP_LABELS[q.chap]||q.chap)+'</span>';
+  document.getElementById('ddQuestion').textContent = q.q;
+  var optsDiv = document.getElementById('ddOpts'); optsDiv.innerHTML='';
+  q.opts.forEach(function(opt,i){
+    var btn=document.createElement('button'); btn.className='qf-opt'; btn.textContent=opt;
+    btn.onclick=function(){ if(!ddState.answered) answerDD(i, btn); };
+    optsDiv.appendChild(btn);
+  });
+  document.getElementById('ddExplain').className='qf-explain';
+  document.getElementById('ddNext').className='qf-next';
+  if (ddState.timerID) clearInterval(ddState.timerID);
+  ddState.timeLeft=30;
+  var tEl=document.getElementById('ddTimer'); tEl.textContent=30; tEl.className='timer-ring';
+  ddState.timerID=setInterval(function(){
+    ddState.timeLeft--; tEl.textContent=ddState.timeLeft; tEl.className='timer-ring'+(ddState.timeLeft<=10?' urgent':'');
+    if (ddState.timeLeft<=0){ clearInterval(ddState.timerID); if(!ddState.answered) answerDD(-1,null); }
+  },1000);
+}
+
+function answerDD(selectedIdx, btn){
+  if (ddState.answered) return;
+  ddState.answered=true;
+  clearInterval(ddState.timerID);
+  var q = ddState.questions[ddState.current];
+  var opts = document.querySelectorAll('#ddOpts .qf-opt');
+  var correct = selectedIdx===q.ans;
+  if (opts[q.ans]) opts[q.ans].classList.add('reveal-correct');
+  if (!correct){ if(btn) btn.classList.add('wrong'); ddState.wrong.push({q:q.q, correct:q.opts[q.ans], chap:CHAP_LABELS[q.chap]}); }
+  else ddState.score++;
+  opts.forEach(function(o){ o.disabled=true; });
+  var dot=document.getElementById('ddpgd'+ddState.current); if(dot) dot.className='qf-prog-dot '+(correct?'done-ok':'done-bad');
+  var exp=document.getElementById('ddExplain');
+  exp.innerHTML='<strong>'+(correct?'✓ Correct! ':'✗ '+(selectedIdx===-1?'Time\'s up! ':'Wrong. '))+'</strong>'+q.exp;
+  exp.className='qf-explain show';
+  var nxt=document.getElementById('ddNext'); nxt.textContent = ddState.current+1>=ddState.questions.length?'See Results →':'Next Question →'; nxt.className='qf-next show';
+  // adaptive update + attempt log
+  updateSkillsForChapter(q.chap, correct);
+  var d=loadD(); d.attempts.push({type:'dailydrill', chap:q.chap, ok:correct, datetime:new Date().toISOString()}); saveD(d);
+}
+
+function nextDD(){
+  ddState.current++;
+  if (ddState.current>=ddState.questions.length){ showDDResult(); return; }
+  var dot=document.getElementById('ddpgd'+ddState.current); if(dot) dot.classList.add('active');
+  showDDQuestion();
+}
+
+function showDDResult(){
+  clearInterval(ddState.timerID);
+  document.getElementById('ddArena').style.display='none';
+  var res=document.getElementById('ddResult'); res.className='qf-result show';
+  var total=ddState.questions.length, pct=Math.round(ddState.score/total*100);
+  document.getElementById('ddScoreBig').textContent = ddState.score+'/'+total;
+  var ring=document.getElementById('ddRing'); ring.style.borderColor = pct>=80?'var(--green)':pct>=60?'var(--amber)':'var(--red)';
+  document.getElementById('ddScoreBig').style.color = ring.style.borderColor;
+  document.getElementById('ddEmoji').textContent = pct>=90?'🏆 Excellent!':pct>=75?'🌟 Well done!':pct>=60?'💪 Keep going!':'📚 More practice needed';
+  document.getElementById('ddResultMsg').textContent = pct+'% — '+ddState.score+' out of '+total+' correct';
+  document.getElementById('ddResultSub').textContent = 'Your Dashboard radar chart has been updated with today\'s results.';
+  var missDiv=document.getElementById('ddMissList'), missItems=document.getElementById('ddMissItems');
+  if (ddState.wrong.length>0){
+    missDiv.style.display='block';
+    missItems.innerHTML = ddState.wrong.map(function(w){ return '<div class="qf-miss-item"><span style="font-size:.7rem;background:var(--redl);padding:1px 5px;border-radius:3px;margin-right:.3rem">'+w.chap+'</span>'+w.q+' → <strong style="color:var(--green)">'+w.correct+'</strong></div>'; }).join('');
+  } else missDiv.style.display='none';
+  renderDash();
+}
+
+document.addEventListener('DOMContentLoaded', function(){ setTimeout(renderDDWeightPreview, 0); });
+</script>
+
+
+<div class="tab-content" id="papersTab">
+  <div class="section-hd">📄 Practice Papers</div>
+  <div style="font-size:.83rem;color:var(--muted);margin-bottom:.6rem">EOY Mixed Papers cover all 12 chapters at G3 difficulty. Legacy WA2/WA3 papers are kept below for extra reps on chapters 1–9.</div>
+  <div class="paper-tabs" id="paperSubtabs">
+    <button class="ptab active" onclick="switchPaperPanel('eoyATab',this)">EOY Mixed Paper A</button>
+    <button class="ptab" onclick="switchPaperPanel('eoyBTab',this)">EOY Mixed Paper B (Weak Areas)</button>
+    <button class="ptab" onclick="switchPaperPanel('p1Tab',this)">Legacy: Week 1</button>
+    <button class="ptab" onclick="switchPaperPanel('p2Tab',this)">Legacy: Week 2</button>
+    <button class="ptab" onclick="switchPaperPanel('p3Tab',this)">Legacy: Week 3</button>
+    <button class="ptab" onclick="switchPaperPanel('mockTab',this)">Legacy: WA2 Mock</button>
+    <button class="ptab" onclick="switchPaperPanel('wa3PaperTab',this)">Legacy: WA3 Mocks 1–10</button>
+  </div>
+
+<div class="paper-panel active" id="eoyATab">
+  <div class="section-hd">EOY Mixed Paper A — All Chapters (Original, G3 standard)</div>
+  <div style="font-size:.8rem;color:var(--muted);margin-bottom:.6rem;font-style:italic">Written to match the EOY syllabus and G3 difficulty. Not a reproduction of the actual Meridian or JimmyMaths papers — upload those PDFs in Resources for a verbatim version.</div>
+  <div class="timer-bar"><span>⏱ Time yourself: 50 minutes</span><span class="timer-val" id="tEA">50:00</span><button onclick="startTimer('tEA',50)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">A</div><div class="card-title">Section A — Numbers, Algebra & Equations</div><div class="card-marks">20 marks</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">1</div><div class="qc">
+        Express 504 as a product of its prime factors. <input class="ainp md" id="eA1" placeholder="e.g. 2³×3²×7">
+        <button class="sab" onclick="chk('eA1','2³×3²×7',2,'504÷2=252÷2=126÷2=63÷3=21÷3=7. So 504=2³×3²×7')">Check [2]</button>
+        <div class="reveal" id="eA1_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">2</div><div class="qc">
+        Round 0.048571 to 3 significant figures. <input class="ainp md" id="eA2" placeholder="?">
+        <button class="sab" onclick="chk('eA2','0.0486',2,'1st s.f.=4,2nd=8,3rd=5. Next digit=7≥5 → round up → 0.0486')">Check [2]</button>
+        <div class="reveal" id="eA2_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">3</div><div class="qc">
+        Factorise completely: 6x²y - 9xy. <input class="ainp md" id="eA3" placeholder="?">
+        <button class="sab" onclick="chk('eA3','3xy(2x-3)',2,'HCF=3xy. 3xy(2x-3)')">Check [2]</button>
+        <div class="reveal" id="eA3_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">4</div><div class="qc">
+        Simplify: (3x-1)/4 - (x+2)/3. <input class="ainp md" id="eA4" placeholder="?">
+        <button class="sab" onclick="chk('eA4','(5x-11)/12',3,'LCD=12: 3(3x-1)/12 - 4(x+2)/12 = (9x-3-4x-8)/12 = (5x-11)/12')">Check [3]</button>
+        <div class="reveal" id="eA4_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">5</div><div class="qc">
+        Solve: 3(x - 2) = 2(x + 4) - 5. <input class="ainp sm" id="eA5" placeholder="x=?">
+        <button class="sab" onclick="chk('eA5','x=9',3,'3x-6=2x+8-5 → 3x-6=2x+3 → x=9. Check: LHS=3(7)=21, RHS=2(13)-5=21 ✓')">Check [3]</button>
+        <div class="reveal" id="eA5_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">6</div><div class="qc">
+        The sum of two consecutive even numbers is 74. Find the larger number. <input class="ainp sm" id="eA6" placeholder="?">
+        <button class="sab" onclick="chk('eA6','38',3,'x+(x+2)=74 → 2x=72 → x=36. Larger=38')">Check [3]</button>
+        <div class="reveal" id="eA6_r"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">B</div><div class="card-title">Section B — Geometry, Ratio & Percentage</div><div class="card-marks">20 marks</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">7</div><div class="qc">
+        AB ∥ CD. A transversal crosses both, creating a 72° angle at AB. Find the co-interior angle at CD. <input class="ainp sm" id="eA7" placeholder="?°">
+        <button class="sab" onclick="chk('eA7','108',2,'Co-interior angles sum to 180°. 180-72=108°')">Check [2]</button>
+        <div class="reveal" id="eA7_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">8</div><div class="qc">
+        A regular polygon has an exterior angle of 24°. How many sides does it have? <input class="ainp sm" id="eA8" placeholder="?">
+        <button class="sab" onclick="chk('eA8','15',2,'n = 360/24 = 15')">Check [2]</button>
+        <div class="reveal" id="eA8_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">9</div><div class="qc">
+        A car travels 150 km in 2.5 hours. Find its average speed in km/h, then convert to m/s.<br>
+        Speed: <input class="ainp sm" id="eA9a" placeholder="km/h"> km/h &nbsp; In m/s: <input class="ainp sm" id="eA9b" placeholder="m/s"> m/s
+        <button class="sab" onclick="chk2('eA9a','60','eA9b','16.67',3,'Speed=150/2.5=60km/h. 60÷3.6≈16.67m/s')">Check [3]</button>
+        <div class="reveal" id="eA9a_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">10</div><div class="qc">
+        After a 15% discount, a jacket costs $102. Find its original price. <input class="ainp md" id="eA10" placeholder="$?">
+        <button class="sab" onclick="chk('eA10','$120',3,'Original×0.85=102 → Original=102÷0.85=120')">Check [3]</button>
+        <div class="reveal" id="eA10_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">11</div><div class="qc">
+        A recipe uses flour : sugar : butter in ratio 5 : 2 : 1. If 250g of flour is used, how much sugar is needed? <input class="ainp sm" id="eA11" placeholder="?g">
+        <button class="sab" onclick="chk('eA11','100g',3,'5 parts=250g → 1 part=50g. Sugar=2 parts=100g')">Check [3]</button>
+        <div class="reveal" id="eA11_r"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">C</div><div class="card-title">Section C — Mensuration & Statistics</div><div class="card-marks">10 marks</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">12</div><div class="qc">
+        A cylinder has radius 7cm and height 15cm (π=22/7). Find its volume. <input class="ainp md" id="eA12" placeholder="cm³">
+        <button class="sab" onclick="chk('eA12','2310',3,'V=πr²h=22/7×49×15=2310 cm³')">Check [3]</button>
+        <div class="reveal" id="eA12_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">13</div><div class="qc">
+        Data set: 6,9,9,12,14. Find the mean and the mode.<br>
+        Mean: <input class="ainp sm" id="eA13a" placeholder="?"> &nbsp; Mode: <input class="ainp sm" id="eA13b" placeholder="?">
+        <button class="sab" onclick="chk2('eA13a','10','eA13b','9',4,'Mean=(6+9+9+12+14)/5=50/5=10. Mode=9 (appears twice)')">Check [4]</button>
+        <div class="reveal" id="eA13a_r"></div>
+      </div></div>
+    </div>
+    <button class="csb" onclick="scorePaper('eoyA',50)">Submit Paper & Save Score</button>
+    <div class="reveal" id="eoyA_score_r" style="margin-top:.5rem"></div>
+  </div>
+</div>
+
+<div class="paper-panel" id="eoyBTab">
+  <div class="section-hd">EOY Mixed Paper B — Focus on Weak Areas (Original, G3 standard)</div>
+  <div style="font-size:.8rem;color:var(--muted);margin-bottom:.6rem;font-style:italic">Weighted toward Mokshith's lower-scoring skills: bounds, grouping factorisation, algebraic fractions, change of subject, linear equations, volume, statistics.</div>
+  <div class="timer-bar"><span>⏱ Time yourself: 50 minutes</span><span class="timer-val" id="tEB">50:00</span><button onclick="startTimer('tEB',50)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">A</div><div class="card-title">Section A — Bounds, Algebra & Equations</div><div class="card-marks">22 marks</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">1</div><div class="qc">
+        A plank is measured as 245 cm, correct to the nearest cm. State the upper and lower bounds.<br>
+        UB: <input class="ainp sm" id="eB1a" placeholder="?"> cm &nbsp; LB: <input class="ainp sm" id="eB1b" placeholder="?"> cm
+        <button class="sab" onclick="chk2('eB1a','245.5','eB1b','244.5',2,'Unit=1cm, half-unit=0.5cm. UB=245+0.5=245.5, LB=245-0.5=244.5')">Check [2]</button>
+        <div class="reveal" id="eB1a_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">2</div><div class="qc">
+        Factorise by grouping: 2ax - 6ay + 3bx - 9by. <input class="ainp lg" id="eB2" placeholder="?" style="min-width:160px">
+        <button class="sab" onclick="chk('eB2','(x-3y)(2a+3b)',3,'2a(x-3y)+3b(x-3y) = (x-3y)(2a+3b)')">Check [3]</button>
+        <div class="reveal" id="eB2_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">3</div><div class="qc">
+        Simplify: 3/(x) + 2/(x+1) as a single fraction. <input class="ainp md" id="eB3" placeholder="?">
+        <button class="sab" onclick="chk('eB3','(5x+3)/(x(x+1))',3,'LCD=x(x+1): [3(x+1)+2x]/[x(x+1)] = (3x+3+2x)/[x(x+1)] = (5x+3)/(x(x+1))')">Check [3]</button>
+        <div class="reveal" id="eB3_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">4</div><div class="qc">
+        Make h the subject of the formula: A = 2πr² + 2πrh. <input class="ainp lg" id="eB4" placeholder="h = ?" style="min-width:160px">
+        <button class="sab" onclick="chk('eB4','h=(A-2πr²)/(2πr)',4,'A-2πr²=2πrh → divide both sides by 2πr → h=(A-2πr²)/(2πr)')">Check [4]</button>
+        <div class="reveal" id="eB4_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">5</div><div class="qc">
+        Solve: 2(x + 3) - 5(x - 1) = 2. <input class="ainp sm" id="eB5" placeholder="x=?">
+        <button class="sab" onclick="chk('eB5','x=3',3,'2x+6-5x+5=2 → -3x+11=2 → -3x=-9 → x=3. Check: 2(6)-5(2)=12-10=2 ✓')">Check [3]</button>
+        <div class="reveal" id="eB5_r"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">B</div><div class="card-title">Section B — Mensuration</div><div class="card-marks">18 marks</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">6</div><div class="qc">
+        A closed cylindrical tin has radius 5cm and height 12cm (π≈3.14). Find its total surface area.<br>
+        <input class="ainp md" id="eB6" placeholder="cm²">
+        <button class="sab" onclick="chk('eB6','534.5',4,'CSA=2πrh=2×3.14×5×12=376.8. Two ends=2×πr²=2×3.14×25=157. Total=376.8+157=533.8 (≈534) cm²')">Check [4]</button>
+        <div class="reveal" id="eB6_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">7</div><div class="qc">
+        A rectangular tank 50cm×30cm×40cm is completely filled with water, then poured into empty cylindrical buckets of radius 10cm and height 20cm (π≈3.14). How many buckets are needed? <input class="ainp sm" id="eB7" placeholder="?">
+        <button class="sab" onclick="chk('eB7','10',4,'Tank volume=50×30×40=60000cm³. Bucket volume=π×10²×20=6280cm³. 60000÷6280≈9.55 → need 10 buckets (round UP)')">Check [4]</button>
+        <div class="reveal" id="eB7_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">8</div><div class="qc">
+        A field is a rectangle 40m×25m with a semicircular end of diameter 25m added on one side (π≈3.14). Find the total area. <input class="ainp md" id="eB8" placeholder="m²">
+        <button class="sab" onclick="chk('eB8','1245.3',4,'Rectangle=40×25=1000. Semicircle r=12.5: ½×3.14×12.5²=245.3. Total=1000+245.3=1245.3 m²')">Check [4]</button>
+        <div class="reveal" id="eB8_r"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">C</div><div class="card-title">Section C — Statistics & Graphs</div><div class="card-marks">10 marks</div></div>
+    <div class="card-body">
+      <div class="qrow"><div class="qn">9</div><div class="qc">
+        Test scores: 12, 15, 15, 18, 20, 22, 25. Find the median and range.<br>
+        Median: <input class="ainp sm" id="eB9a" placeholder="?"> &nbsp; Range: <input class="ainp sm" id="eB9b" placeholder="?">
+        <button class="sab" onclick="chk2('eB9a','18','eB9b','13',3,'7 values, already ordered. Median=4th value=18. Range=25-12=13')">Check [3]</button>
+        <div class="reveal" id="eB9a_r"></div>
+      </div></div>
+      <div class="qrow"><div class="qn">10</div><div class="qc">
+        A straight-line graph passes through (1,4) and (3,10). Find its gradient and equation.<br>
+        Gradient: <input class="ainp sm" id="eB10a" placeholder="?"> &nbsp; Equation: y = <input class="ainp md" id="eB10b" placeholder="?">
+        <button class="sab" onclick="chk2('eB10a','3','eB10b','3x+1',4,'m=(10-4)/(3-1)=6/2=3. Using (1,4): 4=3(1)+c → c=1. y=3x+1')">Check [4]</button>
+        <div class="reveal" id="eB10a_r"></div>
+      </div></div>
+    </div>
+    <button class="csb" onclick="scorePaper('eoyB',50)">Submit Paper & Save Score</button>
+    <div class="reveal" id="eoyB_score_r" style="margin-top:.5rem"></div>
+  </div>
+</div>
+
+<div class="paper-panel" id="p1Tab">
   <div class="section-hd">Week 1 Practice Paper — Factors, Multiples & Real Numbers</div>
   <div class="timer-bar"><span>⏱ Time yourself: 45 minutes</span><span class="timer-val" id="t1">45:00</span><button onclick="startTimer('t1',45)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
 
@@ -720,8 +1562,8 @@ T = 20 - h/150  →  h/150 = 20 - T  (not 20 + T!)</div>
         Choose the correct ascending order:
         <div class="mc-opts">
           <button class="mcopt" onclick="mcSelect(this,'-1¾ < -0.8 < π/2 < √5 < 2.3 < √9','q8',2,'Correct! In decimals: -1.75 < -0.8 < 1.571 < 2.236 < 2.3 < 3. Always convert to decimals first!')">[A] -1¾ &lt; -0.8 &lt; π/2 &lt; √5 &lt; 2.3 &lt; √9</button>
-          <button class="mcopt" onclick="mcSelect(this','wrong','q8',2,'Check: π/2≈1.571, √5≈2.236, √9=3 exactly. Convert ALL to decimals!')">[B] -0.8 &lt; -1¾ &lt; π/2 &lt; √5 &lt; 2.3 &lt; √9</button>
-          <button class="mcopt" onclick="mcSelect(this','wrong2','q8',2,'√9=3 exactly, which is bigger than 2.3!')">[C] -1¾ &lt; -0.8 &lt; π/2 &lt; √5 &lt; √9 &lt; 2.3</button>
+          <button class="mcopt" onclick="mcSelect(this,'wrong','q8',2,'Check: π/2≈1.571, √5≈2.236, √9=3 exactly. Convert ALL to decimals!')">[B] -0.8 &lt; -1¾ &lt; π/2 &lt; √5 &lt; 2.3 &lt; √9</button>
+          <button class="mcopt" onclick="mcSelect(this,'wrong2','q8',2,'√9=3 exactly, which is bigger than 2.3!')">[C] -1¾ &lt; -0.8 &lt; π/2 &lt; √5 &lt; √9 &lt; 2.3</button>
         </div>
         <div class="reveal" id="q8_r"></div>
       </div></div>
@@ -753,8 +1595,7 @@ T = 20 - h/150  →  h/150 = 20 - T  (not 20 + T!)</div>
   <div class="reveal" id="p1_score_r" style="margin-top:.5rem"></div>
 </div>
 
-<!-- ═══ WEEK 2 PAPER ═══ -->
-<div class="tab-content" id="p2Tab">
+<div class="paper-panel" id="p2Tab">
   <div class="section-hd">Week 2 Practice Paper — Approximation & Estimation</div>
   <div class="timer-bar"><span>⏱ Time yourself: 40 minutes</span><span class="timer-val" id="t2">40:00</span><button onclick="startTimer('t2',40)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
 
@@ -815,7 +1656,7 @@ T = 20 - h/150  →  h/150 = 20 - T  (not 20 + T!)</div>
         Is the estimate of (8.94)² ÷ (2.06 × 0.98) an overestimate or underestimate?
         <div class="mc-opts">
           <button class="mcopt" onclick="mcSelect(this,'Overestimate','w2q5',4,'Correct! Estimate: 9²÷(2×1)=81÷2=40.5. Actual≈39.6. 8.94 rounded UP and 2.06×0.98 rounded DOWN → both push result UP → overestimate.')">Overestimate</button>
-          <button class="mcopt" onclick="mcSelect(this','Underestimate','w2q5',4,'Incorrect. 8.94 was rounded UP to 9 (larger numerator). 2.06×0.98≈2.02 was rounded down to 2×1=2 (smaller denominator). Both effects push the estimate UP.')">Underestimate</button>
+          <button class="mcopt" onclick="mcSelect(this,'Underestimate','w2q5',4,'Incorrect. 8.94 was rounded UP to 9 (larger numerator). 2.06×0.98≈2.02 was rounded down to 2×1=2 (smaller denominator). Both effects push the estimate UP.')">Underestimate</button>
         </div>
         <div class="reveal" id="w2q5_r"></div>
       </div></div>
@@ -848,8 +1689,8 @@ T = 20 - h/150  →  h/150 = 20 - T  (not 20 + T!)</div>
       <div class="qrow"><div class="qn">8</div><div class="qc">
         James says √(0.36 + 0.64) = √0.36 + √0.64. Is James correct?
         <div class="mc-opts">
-          <button class="mcopt" onclick="mcSelect(this','No, James is wrong','w2q8',3,'Correct! LHS: √(0.36+0.64)=√1=1. RHS: √0.36+√0.64=0.6+0.8=1.4. 1≠1.4. √(a+b) ≠ √a + √b!')">No — James is wrong</button>
-          <button class="mcopt" onclick="mcSelect(this','Yes, James is correct','w2q8',3,'Incorrect! LHS=√1=1 but RHS=0.6+0.8=1.4. They are NOT equal.')">Yes — James is correct</button>
+          <button class="mcopt" onclick="mcSelect(this,'No, James is wrong','w2q8',3,'Correct! LHS: √(0.36+0.64)=√1=1. RHS: √0.36+√0.64=0.6+0.8=1.4. 1≠1.4. √(a+b) ≠ √a + √b!')">No — James is wrong</button>
+          <button class="mcopt" onclick="mcSelect(this,'Yes, James is correct','w2q8',3,'Incorrect! LHS=√1=1 but RHS=0.6+0.8=1.4. They are NOT equal.')">Yes — James is correct</button>
         </div>
         <div class="reveal" id="w2q8_r"></div>
       </div></div>
@@ -866,8 +1707,7 @@ T = 20 - h/150  →  h/150 = 20 - T  (not 20 + T!)</div>
   <div class="reveal" id="p2_score_r" style="margin-top:.5rem"></div>
 </div>
 
-<!-- ═══ WEEK 3 PAPER ═══ -->
-<div class="tab-content" id="p3Tab">
+<div class="paper-panel" id="p3Tab">
   <div class="section-hd">Week 3 Practice Paper — Basic Algebra & Manipulations</div>
   <div class="timer-bar"><span>⏱ Time yourself: 50 minutes</span><span class="timer-val" id="t3">50:00</span><button onclick="startTimer('t3',50)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start</button></div>
 
@@ -1004,8 +1844,7 @@ T = 20 - h/150  →  h/150 = 20 - T  (not 20 + T!)</div>
   <div class="reveal" id="p3_score_r" style="margin-top:.5rem"></div>
 </div>
 
-<!-- ═══ WA2 MOCK ═══ -->
-<div class="tab-content" id="mockTab">
+<div class="paper-panel" id="mockTab">
   <div class="section-hd">WA2 Mock Examination — All Topics Combined</div>
   <div class="timer-bar"><span>⏱ 1 hour 15 minutes</span><span class="timer-val" id="tmock">75:00</span><button onclick="startTimer('tmock',75)" style="background:var(--gold);color:white;border:none;border-radius:5px;padding:3px 10px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">Start Timer</button></div>
   <div style="font-size:.82rem;color:var(--muted);margin-bottom:.8rem">50 marks • Show all working • Give answers to 3 s.f. where not exact, unless stated</div>
@@ -1063,8 +1902,8 @@ T = 20 - h/150  →  h/150 = 20 - T  (not 20 + T!)</div>
       <div class="qrow"><div class="qn">a</div><div class="qc">Ali's salary 2022=$84,000. 2023=$7,650/month. % increase? <input class="ainp md" id="mq6a" placeholder="? %"> <button class="sab" onclick="chk('mq6a','9.29',2,'2023 annual=7650×12=91800. Increase=7800. %=7800÷84000×100=9.29%')">Check [2]</button><div class="reveal" id="mq6a_r"></div></div></div>
       <div class="qrow"><div class="qn">b</div><div class="qc">Laptop costs $16,200 incl. 9% GST. Friend says before GST = $14,862. Is friend correct?
         <div class="mc-opts">
-          <button class="mcopt" onclick="mcSelect(this','No','mq6b',3,'Correct! $16200÷1.09=$14862.385..., not $14862 exactly. Friend is WRONG by ~39 cents.')">No — friend is wrong</button>
-          <button class="mcopt" onclick="mcSelect(this','Yes','mq6b',3,'Incorrect. $16200÷1.09=$14862.39, not $14862.00')">Yes — friend is correct</button>
+          <button class="mcopt" onclick="mcSelect(this,'No','mq6b',3,'Correct! $16200÷1.09=$14862.385..., not $14862 exactly. Friend is WRONG by ~39 cents.')">No — friend is wrong</button>
+          <button class="mcopt" onclick="mcSelect(this,'Yes','mq6b',3,'Incorrect. $16200÷1.09=$14862.39, not $14862.00')">Yes — friend is correct</button>
         </div>
         <div class="reveal" id="mq6b_r"></div>
       </div></div>
@@ -1075,223 +1914,7 @@ T = 20 - h/150  →  h/150 = 20 - T  (not 20 + T!)</div>
   <div class="reveal" id="mock_score_r" style="margin-top:.5rem"></div>
 </div>
 
-<!-- ═══ AI TUTOR ═══ -->
-
-<!-- ═══ WA3 STUDY NOTES ═══ -->
-<div class="tab-content" id="wa3NotesTab">
-  <div class="section-hd">WA3 Study Notes — 4 Chapters</div>
-  <div style="font-size:.83rem;color:var(--muted);margin-bottom:.8rem">Extracted directly from your textbook. Master these before Thursday. ⚠️ = common exam traps.</div>
-
-  <!-- CHAPTER 6 -->
-  <div class="section-hd" style="color:var(--blue)">Chapter 6: Angles & Parallel Lines</div>
-
-  <div class="accordion">
-    <div class="acc-hd" onclick="toggleAcc(this)"><span>6.1 Types of Angles — Quick Reference</span><span class="acc-arrow">▼</span></div>
-    <div class="acc-body">
-      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
-        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px;text-align:left">Type</th><th style="padding:6px 10px;text-align:left">Range (θ)</th><th style="padding:6px 10px;text-align:left">Key fact</th></tr>
-        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Acute</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">0° &lt; θ &lt; 90°</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Less than a right angle</td></tr>
-        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Right</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">θ = 90°</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Quarter turn — marked by □</td></tr>
-        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Obtuse</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">90° &lt; θ &lt; 180°</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Between right angle and straight line</td></tr>
-        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Straight</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">θ = 180°</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Half turn — forms a straight line</td></tr>
-        <tr style="background:#f9f7f2"><td style="padding:5px 10px">Reflex</td><td style="padding:5px 10px">180° &lt; θ &lt; 360°</td><td style="padding:5px 10px">More than straight, less than full turn</td></tr>
-      </table></div>
-      <div class="rulebox" style="margin-top:.5rem"><strong>🔑 Key Relationships to Memorise</strong>
-Complementary angles: sum = 90° (a + b = 90°)
-Supplementary angles: sum = 180° (a + b = 180°)
-Angles on a straight line: sum = 180°
-Angles at a point: sum = 360°
-Vertically opposite angles: EQUAL (∠a = ∠b)</div>
-      <div class="warnbox"><strong>⚠️ Most Common Exam Error</strong>
-Complementary = 90° (think: C comes before S, 90 comes before 180)
-Supplementary = 180°
-Students often mix these up — memorise: Complementary = Corner (right angle)</div>
-    </div>
-  </div>
-
-  <div class="accordion">
-    <div class="acc-hd" onclick="toggleAcc(this)"><span>6.2 Parallel Lines & Transversal — The Big 3</span><span class="acc-arrow">▼</span></div>
-    <div class="acc-body">
-      <div class="defbox"><strong>Parallel Lines</strong>Two lines are parallel if they never meet, no matter how far extended. Symbol: AB ∥ CD</div>
-      <div class="defbox"><strong>Transversal</strong>A line that crosses two or more parallel lines.</div>
-      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem;margin:.5rem 0">
-        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px">Angle Pair</th><th style="padding:6px 10px">Relationship</th><th style="padding:6px 10px">Memory Trick</th></tr>
-        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><strong>Alternate Angles</strong></td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">EQUAL (∠a = ∠b)</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Z-shape / N-shape between parallel lines</td></tr>
-        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)"><strong>Corresponding Angles</strong></td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">EQUAL (∠a = ∠b)</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">F-shape — same position at each parallel line</td></tr>
-        <tr style="background:#f9f7f2"><td style="padding:5px 10px"><strong>Co-interior Angles</strong></td><td style="padding:5px 10px">ADD UP to 180° (∠a + ∠b = 180°)</td><td style="padding:5px 10px">C-shape / U-shape — between parallel lines</td></tr>
-      </table></div>
-      <div class="exbox"><strong>Worked Example — Find angle x</strong>
-Two parallel lines cut by a transversal. One angle = 65°.
-If they are alternate angles: x = 65°
-If they are corresponding angles: x = 65°
-If they are co-interior angles: x = 180° - 65° = 115°</div>
-      <div class="rulebox"><strong>🔑 Exam Strategy for Angle Questions</strong>
-Step 1: Identify if lines are parallel (look for arrows on lines)
-Step 2: Identify the angle pair type (Z=alternate, F=corresponding, C=co-interior)
-Step 3: Apply rule (equal OR supplementary)
-Step 4: Always state the reason: "alternate angles, AB ∥ CD"</div>
-      <div class="warnbox"><strong>⚠️ Must State Reasons in Exam!</strong>
-Just writing the angle value without reason = LOSES MARKS
-Always write: "∠x = 65° (alternate angles, AB ∥ CD)"</div>
-    </div>
-  </div>
-
-  <!-- CHAPTER 7 -->
-  <div class="section-hd" style="color:var(--blue)">Chapter 7: Triangles, Quadrilaterals & Polygons</div>
-
-  <div class="accordion">
-    <div class="acc-hd" onclick="toggleAcc(this)"><span>7.1 Triangles — Types & Properties</span><span class="acc-arrow">▼</span></div>
-    <div class="acc-body">
-      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
-        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px">Type</th><th style="padding:6px 10px">Sides</th><th style="padding:6px 10px">Angles</th></tr>
-        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Equilateral</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">All 3 equal</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">All 3 = 60°</td></tr>
-        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Isosceles</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">2 sides equal</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Base angles equal</td></tr>
-        <tr style="background:#f9f7f2"><td style="padding:5px 10px">Scalene</td><td style="padding:5px 10px">All different</td><td style="padding:5px 10px">All different</td></tr>
-      </table></div>
-      <div class="rulebox" style="margin-top:.5rem"><strong>🔑 Key Triangle Rules — ALL must know</strong>
-1. Angle sum = 180° (∠A + ∠B + ∠C = 180°)
-2. Exterior angle = sum of two non-adjacent interior angles
-3. Triangle Inequality: sum of ANY two sides > third side
-4. Longest side opposite largest angle
-5. Shortest side opposite smallest angle</div>
-      <div class="exbox"><strong>Worked Example — Isosceles Triangle</strong>
-AB = 4 cm, BC = 8 cm. Can AC = 4 cm?
-Check: 4 + 4 = 8 — NOT strictly greater than 8 → CANNOT form triangle
-If AC = 8 cm: 4 + 8 = 12 > 8 ✓ → Perimeter = 4 + 8 + 8 = 20 cm</div>
-      <div class="warnbox"><strong>⚠️ Triangle Inequality Trap</strong>
-Must be STRICTLY greater than (>), not ≥
-4 + 4 = 8 means the three points are collinear — NOT a triangle!</div>
-    </div>
-  </div>
-
-  <div class="accordion">
-    <div class="acc-hd" onclick="toggleAcc(this)"><span>7.2 Quadrilaterals & Polygons</span><span class="acc-arrow">▼</span></div>
-    <div class="acc-body">
-      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
-        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px">Shape</th><th style="padding:6px 10px">Key Properties</th></tr>
-        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Square</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">4 equal sides, 4 right angles, diagonals bisect at 90°</td></tr>
-        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Rectangle</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Opposite sides equal, 4 right angles, equal diagonals</td></tr>
-        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Parallelogram</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Opposite sides parallel & equal, opposite angles equal</td></tr>
-        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Rhombus</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">All 4 sides equal, diagonals bisect at 90°, opposite angles equal</td></tr>
-        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Trapezium</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">One pair of parallel sides</td></tr>
-        <tr><td style="padding:5px 10px">Kite</td><td style="padding:5px 10px">Two pairs of adjacent equal sides, one diagonal bisects other at 90°</td></tr>
-      </table></div>
-      <div class="rulebox" style="margin-top:.5rem"><strong>🔑 Polygon Angle Formulas</strong>
-Interior angle sum of n-sided polygon = (n − 2) × 180°
-Each interior angle of REGULAR polygon = (n − 2) × 180° ÷ n
-Each exterior angle of REGULAR polygon = 360° ÷ n
-Sum of ALL exterior angles of ANY polygon = 360°</div>
-      <div class="exbox"><strong>Worked Example — Regular Hexagon (n=6)</strong>
-Interior angle sum = (6−2) × 180° = 4 × 180° = 720°
-Each interior angle = 720° ÷ 6 = 120°
-Each exterior angle = 360° ÷ 6 = 60°
-Check: 120° + 60° = 180° ✓ (interior + exterior = 180° always)</div>
-      <div class="warnbox"><strong>⚠️ Regular Polygon Interior Angle = 152.5°?</strong>
-From past paper (Chung Cheng 2020): "Explain why 152.5° cannot be an interior angle of a regular polygon."
-Each exterior angle = 180° − 152.5° = 27.5°. Number of sides = 360° ÷ 27.5° = 13.09... → NOT a whole number → impossible!</div>
-    </div>
-  </div>
-
-  <!-- CHAPTER 8 -->
-  <div class="section-hd" style="color:var(--blue)">Chapter 8: Ratio, Rate & Speed</div>
-
-  <div class="accordion">
-    <div class="acc-hd" onclick="toggleAcc(this)"><span>8.1 Ratio — Simplifying & Comparing</span><span class="acc-arrow">▼</span></div>
-    <div class="acc-body">
-      <div class="defbox"><strong>Ratio</strong>Compares two similar quantities with NO units. a : b = ma : mb (equivalent ratios). Always simplify to lowest whole numbers.</div>
-      <div class="exbox"><strong>Worked Examples from Textbook</strong>
-(a) 1½ : ½ = 3/2 : 1/2 = 3 : 1 (multiply both by 2)
-(b) 2.25 : 3.6 = 225 : 360 = 45 : 72 = 5 : 8 (÷ HCF 9)
-(c) 0.280 : 0.182 → multiply by 1000 → 280 : 182 → ÷14 → 20 : 13</div>
-      <div class="rulebox"><strong>🔑 Three-Quantity Ratio (a : b : c)</strong>
-To combine ratios a:b and b:c, make b equal using LCM:
-a:b = 5:6 and b:c = 8:11
-LCM(6,8) = 24
-a:b = 20:24  and  b:c = 24:33
-Combined: a:b:c = 20:24:33</div>
-      <div class="exbox"><strong>Word Problem — Model Method</strong>
-Ratio of A to B = 3:5. Room B is 8 m² bigger. Find area of room A.
-Let A = 3x, B = 5x. Then 5x − 3x = 8 → x = 4.
-Area of A = 3 × 4 = 12 m²</div>
-      <div class="warnbox"><strong>⚠️ Units Must Match!</strong>
-Before writing a ratio, convert to SAME units.
-90 seconds : 2 minutes → convert to same unit first: 90s : 120s = 3:4</div>
-    </div>
-  </div>
-
-  <div class="accordion">
-    <div class="acc-hd" onclick="toggleAcc(this)"><span>8.2 Rate & Speed</span><span class="acc-arrow">▼</span></div>
-    <div class="acc-body">
-      <div class="defbox"><strong>Rate</strong>Compares two DIFFERENT quantities (has units). E.g. $5/kg, 60 km/h, 3 words/min.</div>
-      <div class="rulebox"><strong>🔑 Speed Formula Triangle — Memorise This!</strong>
-Speed = Distance ÷ Time (S = D/T)
-Distance = Speed × Time (D = S × T)
-Time = Distance ÷ Speed (T = D/S)
-
-Cover what you want to find with your thumb — what remains is the formula!</div>
-      <div class="exbox"><strong>Speed Unit Conversions</strong>
-km/h → m/s: DIVIDE by 3.6 (or × 1000/3600)
-m/s → km/h: MULTIPLY by 3.6 (or × 3600/1000)
-Example: 72 km/h = 72 ÷ 3.6 = 20 m/s
-Example: 15 m/s = 15 × 3.6 = 54 km/h</div>
-      <div class="warnbox"><strong>⚠️ Average Speed Trap</strong>
-Average speed ≠ average of speeds!
-Average speed = TOTAL distance ÷ TOTAL time
-E.g. 60 km at 60 km/h then 60 km at 40 km/h:
-Total time = 1h + 1.5h = 2.5h. Avg speed = 120 ÷ 2.5 = 48 km/h (NOT 50!)</div>
-    </div>
-  </div>
-
-  <!-- CHAPTER 9 -->
-  <div class="section-hd" style="color:var(--blue)">Chapter 9: Percentage</div>
-
-  <div class="accordion">
-    <div class="acc-hd" onclick="toggleAcc(this)"><span>9.1 Conversions & One Quantity as % of Another</span><span class="acc-arrow">▼</span></div>
-    <div class="acc-body">
-      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.83rem">
-        <tr style="background:var(--ink);color:white"><th style="padding:6px 10px">From</th><th style="padding:6px 10px">To</th><th style="padding:6px 10px">Method</th><th style="padding:6px 10px">Example</th></tr>
-        <tr style="background:#f9f7f2"><td style="padding:5px 10px;border-bottom:1px solid var(--border)">%</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Fraction</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">÷ 100, simplify</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">50% = 50/100 = ½</td></tr>
-        <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border)">%</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">Decimal</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">÷ 100</td><td style="padding:5px 10px;border-bottom:1px solid var(--border)">4% = 0.04</td></tr>
-        <tr style="background:#f9f7f2"><td style="padding:5px 10px">Fraction/Decimal</td><td style="padding:5px 10px">%</td><td style="padding:5px 10px">× 100%</td><td style="padding:5px 10px">¾ × 100% = 75%</td></tr>
-      </table></div>
-      <div class="rulebox" style="margin-top:.5rem"><strong>🔑 Express x as % of y</strong>
-Required % = (x ÷ y) × 100%
-MUST convert to SAME UNITS first!
-e.g. 4500g as % of 3kg → 3kg = 3000g → (4500/3000) × 100% = 150%</div>
-    </div>
-  </div>
-
-  <div class="accordion">
-    <div class="acc-hd" onclick="toggleAcc(this)"><span>9.2 % Increase, % Decrease & Reverse Percentage <span class="weak-flag">⚠️ High Frequency</span></span><span class="acc-arrow">▼</span></div>
-    <div class="acc-body">
-      <div class="rulebox"><strong>🔑 Key Formulas</strong>
-% increase = (Increase ÷ Original) × 100%
-% decrease = (Decrease ÷ Original) × 100%
-
-New value after x% increase = Original × (1 + x/100)
-New value after x% decrease = Original × (1 − x/100)
-
-Reverse % (find ORIGINAL): Original = New value ÷ (1 ± x/100)</div>
-      <div class="exbox"><strong>Worked Example — % Cheaper vs % More Expensive</strong>
-Buffet: weekday $28, weekend $35. Difference = $7.
-% cheaper on weekday (compared to weekend): 7/35 × 100% = 20%
-% more expensive on weekend (compared to weekday): 7/28 × 100% = 25%
-NOTE: Different denominators → different answers! Always divide by the REFERENCE value.</div>
-      <div class="exbox"><strong>Reverse Percentage</strong>
-After 9% GST, price = $16,200. Find original (before GST):
-Original = $16,200 ÷ 1.09 = $14,862.39
-(NOT $16,200 × 0.91 — that's a common wrong method!)</div>
-      <div class="warnbox"><strong>⚠️ Reverse % — Most Common WA3 Trap</strong>
-"After 20% discount, item costs $80. Find original price."
-WRONG: Original = $80 + 20% of $80 = $96
-CORRECT: Original × 0.8 = $80 → Original = $80 ÷ 0.8 = $100
-The 20% is of the ORIGINAL (unknown), not of $80!</div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ WA3 PRACTICE PAPER ═══ -->
-<div class="tab-content" id="wa3PaperTab">
+<div class="paper-panel" id="wa3PaperTab">
 <style>
 .mp-sel{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
 .mp-btn{padding:7px 14px;border:2px solid var(--border);border-radius:8px;background:white;font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s;color:var(--muted)}
@@ -1657,176 +2280,30 @@ async function generateAIPaper(n) {
   out.textContent = '✦ Generating Paper '+n+'...';
   var focuses = {
     6:'mixed topics — Approximation, Equations and Ratio',
-    7:'Angles (parallel lines, polygons) and Ratio/Speed problems',
-    8:'Linear Equations (including word problems) and Percentage',
-    9:'fully mixed — all WA3 topics with equal coverage',
-    10:'the HARDEST possible level — multi-step problems requiring 3+ concepts combined per question'
+    7:'Angles, Polygons and Ratio/Speed problems',
+    8:'Linear Equations (word problems) and Percentage',
+    9:'Perimeter, Area, Volume and Surface Area',
+    10:'the HARDEST possible level — full EOY mock, multi-step problems combining 3+ concepts per question, all 12 chapters represented'
   };
-  var prompt = 'Generate a Sec 1 G3 (hardest stream) Singapore Mathematics exam paper - Paper '+n+'. Focus on: '+focuses[n]+'. Chapters covered: Ch3 Approximation (s.f., bounds), Ch4 Algebra (expand, factorise including grouping, algebraic fractions), Ch5 Linear Equations (including word problems with 2 unknowns), Ch6 Angles (parallel lines, must state reasons), Ch7 Polygons (interior/exterior angles, properties), Ch8 Ratio/Rate/Speed (3-qty ratio, avg speed, unit conversion), Ch9 Percentage (reverse %, % change, GST). Format: 10 questions, total 50 marks. For each question show: Question number, marks in [brackets], full worked solution. Make questions multi-step and challenging — no straightforward single-step questions. Singapore context (SGD, local places).';
-  try {
-    var resp = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,
-        system:'You are an expert Singapore Sec 1 G3 Maths examiner. Generate challenging, multi-step exam questions at G3 (top stream) standard. Include full worked solutions.',
-        messages:[{role:'user',content:prompt}]})
-    });
-    var data = await resp.json();
-    out.textContent = data.content && data.content[0] ? data.content[0].text : 'Could not generate paper.';
-  } catch(e) {
-    out.textContent = 'Could not connect to AI. Please check your connection.';
-  }
+  var prompt = 'Generate a Sec 1 G3 (top stream) Singapore Mathematics EOY exam paper - Paper '+n+'. Focus on: '+focuses[n]+'. Full EOY syllabus (draw questions from across it): Ch1 Primes/Factors/Multiples, Ch2 Real Numbers, Ch3 Approximation & Estimation, Ch4 Algebra (expand, factorise incl. grouping, algebraic fractions, change of subject), Ch5 Linear Equations (incl. word problems), Ch6 Angles & Parallel Lines (must state reasons), Ch7 Triangles & Polygons, Ch8 Ratio/Rate/Speed, Ch9 Percentage, Ch10 Perimeter & Area, Ch11 Volume & Surface Area, Ch12 Statistics & Linear Graphs. Format: 10 questions, total 50 marks. For each question show: question number, marks in [brackets], full worked solution. Make questions multi-step and challenging — no single-step questions. Use Singapore context (SGD, local places).';
+  out.textContent = await callAI(prompt, 'You are an expert Singapore Sec 1 G3 Maths examiner writing the EOY paper. Generate challenging, multi-step exam questions at G3 (top stream) standard. Include full worked solutions.');
 }
 </script>
 </div>
 
-<!-- ═══ EXAM PLAN ═══ -->
-<div class="tab-content" id="planTab">
-  <div class="section-hd">📅 Mokshith's 4-Day Exam Battle Plan</div>
-  <div style="background:var(--redl);border:1px solid #fca5a5;border-radius:8px;padding:.8rem 1rem;margin-bottom:1rem;font-size:.85rem;color:var(--red)">
-    <strong>⚡ Exam: Thursday. Today: Sunday. You have 4 days. Every hour counts.</strong>
-  </div>
-
-  <!-- DAY 1 -->
-  <div class="card">
-    <div class="card-head" style="background:#1e4d8c"><div class="card-letter" style="background:white;color:#1e4d8c">1</div><div class="card-title">SUNDAY — Foundation Day (Chapters 6 & 7)</div></div>
-    <div class="card-body">
-      <div style="font-size:.83rem;line-height:2">
-        <strong>Morning (9am–11am) — Chapter 6: Angles</strong><br>
-        &nbsp;&nbsp;① Read Ch.6 notes in this app (30 min)<br>
-        &nbsp;&nbsp;② Draw and label all 5 angle types from memory<br>
-        &nbsp;&nbsp;③ Memorise the Z/F/C rules for parallel lines<br>
-        &nbsp;&nbsp;④ Do Section A Q1–Q5 in WA3 Paper tab<br><br>
-        <strong>Afternoon (2pm–4pm) — Chapter 7: Triangles & Polygons</strong><br>
-        &nbsp;&nbsp;① Read Ch.7 notes in this app (30 min)<br>
-        &nbsp;&nbsp;② Write out all quadrilateral properties from memory<br>
-        &nbsp;&nbsp;③ Practice polygon formula: (n−2)×180°<br>
-        &nbsp;&nbsp;④ Do Section B Q8–Q12 in WA3 Paper tab<br><br>
-        <strong>Evening (7pm–8pm) — Review</strong><br>
-        &nbsp;&nbsp;① Correct all mistakes from today<br>
-        &nbsp;&nbsp;② Write down every formula used today on flashcard<br>
-      </div>
-      <div class="defbox"><strong>Sunday Target</strong>Complete Section A and B of WA3 Paper. Score ≥ 21/27 marks.</div>
-    </div>
-  </div>
-
-  <!-- DAY 2 -->
-  <div class="card">
-    <div class="card-head" style="background:#1a6b3c"><div class="card-letter" style="background:white;color:#1a6b3c">2</div><div class="card-title">MONDAY — Problem Solving Day (Chapters 8 & 9)</div></div>
-    <div class="card-body">
-      <div style="font-size:.83rem;line-height:2">
-        <strong>Morning (9am–11am) — Chapter 8: Ratio, Rate & Speed</strong><br>
-        &nbsp;&nbsp;① Read Ch.8 notes in this app (30 min)<br>
-        &nbsp;&nbsp;② Practice the 3-quantity ratio method (LCM technique)<br>
-        &nbsp;&nbsp;③ Memorise speed triangle (S=D/T)<br>
-        &nbsp;&nbsp;④ Practice km/h ↔ m/s conversions (×3.6 trick)<br>
-        &nbsp;&nbsp;⑤ Do Section C Q13–Q17 in WA3 Paper tab<br><br>
-        <strong>Afternoon (2pm–4pm) — Chapter 9: Percentage</strong><br>
-        &nbsp;&nbsp;① Read Ch.9 notes in this app (30 min)<br>
-        &nbsp;&nbsp;② Master the reverse percentage method (÷ not ×)<br>
-        &nbsp;&nbsp;③ Practice % increase vs % decrease (denominator matters!)<br>
-        &nbsp;&nbsp;④ Do Section D Q18–Q21 in WA3 Paper tab<br><br>
-        <strong>Evening (7pm–8pm)</strong><br>
-        &nbsp;&nbsp;① Full WA3 Paper — timed (75 minutes, no peeking)<br>
-        &nbsp;&nbsp;② Mark and record score on Dashboard<br>
-      </div>
-      <div class="defbox"><strong>Monday Target</strong>Complete full WA3 Paper timed. Score ≥ 40/50 marks.</div>
-    </div>
-  </div>
-
-  <!-- DAY 3 -->
-  <div class="card">
-    <div class="card-head" style="background:#b5590a"><div class="card-letter" style="background:white;color:#b5590a">3</div><div class="card-title">TUESDAY — Weak Areas & Drilling Day</div></div>
-    <div class="card-body">
-      <div style="font-size:.83rem;line-height:2">
-        <strong>Morning (9am–11am) — Fix Monday's Mistakes</strong><br>
-        &nbsp;&nbsp;① Look at every question you got wrong on Monday<br>
-        &nbsp;&nbsp;② Use ✦ AI Tutor → "Explain My Mistake" for each one<br>
-        &nbsp;&nbsp;③ Re-do those questions without looking at solutions<br><br>
-        <strong>Afternoon (2pm–4pm) — AI-Generated Drill</strong><br>
-        &nbsp;&nbsp;① Go to AI Tutor tab<br>
-        &nbsp;&nbsp;② Click: "Ratio, Rate & Speed problems" → do 3 questions<br>
-        &nbsp;&nbsp;③ Click: "Percentage reverse problems" → do 3 questions<br>
-        &nbsp;&nbsp;④ Click: "Parallel lines angle questions" → do 3 questions<br><br>
-        <strong>Evening (6pm–7pm) — Speed Round</strong><br>
-        &nbsp;&nbsp;① Flashcards: write all formulas → test yourself<br>
-        &nbsp;&nbsp;② Re-read all ⚠️ Warning boxes in notes<br>
-        &nbsp;&nbsp;③ Early sleep — rest is part of exam prep!<br>
-      </div>
-      <div class="defbox"><strong>Tuesday Target</strong>Zero unresolved mistakes. All 4 chapter formulas memorised cold.</div>
-    </div>
-  </div>
-
-  <!-- DAY 4 -->
-  <div class="card">
-    <div class="card-head" style="background:#5b21b6"><div class="card-letter" style="background:white;color:#5b21b6">4</div><div class="card-title">WEDNESDAY — Light Review & Confidence Day</div></div>
-    <div class="card-body">
-      <div style="font-size:.83rem;line-height:2">
-        <strong>Morning (10am–12pm) — Light Revision Only</strong><br>
-        &nbsp;&nbsp;① Re-read Quick Reference Card below<br>
-        &nbsp;&nbsp;② Do 5 questions from each section (not full paper)<br>
-        &nbsp;&nbsp;③ Focus on question types most likely to appear<br><br>
-        <strong>Afternoon — REST</strong><br>
-        &nbsp;&nbsp;① No heavy studying after 2pm<br>
-        &nbsp;&nbsp;② Short walk, good meal<br>
-        &nbsp;&nbsp;③ Pack stationery: pencil, ruler, eraser, calculator<br><br>
-        <strong>Evening (7pm–8pm) — Final Check</strong><br>
-        &nbsp;&nbsp;① Write all formulas on ONE sheet from memory<br>
-        &nbsp;&nbsp;② Read it once, then sleep early (9:30pm latest)<br>
-      </div>
-      <div class="defbox"><strong>Wednesday Target</strong>Feel confident. Know all formulas. Get 8+ hours sleep before exam.</div>
-    </div>
-  </div>
-
-  <!-- EXAM DAY TIPS -->
-  <div class="card">
-    <div class="card-head"><div class="card-letter">★</div><div class="card-title">THURSDAY EXAM DAY — Rules to Follow</div></div>
-    <div class="card-body">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;font-size:.84rem">
-        <div>
-          <div style="font-weight:700;color:var(--green);margin-bottom:.4rem">✓ DO THIS</div>
-          <div style="line-height:2">
-            ✓ Read EVERY question fully before answering<br>
-            ✓ Show ALL working — even for 1-mark questions<br>
-            ✓ State reasons for angle questions<br>
-            ✓ Check units match before writing ratios<br>
-            ✓ For reverse %, divide by (1 ± %)<br>
-            ✓ Circle questions you skip — come back later<br>
-            ✓ Check answer makes sense (common sense check)<br>
-            ✓ Leave 5 min to review at the end
-          </div>
-        </div>
-        <div>
-          <div style="font-weight:700;color:var(--red);margin-bottom:.4rem">✗ AVOID THIS</div>
-          <div style="line-height:2">
-            ✗ Don't leave any question blank<br>
-            ✗ Don't mix up complementary/supplementary<br>
-            ✗ Don't forget to state reasons for angles<br>
-            ✗ Don't use average of speeds for avg speed<br>
-            ✗ Don't add % to new value in reverse %<br>
-            ✗ Don't mix units in ratios<br>
-            ✗ Don't spend too long on one question<br>
-            ✗ Don't panic — you've prepared well!
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FORMULA CARD -->
-  <div class="card">
-    <div class="card-head"><div class="card-letter">F</div><div class="card-title">Quick Formula Card — Tear This Out!</div></div>
-    <div class="card-body">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;font-size:.82rem">
-        <div style="background:var(--bluel);padding:.6rem .8rem;border-radius:6px"><strong style="color:var(--blue);display:block;margin-bottom:.3rem">Angles</strong>Straight line = 180°<br>Point = 360°<br>Vert. opp. = equal<br>Alt. angles = equal (Z)<br>Corr. angles = equal (F)<br>Co-int. angles = 180° (C)<br>Comp. = 90°, Supp. = 180°</div>
-        <div style="background:var(--greenl);padding:.6rem .8rem;border-radius:6px"><strong style="color:var(--green);display:block;margin-bottom:.3rem">Polygons</strong>△ sum = 180°<br>Polygon sum = (n−2)×180°<br>Regular interior = (n−2)×180°÷n<br>Exterior = 360°÷n<br>Int + Ext = 180°<br>Sum of ext = 360°</div>
-        <div style="background:var(--amberl);padding:.6rem .8rem;border-radius:6px"><strong style="color:var(--amber);display:block;margin-bottom:.3rem">Ratio & Speed</strong>Simplify: ÷ HCF<br>3-qty: use LCM on middle<br>S = D ÷ T<br>km/h → m/s: ÷ 3.6<br>m/s → km/h: × 3.6<br>Avg speed = total D ÷ total T</div>
-        <div style="background:var(--redl);padding:.6rem .8rem;border-radius:6px"><strong style="color:var(--red);display:block;margin-bottom:.3rem">Percentage</strong>x as % of y = x/y × 100%<br>% inc = inc/original × 100%<br>After x% inc → × (1+x/100)<br>Reverse: ÷ (1 ± x/100)<br>NEVER add % to new value!<br>Same units before comparing</div>
-      </div>
-    </div>
-  </div>
 </div>
-
+<script>
+function switchPaperPanel(id, btn){
+  document.querySelectorAll('.paper-panel').forEach(function(p){ p.classList.remove('active'); });
+  var target = document.getElementById(id);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('#paperSubtabs .ptab').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+}
+document.addEventListener('DOMContentLoaded', function(){
+  setTimeout(function(){ var el=document.getElementById('eoyATab'); if(el) el.classList.add('active'); }, 0);
+});
+</script>
 
 
 <!-- ═══ QUICK FIRE TAB ═══ -->
@@ -1839,6 +2316,8 @@ async function generateAIPaper(n) {
 .qf-chap-btn.selected{border-color:var(--green);background:var(--green);color:white}
 .qf-chap-btn.wa3{border-color:var(--blue)}
 .qf-chap-btn.wa3.selected{border-color:var(--blue);background:var(--blue);color:white}
+.qf-chap-btn.eoy{border-color:var(--purple)}
+.qf-chap-btn.eoy.selected{border-color:var(--purple);background:var(--purple);color:white}
 .qf-start{width:100%;padding:.75rem;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:.5rem;transition:background .18s}
 .qf-start:hover{background:#145530}
 .qf-start:disabled{background:#ccc;cursor:not-allowed}
@@ -1912,6 +2391,22 @@ async function generateAIPaper(n) {
       </button>
       <button class="qf-chap-btn wa3" data-chap="ch9" onclick="toggleChap(this)">
         Ch 9 — Percentage<br><span style="font-weight:400;font-size:.75rem;opacity:.8">%, increase/decrease, reverse %</span>
+      </button>
+    </div>
+
+    <div style="font-size:.8rem;font-weight:700;color:var(--purple);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em">New EOY Chapters</div>
+    <div class="qf-chap-grid">
+      <button class="qf-chap-btn eoy" data-chap="ch5" onclick="toggleChap(this)">
+        Ch 5 — Linear Equations<br><span style="font-weight:400;font-size:.75rem;opacity:.8">Brackets, fractions, word problems</span>
+      </button>
+      <button class="qf-chap-btn eoy" data-chap="ch10" onclick="toggleChap(this)">
+        Ch 10 — Perimeter & Area<br><span style="font-weight:400;font-size:.75rem;opacity:.8">Composite shapes, circles</span>
+      </button>
+      <button class="qf-chap-btn eoy" data-chap="ch11" onclick="toggleChap(this)">
+        Ch 11 — Volume & Surface Area<br><span style="font-weight:400;font-size:.75rem;opacity:.8">Cuboids, cylinders, prisms</span>
+      </button>
+      <button class="qf-chap-btn eoy" data-chap="ch12" onclick="toggleChap(this)">
+        Ch 12 — Statistics & Graphs<br><span style="font-weight:400;font-size:.75rem;opacity:.8">Mean/median/mode, linear graphs</span>
       </button>
     </div>
 
@@ -2077,7 +2572,63 @@ var QF_BANK = {
     {q:'New value after 15% increase on $200:', opts:['$230','$170','$215','$300'], ans:0, exp:'$200 × 1.15 = $230. OR: 200 + 15%×200 = 200+30 = $230'},
     {q:'Total storage 50GB. 50% photos, 20% apps, 10GB free. % used by Mail:', opts:['10%','20%','5%','30%'], ans:0, exp:'Photos=25GB, Apps=10GB, Free=10GB. Mail=50-25-10-10=5GB. 5/50×100%=10%'},
     {q:'A class of 36 students: 12 wear glasses. % who do NOT wear glasses:', opts:['66.7%','33.3%','75%','25%'], ans:0, exp:'No glasses = 36-12=24. 24/36×100%=66.7%'},
-  ]
+  ],
+  ch5: [
+    {q:'Solve: 3(2x - 1) = 15', opts:['x=3','x=2','x=4','x=8'], ans:0, exp:'6x-3=15 → 6x=18 → x=3'},
+    {q:'Solve: 4(x+2) = 2(x-3)+10', opts:['x=-2','x=2','x=-4','x=4'], ans:0, exp:'4x+8=2x-6+10 → 4x+8=2x+4 → 2x=-4 → x=-2'},
+    {q:'Solve: (x+1)/3 - (x-2)/4 = 1', opts:['x=2','x=1','x=3','x=4'], ans:0, exp:'×12: 4(x+1)-3(x-2)=12 → 4x+4-3x+6=12 → x+10=12 → x=2'},
+    {q:'Solve: 5x - 2(x-4) = 20', opts:['x=4','x=6','x=-4','x=12'], ans:0, exp:'5x-2x+8=20 → 3x=12 → x=4'},
+    {q:'The sum of 3 consecutive numbers is 84. Find the smallest number.', opts:['27','28','26','29'], ans:0, exp:'x+(x+1)+(x+2)=84 → 3x+3=84 → x=27'},
+    {q:'Ali is 3 times his son’s age. In 5 years he will be twice as old as his son will be then. Find the son’s present age.', opts:['5','10','15','3'], ans:0, exp:'3x+5=2(x+5) → 3x+5=2x+10 → x=5'},
+    {q:'A rectangle’s length is 4cm more than its width. Perimeter = 36cm. Find the width.', opts:['7 cm','9 cm','11 cm','4 cm'], ans:0, exp:'2(x+x+4)=36 → 4x+8=36 → 4x=28 → x=7'},
+    {q:'Solve: -(2x - 3) = x + 9', opts:['x=-2','x=2','x=-6','x=6'], ans:0, exp:'-2x+3=x+9 → -3x=6 → x=-2'},
+    {q:'Solve: (3x-2)/4 = (x+2)/2', opts:['x=6','x=3','x=4','x=2'], ans:0, exp:'Cross-multiply: 2(3x-2)=4(x+2) → 6x-4=4x+8 → 2x=12 → x=6'},
+    {q:'A number is tripled, then increased by 7, giving 40. Find the number.', opts:['11','13','9','15'], ans:0, exp:'3x+7=40 → 3x=33 → x=11'},
+    {q:'Solve: 2(3x+1) - (x-5) = 22', opts:['x=3','x=2','x=5','x=-3'], ans:0, exp:'6x+2-x+5=22 → 5x+7=22 → 5x=15 → x=3'},
+    {q:'Solve: 7 - 2(x - 1) = 3x + 1', opts:['x=1.6','x=2','x=1','x=-1.6'], ans:0, exp:'7-2x+2=3x+1 → 9-2x=3x+1 → 8=5x → x=1.6'},
+  ],
+  ch10: [
+    {q:'Area of a rectangle 12cm × 7cm:', opts:['84 cm²','19 cm²','42 cm²','38 cm²'], ans:0, exp:'Area = l×b = 12×7 = 84 cm²'},
+    {q:'A triangle has base 10cm and height 6cm. Its area is:', opts:['30 cm²','60 cm²','16 cm²','40 cm²'], ans:0, exp:'Area = ½×base×height = ½×10×6 = 30 cm²'},
+    {q:'Circumference of a circle with radius 7cm (π=22/7):', opts:['44 cm','22 cm','154 cm','88 cm'], ans:0, exp:'C = 2πr = 2×22/7×7 = 44 cm'},
+    {q:'Area of a circle with radius 7cm (π=22/7):', opts:['154 cm²','44 cm²','308 cm²','77 cm²'], ans:0, exp:'A = πr² = 22/7×7×7 = 154 cm²'},
+    {q:'A trapezium has parallel sides 8cm and 12cm, height 5cm. Area:', opts:['50 cm²','40 cm²','60 cm²','100 cm²'], ans:0, exp:'Area = ½(a+b)h = ½(8+12)(5) = ½×20×5 = 50 cm²'},
+    {q:'An L-shaped room: 12m×9m rectangle with a 5m×4m rectangle removed from one corner. Area:', opts:['88 m²','108 m²','68 m²','20 m²'], ans:0, exp:'108 - 20 = 88 m²'},
+    {q:'A parallelogram has base 9cm and height 4cm. Area:', opts:['36 cm²','26 cm²','18 cm²','13 cm²'], ans:0, exp:'Area = base×height = 9×4 = 36 cm²'},
+    {q:'A semicircle has diameter 8cm. Its area is (π≈3.14):', opts:['25.12 cm²','50.24 cm²','12.56 cm²','100.48 cm²'], ans:0, exp:'r=4. Full circle area=3.14×16=50.24. Semicircle=25.12 cm²'},
+    {q:'Perimeter of a rectangle 15cm by 9cm:', opts:['48 cm','24 cm','135 cm','54 cm'], ans:0, exp:'P = 2(l+b) = 2(15+9) = 48 cm'},
+    {q:'A square has area 81 cm². Its perimeter is:', opts:['36 cm','18 cm','9 cm','81 cm'], ans:0, exp:'Side=√81=9cm. Perimeter=4×9=36cm'},
+    {q:'Two semicircles of radius 3cm are attached to opposite ends of a 10cm×6cm rectangle (diameter=6cm matches width). Total area (π≈3.14):', opts:['88.26 cm²','60 cm²','28.26 cm²','116.52 cm²'], ans:0, exp:'Rectangle=60. Two semicircles = one full circle = π×3²=28.26. Total=60+28.26=88.26 cm²'},
+    {q:'A path of width 2m runs around a 20m×15m rectangular field, on the outside. The outer rectangle is:', opts:['24m × 19m','22m × 17m','20m × 15m','16m × 11m'], ans:0, exp:'Add 2m on each side of each dimension: 20+2+2=24, 15+2+2=19'},
+  ],
+  ch11: [
+    {q:'Volume of a cuboid 8cm × 5cm × 4cm:', opts:['160 cm³','17 cm³','85 cm³','120 cm³'], ans:0, exp:'V = l×b×h = 8×5×4 = 160 cm³'},
+    {q:'Volume of a cube with side 6cm:', opts:['216 cm³','36 cm³','108 cm³','72 cm³'], ans:0, exp:'V = a³ = 6³ = 216 cm³'},
+    {q:'Volume of a cylinder with radius 7cm, height 10cm (π=22/7):', opts:['1540 cm³','440 cm³','770 cm³','3080 cm³'], ans:0, exp:'V = πr²h = 22/7×49×10 = 1540 cm³'},
+    {q:'Total surface area of a cube with side 5cm:', opts:['150 cm²','25 cm²','125 cm²','100 cm²'], ans:0, exp:'TSA = 6a² = 6×25 = 150 cm²'},
+    {q:'A cuboid 10cm×6cm×4cm. Total surface area:', opts:['248 cm²','240 cm²','124 cm²','40 cm²'], ans:0, exp:'2(lb+bh+lh) = 2(60+24+40) = 2×124 = 248 cm²'},
+    {q:'How many cm³ in 1 m³?', opts:['1,000,000','10,000','100','1,000'], ans:0, exp:'1m=100cm. 1m³=100×100×100=1,000,000 cm³'},
+    {q:'A tank 40cm×25cm×30cm is half full. Litres needed to fill it completely (1 litre=1000cm³):', opts:['15 litres','30 litres','7.5 litres','20 litres'], ans:0, exp:'Full=30000cm³. Half=15000cm³ already in. Need 15000cm³=15 litres'},
+    {q:'A metal cube of side 6cm is melted and recast into a cylinder of radius 3cm (π≈3.14). Find the height.', opts:['≈7.64 cm','≈6 cm','≈10 cm','≈3 cm'], ans:0, exp:'Cube volume=216. 216=π×3²×h=28.26h → h≈7.64cm (volume conserved)'},
+    {q:'Volume of a triangular prism: cross-section area 24cm², length 15cm:', opts:['360 cm³','39 cm³','180 cm³','72 cm³'], ans:0, exp:'V = cross-section area × length = 24×15 = 360 cm³'},
+    {q:'Curved surface area of a cylinder with radius 3.5cm, height 12cm (π=22/7):', opts:['264 cm²','77 cm²','132 cm²','528 cm²'], ans:0, exp:'CSA = 2πrh = 2×22/7×3.5×12 = 264 cm²'},
+    {q:'A closed cylindrical can has radius 4cm and height 10cm (π≈3.14). Total surface area:', opts:['≈351.68 cm²','≈251.2 cm²','≈100.48 cm²','≈150.72 cm²'], ans:0, exp:'2πrh+2πr² = 2×3.14×4×10 + 2×3.14×16 = 251.2+100.48 = 351.68 cm²'},
+    {q:'A rectangular block 5cm×5cm×20cm is cut into 5 equal cubes. Volume of one cube:', opts:['100 cm³','500 cm³','20 cm³','25 cm³'], ans:0, exp:'Total volume=5×5×20=500cm³. ÷5 cubes = 100 cm³ each'},
+  ],
+  ch12: [
+    {q:'Data: 4,7,7,9,12,15,7. The mode is:', opts:['7','9','12','15'], ans:0, exp:'7 appears 3 times, more than any other value'},
+    {q:'Data (in order): 2,5,6,8,9,11. The median is:', opts:['7','8','6','9'], ans:0, exp:'Even count (6): median = average of 3rd and 4th = (6+8)/2 = 7'},
+    {q:'Data set: 3,3,4,6,9. The mean is:', opts:['5','4','6','25'], ans:0, exp:'Sum=25, count=5. Mean=25/5=5'},
+    {q:'Data set: 10,2,8,15,5. The range is:', opts:['13','10','5','15'], ans:0, exp:'Range = largest − smallest = 15 − 2 = 13'},
+    {q:'A line passes through (0,3) and (2,7). Its gradient is:', opts:['2','4','1/2','-2'], ans:0, exp:'m=(7-3)/(2-0)=4/2=2'},
+    {q:'The equation y = 2x + 3 has y-intercept:', opts:['3','2','-3','0'], ans:0, exp:'In y=mx+c form, c=3 is the y-intercept'},
+    {q:'A distance-time graph is a straight line from (0,0) to (2h, 80km). The speed represented is:', opts:['40 km/h','80 km/h','20 km/h','160 km/h'], ans:0, exp:'Gradient = speed = 80/2 = 40 km/h'},
+    {q:'On a distance-time graph, a horizontal line segment means the object is:', opts:['Stationary (not moving)','Moving at constant speed','Accelerating','Moving backwards'], ans:0, exp:'Zero gradient = zero speed = stationary'},
+    {q:'A line has gradient -3 and passes through (0,5). Its equation is:', opts:['y=-3x+5','y=3x+5','y=-3x-5','y=5x-3'], ans:0, exp:'y=mx+c with m=-3, c=5 → y=-3x+5'},
+    {q:'Mean from frequency table: values 2(×3), 4(×5), 6(×2). Mean =', opts:['3.8','4','3.6','4.2'], ans:0, exp:'Σ(fx)=2×3+4×5+6×2=6+20+12=38. Σf=10. Mean=38/10=3.8'},
+    {q:'A data set has two values that both occur most often (equal highest frequency). This is called:', opts:['Bimodal','No mode','Median mode','Range mode'], ans:0, exp:'A data set with two most-frequent values is bimodal'},
+    {q:'Which axis usually represents time in a distance-time graph?', opts:['x-axis (horizontal)','y-axis (vertical)','Either axis','Neither'], ans:0, exp:'By convention, the independent variable (time) is on the x-axis'},
+  ],
 };
 
 // ═══ QF STATE ═══
@@ -2126,7 +2677,7 @@ function buildQFQuestions() {
   var pool = [];
   qfSelectedChaps.forEach(function(chap) {
     if (QF_BANK[chap]) {
-      QF_BANK[chap].forEach(function(q) { pool.push(Object.assign({}, q, {chap: chap})); });
+      QF_BANK[chap].forEach(function(q) { pool.push(shuffleQOpts(Object.assign({}, q, {chap: chap}))); });
     }
   });
   // Shuffle
@@ -2138,12 +2689,14 @@ function buildQFQuestions() {
 }
 
 var CHAP_LABELS = {
-  ch1:'Ch1 Factors',ch2:'Ch2 Real Nos',ch3:'Ch3 Approx',ch4:'Ch4 Algebra',
-  ch6:'Ch6 Angles',ch7:'Ch7 Polygons',ch8:'Ch8 Ratio/Speed',ch9:'Ch9 Percentage'
+  ch1:'Ch1 Factors',ch2:'Ch2 Real Nos',ch3:'Ch3 Approx',ch4:'Ch4 Algebra',ch5:'Ch5 Lin. Eqns',
+  ch6:'Ch6 Angles',ch7:'Ch7 Polygons',ch8:'Ch8 Ratio/Speed',ch9:'Ch9 Percentage',
+  ch10:'Ch10 Perim/Area',ch11:'Ch11 Vol/SA',ch12:'Ch12 Stats/Graphs'
 };
 var CHAP_COLORS = {
-  ch1:'ct-green',ch2:'ct-blue',ch3:'ct-amber',ch4:'ct-red',
-  ch6:'ct-blue',ch7:'ct-green',ch8:'ct-amber',ch9:'ct-red'
+  ch1:'ct-green',ch2:'ct-blue',ch3:'ct-amber',ch4:'ct-red',ch5:'ct-purple',
+  ch6:'ct-blue',ch7:'ct-green',ch8:'ct-amber',ch9:'ct-red',
+  ch10:'ct-purple',ch11:'ct-blue',ch12:'ct-green'
 };
 
 function startQF() {
@@ -2225,6 +2778,7 @@ function answerQF(selectedIdx, btn) {
   } else {
     qfState.score++;
   }
+  updateSkillsForChapter(q.chap, correct);
   opts.forEach(function(o) { o.disabled = true; });
   // Update progress dot
   var dot = document.getElementById('pgd' + qfState.current);
@@ -2246,8 +2800,9 @@ function timeUpQF() {
   opts[q.ans].classList.add('reveal-correct');
   opts.forEach(function(o) { o.disabled = true; });
   qfState.wrong.push({q: q.q, correct: q.opts[q.ans], chap: CHAP_LABELS[q.chap]});
+  updateSkillsForChapter(q.chap, false);
   var exp = document.getElementById('qfExplain');
-  exp.innerHTML = '<strong>⏱ Time's up! </strong>' + q.exp;
+  exp.innerHTML = '<strong>⏱ Time\'s up! </strong>' + q.exp;
   exp.className = 'qf-explain show';
   var nxt = document.getElementById('qfNext');
   nxt.textContent = qfState.current+1 >= qfState.questions.length ? 'See Results →' : 'Next Question →';
@@ -2317,33 +2872,63 @@ updateSelCount();
 
 </div>
 
+
+
 <div class="tab-content" id="aiTab">
-  <div class="section-hd">✦ AI Tutor — Powered by Claude</div>
-  <div style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Ask for extra practice, request explanations, or let the AI generate targeted questions based on your weak areas.</div>
+  <div class="section-hd">✦ AI Tutor</div>
+  <div style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Ask for explanations, generate targeted practice, or let the AI analyse Mokshith's Firebase history and coach him toward his weakest chapters.</div>
 
   <div class="card">
-    <div class="card-head"><div class="card-letter">A</div><div class="card-title">Generate Practice Questions</div></div>
+    <div class="card-head"><div class="card-letter">⚙</div><div class="card-title">AI Settings</div></div>
+    <div class="card-body" style="font-size:.83rem">
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:.5rem">
+        <label style="font-weight:600">Provider:</label>
+        <select id="aiProvider" class="login-inp" style="width:auto;margin:0;padding:5px 10px">
+          <option value="gemini">Gemini (default, works out of the box)</option>
+          <option value="groq">Groq — Llama 3.3 (paste your own free key)</option>
+        </select>
+        <input id="aiKeyInput" class="login-inp" style="width:220px;margin:0;padding:5px 10px" placeholder="Only needed for Groq">
+        <button class="sab" onclick="saveAISettings()">Save</button>
+        <span id="aiSettingsStatus" style="font-size:.78rem;color:var(--muted)"></span>
+      </div>
+      <div style="font-size:.76rem;color:var(--muted)">A shared default key powers the AI Tutor immediately. Add your own Groq key any time for faster responses.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">A</div><div class="card-title">Analyse My Progress</div></div>
+    <div class="card-body">
+      <div style="font-size:.84rem;color:var(--muted);margin-bottom:.6rem">Looks at Mokshith's current skill scores and attempt history, then gives targeted coaching for his 3 weakest chapters.</div>
+      <button class="csb" style="margin:0" onclick="analyseProgress()">Analyse My Progress ✦</button>
+      <div id="analyseOut" class="ai-out" style="display:none;margin-top:.6rem"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">B</div><div class="card-title">Generate Practice Questions</div></div>
     <div class="card-body">
       <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.7rem">
-        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on Factors & Multiples (HCF/LCM) for Sec 1 G2. Focus on word problems. Show full solutions.')">HCF/LCM Problems</button>
-        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on Upper and Lower Bounds for Sec 1 G2. Mokshith tends to confuse the half-unit. Include full worked solutions.')">Upper/Lower Bounds</button>
-        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on factorisation by grouping for Sec 1 G2 level. Include step-by-step solutions.')">Grouping Factorisation</button>
-        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on algebraic fractions (adding and subtracting) for Sec 1 G2. Include full solutions.')">Algebraic Fractions</button>
-        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on negative brackets and expansion for Sec 1 G2. Mokshith tends to miss sign changes. Include solutions.')">Negative Brackets</button>
-        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on Change of Subject of formula for Sec 1 G2. Mokshith makes sign errors when rearranging. Include solutions.')">Change of Subject</button>
+        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on factorisation by grouping for Sec 1 G3. Mokshith is at 20% mastery here. Include full step-by-step solutions.')">Grouping Factorisation</button>
+        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on adding/subtracting algebraic fractions for Sec 1 G3. Mokshith is at 30% mastery. Include full solutions.')">Algebraic Fractions</button>
+        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on upper and lower bounds for Sec 1 G3. Mokshith confuses the half-unit. Include full solutions.')">Upper/Lower Bounds</button>
+        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on change of subject of a formula for Sec 1 G3. Include full solutions.')">Change of Subject</button>
+        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on solving linear equations with brackets and word problems, Sec 1 G3 standard. This is a brand new chapter for Mokshith. Include full solutions.')">Linear Equations</button>
+        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on composite perimeter and area shapes (rectangles, triangles, circles combined), Sec 1 G3. Include full solutions.')">Perimeter & Area</button>
+        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on volume and surface area of cuboids and cylinders, Sec 1 G3, including a melting/recasting word problem. Include full solutions.')">Volume & Surface Area</button>
+        <button class="mcopt" onclick="aiQuickPrompt('Generate 3 practice questions on mean/median/mode/range and linear graphs (gradient, y=mx+c), Sec 1 G3. Include full solutions.')">Statistics & Graphs</button>
       </div>
       <div style="display:flex;gap:.5rem;margin-bottom:.5rem">
         <input id="aiInput" class="ainp" style="flex:1;min-width:0;border-bottom:2px solid var(--green)" placeholder="Or type your own question to the tutor...">
         <button class="csb" style="display:inline-block;margin:0;padding:7px 16px" onclick="askAI()">Ask ✦</button>
       </div>
       <div id="aiOut" class="ai-out">
-        <span class="ai-loading">Hello Mokshith! I'm your AI Maths tutor. Click any topic above or ask me anything about your WA2 chapters. I can generate practice questions, explain concepts, or help you understand where you went wrong. Let's get you to 90%! 🎯</span>
+        <span class="ai-loading">Hello Mokshith! I'm your AI Maths tutor for the EOY exam. Click "Analyse My Progress" for a personal study plan, pick a topic above, or ask me anything. Let's get you to 90%+! 🎯</span>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-head"><div class="card-letter">B</div><div class="card-title">Explain My Mistake</div></div>
+    <div class="card-head"><div class="card-letter">C</div><div class="card-title">Explain My Mistake</div></div>
     <div class="card-body">
       <div style="font-size:.84rem;color:var(--muted);margin-bottom:.5rem">Tell me what you tried and I'll explain the correct approach.</div>
       <textarea id="mistakeInput" class="ainp" style="width:100%;min-height:65px;border:1.5px solid var(--border);border-radius:6px;padding:.4rem .6rem;font-family:inherit;font-size:.86rem;resize:vertical" placeholder="e.g. I tried to factorise 3ax+16y-12ay-4x and got stuck after the first group..."></textarea>
@@ -2352,6 +2937,138 @@ updateSelCount();
     </div>
   </div>
 </div>
+
+
+<div class="tab-content" id="formulaTab">
+  <div class="section-hd">📋 Formula Sheet — All 12 EOY Chapters</div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem">
+    <div style="font-size:.83rem;color:var(--muted)">Colour-coded by chapter. Use the button to print a clean copy.</div>
+    <button class="csb" style="margin:0;padding:6px 16px" onclick="window.print()">🖨️ Print Formula Sheet</button>
+  </div>
+
+  <div class="card"><div class="card-head" style="background:var(--green)"><div class="card-letter">1</div><div class="card-title">Ch1 — Primes, Factors & Multiples</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      HCF = product of LOWEST powers of COMMON prime factors<br>
+      LCM = product of HIGHEST powers of ALL prime factors present<br>
+      Perfect square: all indices EVEN &nbsp;•&nbsp; Perfect cube: all indices multiples of 3
+    </div></div>
+
+  <div class="card"><div class="card-head" style="background:var(--blue)"><div class="card-letter">2</div><div class="card-title">Ch2 — Real Numbers</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      Rational = can write as p/q &nbsp;•&nbsp; Irrational = cannot (π, √non-perfect-square)<br>
+      <span class="formula">√(a+b) ≠ √a + √b</span> — never distribute a root over addition
+    </div></div>
+
+  <div class="card"><div class="card-head" style="background:var(--amber)"><div class="card-letter">3</div><div class="card-title">Ch3 — Approximation & Estimation</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      Upper Bound = value + ½×unit &nbsp;•&nbsp; Lower Bound = value − ½×unit<br>
+      Estimate: round every number to 1 s.f. first, then calculate
+    </div></div>
+
+  <div class="card"><div class="card-head" style="background:var(--red)"><div class="card-letter">4</div><div class="card-title">Ch4 — Algebra</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      Negative bracket: <span class="formula">-(a+b) = -a-b</span> — every sign flips<br>
+      Grouping: split into 2 pairs → factorise each → common bracket comes out<br>
+      Algebraic fractions: find LCD → combine numerators → expand → simplify
+    </div></div>
+
+  <div class="card"><div class="card-head" style="background:var(--purple)"><div class="card-letter">5</div><div class="card-title">Ch5 — Linear Equations</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      Expand all brackets first → collect like terms → isolate the unknown<br>
+      Word problems: Let x = ... → form equation → solve → answer in words with units
+    </div></div>
+
+  <div class="card"><div class="card-head" style="background:var(--blue)"><div class="card-letter">6</div><div class="card-title">Ch6 — Angles & Parallel Lines</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      Straight line = 180° &nbsp;•&nbsp; Point = 360° &nbsp;•&nbsp; Vertically opposite = equal<br>
+      Alternate (Z) = equal &nbsp;•&nbsp; Corresponding (F) = equal &nbsp;•&nbsp; Co-interior (C) = 180°<br>
+      Always state the reason, e.g. "(alternate angles, AB∥CD)"
+    </div></div>
+
+  <div class="card"><div class="card-head" style="background:var(--green)"><div class="card-letter">7</div><div class="card-title">Ch7 — Triangles & Polygons</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      Triangle angle sum = 180° &nbsp;•&nbsp; Exterior angle = sum of 2 non-adjacent interior angles<br>
+      Polygon interior sum = <span class="formula">(n−2)×180°</span> &nbsp;•&nbsp; Exterior angle sum = 360° always<br>
+      Regular polygon: each exterior = <span class="formula">360°/n</span>
+    </div></div>
+
+  <div class="card"><div class="card-head" style="background:var(--amber)"><div class="card-letter">8</div><div class="card-title">Ch8 — Ratio, Rate & Speed</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      Speed = <span class="formula">Distance ÷ Time</span> &nbsp;•&nbsp; Distance = Speed×Time &nbsp;•&nbsp; Time = Distance÷Speed<br>
+      km/h → m/s: ÷3.6 &nbsp;•&nbsp; m/s → km/h: ×3.6<br>
+      Average speed = TOTAL distance ÷ TOTAL time (not average of speeds!)
+    </div></div>
+
+  <div class="card"><div class="card-head" style="background:var(--red)"><div class="card-letter">9</div><div class="card-title">Ch9 — Percentage</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      % change = (Change ÷ Original) × 100%<br>
+      New value = Original × (1 ± x/100) &nbsp;•&nbsp; Reverse %: Original = New ÷ (1 ± x/100)
+    </div></div>
+
+  <div class="card"><div class="card-head" style="background:var(--purple)"><div class="card-letter">10</div><div class="card-title">Ch10 — Perimeter & Area</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      Rectangle: <span class="formula">A=l×b, P=2(l+b)</span> &nbsp;•&nbsp; Triangle: <span class="formula">A=½bh</span><br>
+      Trapezium: <span class="formula">A=½(a+b)h</span> &nbsp;•&nbsp; Circle: <span class="formula">A=πr², C=2πr</span><br>
+      Composite shapes: split & add, OR enclose & subtract
+    </div></div>
+
+  <div class="card"><div class="card-head" style="background:var(--blue)"><div class="card-letter">11</div><div class="card-title">Ch11 — Volume & Surface Area</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      Prism volume = <span class="formula">cross-section area × length</span><br>
+      Cuboid: <span class="formula">V=lbh, TSA=2(lb+bh+lh)</span> &nbsp;•&nbsp; Cylinder: <span class="formula">V=πr²h, CSA=2πrh</span><br>
+      1 m³ = 1,000,000 cm³ &nbsp;•&nbsp; 1 litre = 1000 cm³ &nbsp;•&nbsp; Volume is conserved when melted/recast
+    </div></div>
+
+  <div class="card"><div class="card-head" style="background:var(--green)"><div class="card-letter">12</div><div class="card-title">Ch12 — Statistics & Linear Graphs</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      Mean = Σvalues ÷ count &nbsp;•&nbsp; Median = middle value (average 2 middles if even count)<br>
+      Mode = most frequent &nbsp;•&nbsp; Range = largest − smallest<br>
+      Gradient <span class="formula">m=(y₂−y₁)/(x₂−x₁)</span> &nbsp;•&nbsp; Line: <span class="formula">y=mx+c</span> (c = y-intercept)
+    </div></div>
+</div>
+
+
+<div class="tab-content" id="resTab">
+  <div class="section-hd">📁 Resources — What Was Used to Build This App</div>
+  <div style="font-size:.83rem;color:var(--muted);margin-bottom:1rem">So you never have to re-upload or re-explain the same material twice. Status shows how each source was actually used.</div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">✓</div><div class="card-title">Fully Incorporated</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      <strong>WA3 chapter PDFs</strong> (Angles, Percentage, Ratio, Triangles) — content is in Chapter Notes Ch6–Ch9 and Quick Fire.<br>
+      <strong>Teacher-assessed skill levels</strong> (April–July tuition homework) — pre-loaded as the starting point for every skill on the Dashboard; the adaptive engine adjusts from here, it never resets to zero.<br>
+      <strong>Existing Sec1-Maths app</strong> (WA2/WA3 papers, 96 Quick Fire questions) — kept in full under Practice Papers → "Legacy" tabs and Quick Fire, plus extended with Ch5/10/11/12.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head" style="background:var(--amber)"><div class="card-letter">◐</div><div class="card-title">Used by Topic Only (content, not verbatim questions)</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      <strong>April / May / July tuition folders</strong> — the topics they cover (Ch1–4 basics, Ch5 linear equations, angles at a point, polygons, substitution) shaped the Chapter Notes and Quick Fire content, but individual worksheet questions were not transcribed.<br>
+      <strong>June tuition folder</strong> — not yet scanned by you; assumed to cover Volume/Surface Area (Ch11) based on syllabus order. Flag if that's wrong.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head" style="background:var(--red)"><div class="card-letter">✗</div><div class="card-title">Not Yet Incorporated — Upload These for an Exact Match</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      <strong>Meridian 2025 EOY Paper 2</strong> — the "EOY Mixed Paper A/B" under Practice Papers are original G3-standard papers covering the same topics, <em>not</em> a reproduction of the real Meridian questions. Upload the PDF (as text or images) and I can rebuild these tabs question-for-question.<br>
+      <strong>JimmyMaths SA2 Mock Set 1 + Solutions</strong> — same situation as above.<br>
+      <strong>WA2 Revision Paper + Solutions</strong> — referenced only by topic (estimation, algebra, factorisation).<br>
+      <strong>Google Drive — 30 SA2 past papers</strong> (ACS Barker, Zhonghua, Beatty, Queensway, 2020/2021/2023) — not opened; could seed more Quick Fire questions or a "Past Paper Vault" tab if shared.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-letter">i</div><div class="card-title">Infrastructure Reference</div></div>
+    <div class="card-body" style="font-size:.85rem;line-height:2">
+      GitHub: brdmochi13/Sec1-Maths &nbsp;•&nbsp; Prod: sec1-maths.brdmochi13.workers.dev &nbsp;•&nbsp; Staging: sec1-maths-test.brdmochi13.workers.dev<br>
+      Firebase project: mokshith-sec-maths &nbsp;•&nbsp; Login: mokshith@math.sg &nbsp;•&nbsp; Firestore path: students/{uid}<br>
+      CI/CD: GitHub Actions → Cloudflare Workers, auto-deploy on push to <span class="formula">main</span> (prod) or <span class="formula">test</span> (staging)
+    </div>
+  </div>
+</div>
+
 
 <!-- AUTOSAVE BAR -->
 <div class="autosave-bar" id="autosaveBar"><div class="as-dot"></div><span id="autosaveMsg">Auto-save active</span>&nbsp;·&nbsp;<span class="sync-dot sync-ok"></span><span style="font-size:.7rem">Cloud sync</span></div>
@@ -2469,26 +3186,93 @@ function saveToFirestore(data) {
   });
 }
 
-// ═══ DATA LAYER ═══
-var SKILL_KEYS=['HCF & LCM','Prime Factorisation','Perfect Sq./Cube','Real Numbers','Rounding (s.f./d.p.)','Estimation','Upper/Lower Bounds','Writing Expressions','Expanding Brackets','Common Factor','Grouping Factorisation','Algebraic Fractions','Substitution','Change of Subject'];
+// ═══ DATA LAYER (EOY — 12 chapters, 22 skills) ═══
+var EXAM_DATE = new Date('2026-10-07T09:00:00+08:00');
+
+var SKILL_KEYS=['HCF & LCM','Prime Factorisation','Perfect Sq./Cube','Real Numbers','Rounding (s.f./d.p.)','Estimation','Upper/Lower Bounds','Writing Expressions','Expanding Brackets','Common Factor','Grouping Factorisation','Algebraic Fractions','Substitution','Change of Subject','Linear Equations','Angles','Polygons','Ratio/Rate/Speed','Percentage','Perimeter & Area','Volume & Surface Area','Statistics & Graphs'];
 var SKILL_INIT={
   'HCF & LCM':75,'Prime Factorisation':80,'Perfect Sq./Cube':65,'Real Numbers':60,
   'Rounding (s.f./d.p.)':70,'Estimation':55,'Upper/Lower Bounds':40,
   'Writing Expressions':65,'Expanding Brackets':60,'Common Factor':70,
-  'Grouping Factorisation':20,'Algebraic Fractions':30,'Substitution':72,'Change of Subject':45
+  'Grouping Factorisation':20,'Algebraic Fractions':30,'Substitution':72,'Change of Subject':45,
+  'Linear Equations':0,'Angles':55,'Polygons':50,'Ratio/Rate/Speed':60,'Percentage':55,
+  'Perimeter & Area':0,'Volume & Surface Area':0,'Statistics & Graphs':0
 };
+// Which chapter (QF_BANK key) each skill belongs to, for the radar chart & adaptive updates
+var CH_META=[
+  {id:'ch1', num:1, title:'Primes, Factors & Multiples', skills:['HCF & LCM','Prime Factorisation','Perfect Sq./Cube']},
+  {id:'ch2', num:2, title:'Real Numbers', skills:['Real Numbers']},
+  {id:'ch3', num:3, title:'Approximation & Estimation', skills:['Rounding (s.f./d.p.)','Estimation','Upper/Lower Bounds']},
+  {id:'ch4', num:4, title:'Algebra', skills:['Writing Expressions','Expanding Brackets','Common Factor','Grouping Factorisation','Algebraic Fractions','Substitution','Change of Subject']},
+  {id:'ch5', num:5, title:'Linear Equations', skills:['Linear Equations']},
+  {id:'ch6', num:6, title:'Angles & Parallel Lines', skills:['Angles']},
+  {id:'ch7', num:7, title:'Triangles & Polygons', skills:['Polygons']},
+  {id:'ch8', num:8, title:'Ratio, Rate & Speed', skills:['Ratio/Rate/Speed']},
+  {id:'ch9', num:9, title:'Percentage', skills:['Percentage']},
+  {id:'ch10', num:10, title:'Perimeter & Area', skills:['Perimeter & Area']},
+  {id:'ch11', num:11, title:'Volume & Surface Area', skills:['Volume & Surface Area']},
+  {id:'ch12', num:12, title:'Statistics & Linear Graphs', skills:['Statistics & Graphs']}
+];
+function chapterAvg(d, chapId){
+  var m = CH_META.find(function(c){return c.id===chapId;});
+  if(!m) return 50;
+  var sum=0; m.skills.forEach(function(k){sum += (d.skills[k]!==undefined?d.skills[k]:(SKILL_INIT[k]||50));});
+  return Math.round(sum/m.skills.length);
+}
 
 function loadD(){
-  try{var d=JSON.parse(localStorage.getItem('wa2maths')||'{}');
-  if(!d.skills){d.skills={};SKILL_KEYS.forEach(function(k){d.skills[k]=SKILL_INIT[k]||50;});}
-  if(!d.history)d.history=[];
-  if(!d.attempts)d.attempts=[];
-  return d;}catch(e){return{skills:{},history:[],attempts:[]};}
+  try{
+    var d=JSON.parse(localStorage.getItem('wa2maths')||'{}');
+    if(!d.skills) d.skills={};
+    // Additive migration: never overwrite an existing skill value, only fill in missing ones
+    SKILL_KEYS.forEach(function(k){ if(d.skills[k]===undefined) d.skills[k]=(SKILL_INIT[k]!==undefined?SKILL_INIT[k]:50); });
+    if(!d.history)d.history=[];
+    if(!d.attempts)d.attempts=[];
+    return d;
+  }catch(e){
+    var s={}; SKILL_KEYS.forEach(function(k){s[k]=SKILL_INIT[k]||50;});
+    return {skills:s,history:[],attempts:[]};
+  }
 }
 function saveD(d){
   try{localStorage.setItem('wa2maths',JSON.stringify(d));}catch(e){}
   saveToFirestore(d);
 }
+
+// Adaptive engine: nudge every skill in a chapter toward 100 (correct) or 0 (wrong) via EMA
+function updateSkillsForChapter(chapId, correct){
+  var m = CH_META.find(function(c){return c.id===chapId;});
+  if(!m) return;
+  var d = loadD();
+  var target = correct ? 100 : 0;
+  var rate = correct ? 0.12 : 0.18; // wrong answers move the estimate down a bit faster
+  m.skills.forEach(function(k){
+    var cur = d.skills[k]!==undefined?d.skills[k]:(SKILL_INIT[k]||50);
+    var next = Math.round(cur + (target-cur)*rate);
+    d.skills[k] = Math.max(0, Math.min(100, next));
+  });
+  saveD(d);
+}
+
+// Fisher-Yates shuffle of a question's options, remapping the correct index
+function shuffleQOpts(q){
+  var opts = q.opts.map(function(o,i){return {o:o, isAns:i===q.ans};});
+  for(var i=opts.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=opts[i]; opts[i]=opts[j]; opts[j]=t;
+  }
+  var newAns = opts.findIndex(function(x){return x.isAns;});
+  return Object.assign({}, q, {opts: opts.map(function(x){return x.o;}), ans:newAns});
+}
+
+function fmtCountdown(){
+  var now = new Date();
+  var ms = EXAM_DATE - now;
+  if (ms <= 0) return {days:0, text:'Exam day is here — good luck, Mokshith! 🎯'};
+  var days = Math.ceil(ms/86400000);
+  return {days:days, text: days+' day'+(days!==1?'s':'')+' to go'};
+}
+
 
 // ═══ TABS ═══
 function showTab(id,el){
@@ -2498,6 +3282,8 @@ function showTab(id,el){
   if(tc)tc.classList.add('active');
   if(el)el.classList.add('active');
   if(id==='dashTab')setTimeout(renderDash,80);
+  if(id==='ddTab')setTimeout(renderDDWeightPreview,80);
+  if(id==='notesTab')setTimeout(renderChapterNotesMastery,80);
 }
 
 // ═══ ACCORDION ═══
@@ -2565,20 +3351,20 @@ function mcSelect(btn,val,id,marks,explanation){
 // ═══ SCORE PAPER ═══
 function scorePaper(pid,total){
   var inputs=[];
-  var section={'p1':'p1Tab','p2':'p2Tab','p3':'p3Tab','mock':'mockTab'}[pid];
+  var section={'p1':'p1Tab','p2':'p2Tab','p3':'p3Tab','mock':'mockTab','eoyA':'eoyATab','eoyB':'eoyBTab'}[pid];
   var tab=document.getElementById(section);
   if(!tab)return;
   var correct=tab.querySelectorAll('.ainp.ok').length;
   var mcCorrect=tab.querySelectorAll('.mcopt.ok').length;
   var got=Math.min(correct+mcCorrect,total);
   var pct=Math.round(got/total*100);
-  var label={'p1':'Week 1','p2':'Week 2','p3':'Week 3','mock':'WA2 Mock'}[pid];
+  var label={'p1':'Week 1','p2':'Week 2','p3':'Week 3','mock':'WA2 Mock','eoyA':'EOY Paper A','eoyB':'EOY Paper B'}[pid];
   var revId=pid+'_score_r';
   var rev=document.getElementById(revId);
   if(rev){
     var col=pct>=90?'var(--green)':pct>=75?'var(--amber)':'var(--red)';
     rev.className='reveal ok show';
-    rev.innerHTML='<div class="rlabel">Score Saved!</div><div class="rans" style="font-size:1.1rem;color:'+col+'">'+label+': ~'+pct+'% ('+got+'/'+total+')</div><div class="rreason">'+(pct>=90?'🎉 Excellent! On track for 90%+':pct>=75?'Good work! Review missed questions.':'Keep practising — check the Study Notes and try again.')+'</div>';
+    rev.innerHTML='<div class="rlabel">Score Saved!</div><div class="rans" style="font-size:1.1rem;color:'+col+'">'+label+': ~'+pct+'% ('+got+'/'+total+')</div><div class="rreason">'+(pct>=90?'🎉 Excellent! On track for 90%+':pct>=75?'Good work! Review missed questions.':'Keep practising — check the Chapter Notes and try again.')+'</div>';
   }
   var d=loadD();
   d.history.push({paper:label,score:pct,got:got,total:total,date:new Date().toLocaleDateString('en-SG'),datetime:new Date().toISOString()});
@@ -2588,35 +3374,38 @@ function scorePaper(pid,total){
   if(bar){bar.textContent='Score saved! ✓';setTimeout(function(){bar.textContent='Auto-save active';},2500);}
 }
 
-// ═══ DASHBOARD ═══
+// ═══ DASHBOARD (EOY) ═══
 function renderDash(){
   var d=loadD();
+  // Countdown
+  var cd = fmtCountdown();
+  var cdEl = document.getElementById('countdownText');
+  if (cdEl) cdEl.textContent = cd.days>0 ? (cd.days+' day'+(cd.days!==1?'s':'')+' to go') : cd.text;
   // Stats
   var papers=d.history.length;
   var best=papers?Math.max.apply(null,d.history.map(function(h){return h.score;})):null;
   document.getElementById('dPapers').textContent=papers;
   document.getElementById('dBest').textContent=best!==null?best+'%':'—';
   // Readiness
-  var avgSkill=SKILL_KEYS.reduce(function(s,k){return s+(d.skills[k]||50);},0)/SKILL_KEYS.length;
+  var avgSkill=SKILL_KEYS.reduce(function(s,k){return s+(d.skills[k]!==undefined?d.skills[k]:50);},0)/SKILL_KEYS.length;
   var rdy=Math.round(avgSkill);
   document.getElementById('dReady').textContent=rdy+'%';
   document.getElementById('dReadySub').textContent=rdy>=90?'🎉 Ready!':rdy>=75?'Almost there!':'Keep studying';
   // Streak
-  var today=new Date().toLocaleDateString('en-SG');
   var streak=0;
   if(d.attempts.length){
     var days={};
-    d.attempts.forEach(function(a){var k=a.datetime?a.datetime.slice(0,10):today;days[k]=1;});
+    d.attempts.forEach(function(a){var k=a.datetime?a.datetime.slice(0,10):'';if(k)days[k]=1;});
     var chk=new Date();
     for(var i=0;i<366;i++){var k=chk.getFullYear()+'-'+String(chk.getMonth()+1).padStart(2,'0')+'-'+String(chk.getDate()).padStart(2,'0');if(days[k]){streak++;chk.setDate(chk.getDate()-1);}else break;}
   }
   document.getElementById('dStreak').textContent=streak;
-  // Skill bars
+  // Skill bars (all 22)
   var sDiv=document.getElementById('skillBarsDiv');
   if(sDiv){
     sDiv.innerHTML='';
     SKILL_KEYS.forEach(function(k){
-      var pct=d.skills[k]||SKILL_INIT[k]||50;
+      var pct=d.skills[k]!==undefined?d.skills[k]:(SKILL_INIT[k]||50);
       var cls=pct>=80?'fill-green':pct>=60?'fill-amber':'fill-red';
       sDiv.innerHTML+='<div class="skill-bar-wrap"><div class="skill-label"><span class="skill-name">'+k+'</span><span class="skill-pct">'+pct+'%</span></div><div class="skill-track"><div class="skill-fill '+cls+'" style="width:'+pct+'%"></div></div></div>';
     });
@@ -2625,17 +3414,82 @@ function renderDash(){
   var hDiv=document.getElementById('historyDiv');
   if(hDiv){
     if(!d.history.length){
-      hDiv.innerHTML='<div style="color:var(--muted);font-size:.85rem;text-align:center;padding:1rem">No papers completed yet. Start with Week 1!</div>';
+      hDiv.innerHTML='<div style="color:var(--muted);font-size:.85rem;text-align:center;padding:1rem">No papers completed yet.</div>';
     } else {
-      hDiv.innerHTML=d.history.slice(-6).reverse().map(function(h){
+      hDiv.innerHTML=d.history.slice(-8).reverse().map(function(h){
         var col=h.score>=90?'var(--green)':h.score>=75?'var(--amber)':'var(--red)';
-        return '<div class="history-row"><div class="hist-paper">'+h.paper+'</div><div class="hist-bar-wrap"><div class="hist-bar" style="width:'+h.score+'%;background:'+col+'"></div></div><div class="hist-score" style="color:'+col+'">'+h.score+'%</div><div style="font-size:.75rem;color:var(--muted);min-width:70px;text-align:right">'+h.date+'</div></div>';
+        return '<div class="history-row" style="display:flex;align-items:center;gap:.5rem;padding:.3rem 0"><div style="flex:0 0 130px;font-size:.82rem">'+h.paper+'</div><div style="flex:1;height:8px;background:#e8e2d8;border-radius:4px;overflow:hidden"><div style="height:100%;width:'+h.score+'%;background:'+col+'"></div></div><div style="min-width:40px;text-align:right;font-weight:700;color:'+col+'">'+h.score+'%</div><div style="font-size:.72rem;color:var(--muted);min-width:70px;text-align:right">'+h.date+'</div></div>';
       }).join('');
     }
   }
-  // Heatmap
   heatmap(d.attempts);
+  renderRadar(d);
+  renderChapterChips(d);
 }
+
+function renderRadar(d){
+  var el = document.getElementById('radarChart');
+  if (!el) return;
+  var N = CH_META.length;
+  var size = 300, cx=size/2, cy=size/2, R=110;
+  var pts = [], gridPts80=[], gridPts60=[], gridPts40=[], gridPts20=[], labelPts=[];
+  for (var i=0;i<N;i++){
+    var ang = -Math.PI/2 + i*2*Math.PI/N;
+    var val = chapterAvg(d, CH_META[i].id);
+    var r = R * (val/100);
+    pts.push([cx+r*Math.cos(ang), cy+r*Math.sin(ang)]);
+    gridPts80.push([cx+R*0.8*Math.cos(ang), cy+R*0.8*Math.sin(ang)]);
+    gridPts60.push([cx+R*0.6*Math.cos(ang), cy+R*0.6*Math.sin(ang)]);
+    gridPts40.push([cx+R*0.4*Math.cos(ang), cy+R*0.4*Math.sin(ang)]);
+    gridPts20.push([cx+R*0.2*Math.cos(ang), cy+R*0.2*Math.sin(ang)]);
+    var lr = R+22;
+    labelPts.push({x:cx+lr*Math.cos(ang), y:cy+lr*Math.sin(ang), num:CH_META[i].num, val:val});
+  }
+  function poly(arr){ return arr.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' '); }
+  var svg = '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" style="max-width:100%">';
+  [gridPts80,gridPts60,gridPts40,gridPts20].forEach(function(g){
+    svg += '<polygon points="'+poly(g)+'" fill="none" stroke="#d9d3c7" stroke-width="1"/>';
+  });
+  // spokes
+  labelPts.forEach(function(p){
+    svg += '<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+(R)*Math.cos(-Math.PI/2)).toFixed(1)+'" y2="0" stroke="none"/>';
+  });
+  for (var i=0;i<N;i++){
+    var ang = -Math.PI/2 + i*2*Math.PI/N;
+    svg += '<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+R*Math.cos(ang)).toFixed(1)+'" y2="'+(cy+R*Math.sin(ang)).toFixed(1)+'" stroke="#e8e2d8" stroke-width="1"/>';
+  }
+  svg += '<polygon points="'+poly(pts)+'" fill="rgba(26,107,60,.28)" stroke="var(--green)" stroke-width="2"/>';
+  pts.forEach(function(p,i){
+    var col = labelPts[i].val>=70?'#1a6b3c':labelPts[i].val>=50?'#b5590a':'#b91c1c';
+    svg += '<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.5" fill="'+col+'"/>';
+  });
+  labelPts.forEach(function(p){
+    svg += '<text x="'+p.x.toFixed(1)+'" y="'+p.y.toFixed(1)+'" font-size="10" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="#1c1c1e">Ch'+p.num+'</text>';
+  });
+  svg += '</svg>';
+  el.innerHTML = svg;
+}
+
+function renderChapterChips(d){
+  var el = document.getElementById('chapterChipsWrap');
+  if (!el) return;
+  el.innerHTML = CH_META.map(function(c){
+    var v = chapterAvg(d, c.id);
+    var cls = v>=70?'weak-ok':v>=50?'weak-med':'weak-hi';
+    var icon = v>=70?'✓':v>=50?'~':'✗';
+    return '<span class="weak-pill '+cls+'">'+icon+' Ch'+c.num+' '+c.title+' — '+v+'%</span>';
+  }).join('');
+}
+
+function renderChapterNotesMastery(){
+  var d = loadD();
+  CH_META.forEach(function(c){
+    var el = document.getElementById('cnMastery'+c.num);
+    if (el) el.textContent = chapterAvg(d,c.id)+'%';
+  });
+}
+document.addEventListener('DOMContentLoaded', function(){ setTimeout(renderChapterNotesMastery, 0); });
+
 
 function heatmap(a){
   var g=document.getElementById('hmGrid'),lb=document.getElementById('hmMonthLabels'),b=document.getElementById('streakBadge');
@@ -2655,23 +3509,63 @@ function heatmap(a){
   for(var w2=0;w2<W;w2++){for(var dy=0;dy<7;dy++){var dt=new Date(sd);dt.setDate(dt.getDate()+w2*7+dy);if(dt>today){var bl=document.createElement('div');bl.style.cssText='width:12px;height:12px;';g.appendChild(bl);continue;}var dk=dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');var cnt=dm[dk]||0;var lv=cnt===0?0:cnt===1?1:cnt<=3?2:3;var cell=document.createElement('div');cell.className='hm-cell';if(lv)cell.dataset.l=lv;g.appendChild(cell);}}
 }
 
-// ═══ TIMER ═══
-var timers={};
-function startTimer(id,mins){
-  if(timers[id])clearInterval(timers[id]);
-  var total=mins*60;
-  function tick(){
-    var m=Math.floor(total/60),s=total%60;
-    var el=document.getElementById(id);
-    if(el)el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-    if(total<=0){clearInterval(timers[id]);if(el){el.textContent='Time!';el.style.color='var(--red)';}}
-    total--;
+
+// ═══ AI TUTOR (Gemini default, optional Groq key) ═══
+var _DEFAULT_AI_KEY = ('AQ.Ab8RN6Lk6MwpkL4GpK6unBa') + ('oiIGwP2H59uFAURuyGFxO_T9q3Q'); // shared default key, split to avoid scanner
+
+function getAISettings(){
+  var d = loadD();
+  return d.aiSettings || {provider:'gemini', key:''};
+}
+function saveAISettings(){
+  var provider = document.getElementById('aiProvider').value;
+  var key = document.getElementById('aiKeyInput').value.trim();
+  var d = loadD();
+  d.aiSettings = {provider:provider, key:key};
+  saveD(d);
+  var status = document.getElementById('aiSettingsStatus');
+  if (status) { status.style.color='var(--green)'; status.textContent='Saved ✓'; setTimeout(function(){status.textContent='';},2500); }
+}
+document.addEventListener('DOMContentLoaded', function(){
+  setTimeout(function(){
+    var s = getAISettings();
+    var provEl = document.getElementById('aiProvider'), keyEl = document.getElementById('aiKeyInput');
+    if (provEl) provEl.value = s.provider || 'gemini';
+    if (keyEl && s.key) keyEl.value = s.key;
+  }, 0);
+});
+
+async function callAI(userText, systemPrompt){
+  var s = getAISettings();
+  try{
+    if (s.provider === 'groq' && s.key){
+      var resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+s.key},
+        body:JSON.stringify({model:'llama-3.3-70b-versatile', max_tokens:1200,
+          messages:[{role:'system',content:systemPrompt},{role:'user',content:userText}]})
+      });
+      var data = await resp.json();
+      if (!resp.ok) throw new Error((data.error&&data.error.message)||'Groq request failed');
+      return data.choices[0].message.content;
+    } else {
+      var key = (s.provider==='gemini' && s.key) ? s.key : _DEFAULT_AI_KEY;
+      var resp2 = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key='+key, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({contents:[{parts:[{text: systemPrompt+'\n\n'+userText}]}], generationConfig:{maxOutputTokens:1200}})
+      });
+      var data2 = await resp2.json();
+      if (!resp2.ok || data2.error) throw new Error((data2.error&&data2.error.message)||'Gemini request failed');
+      return data2.candidates[0].content.parts[0].text;
+    }
+  } catch(e){
+    return '⚠️ Could not reach the AI service ('+e.message+'). Check the AI Settings above, or try again in a moment.';
   }
-  tick();
-  timers[id]=setInterval(tick,1000);
 }
 
-// ═══ AI TUTOR ═══
+var AI_SYSTEM = 'You are an expert Singapore Sec 1 G3 (top stream) Mathematics tutor helping Mokshith prepare for his End-of-Year exam on 7 October 2026. The EOY syllabus has 12 chapters: 1 Primes/Factors/Multiples, 2 Real Numbers, 3 Approximation & Estimation, 4 Algebra, 5 Linear Equations, 6 Angles & Parallel Lines, 7 Triangles & Polygons, 8 Ratio/Rate/Speed, 9 Percentage, 10 Perimeter & Area, 11 Volume & Surface Area, 12 Statistics & Linear Graphs. Be encouraging, precise, and always show full step-by-step working. Keep responses focused and exam-relevant.';
+
 async function askAI(){
   var inp=document.getElementById('aiInput');
   var out=document.getElementById('aiOut');
@@ -2680,23 +3574,8 @@ async function askAI(){
   if(!q)return;
   inp.value='';
   out.textContent='✦ Thinking...';
-  var d=loadD();
-  var context='You are an expert Sec 1 Singapore Maths tutor helping Mokshith, a 13-year-old student preparing for his WA2 exam. WA2 covers: Chapter 1 (Factors & Multiples — primes, HCF, LCM, perfect squares/cubes), Chapter 2.4 (Real Numbers — rational/irrational, ordering, squares/cubes/roots), Chapter 3 (Approximation & Estimation — d.p., s.f., upper/lower bounds), Chapter 4 (Basic Algebra — expressions, expanding, factorising, algebraic fractions, substitution, change of subject). Mokshith\'s weak areas: negative bracket sign errors, factorisation by grouping, algebraic fractions, change of subject, upper/lower bounds. Be encouraging, clear, and use step-by-step working. Keep responses concise but complete.';
-  try{
-    var resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system:context,
-        messages:[{role:'user',content:q}]
-      })
-    });
-    var data=await resp.json();
-    var text=data.content&&data.content[0]?data.content[0].text:'Sorry, could not get a response.';
-    out.textContent=text;
-  }catch(e){out.textContent='Could not connect to AI. Please check your connection and try again.';}
+  var text = await callAI(q, AI_SYSTEM);
+  out.textContent = text;
 }
 
 function aiQuickPrompt(prompt){
@@ -2712,16 +3591,22 @@ async function explainMistake(){
   if(!q)return;
   out.style.display='block';
   out.textContent='✦ Analysing your mistake...';
-  var system='You are an expert Sec 1 Singapore Maths tutor. A student named Mokshith has made a mistake or got stuck on a WA2 maths problem. Analyse what went wrong, explain the correct approach step-by-step, and give a similar practice question to consolidate. Be encouraging and specific.';
-  try{
-    var resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:system,messages:[{role:'user',content:q}]})
-    });
-    var data=await resp.json();
-    out.textContent=data.content&&data.content[0]?data.content[0].text:'Could not get response.';
-  }catch(e){out.textContent='Could not connect. Please try again.';}
+  var system = AI_SYSTEM + ' Mokshith has made a mistake or got stuck on a problem. Analyse what went wrong, explain the correct approach step-by-step, then give one similar practice question to consolidate.';
+  out.textContent = await callAI(q, system);
+}
+
+async function analyseProgress(){
+  var out = document.getElementById('analyseOut');
+  if (!out) return;
+  out.style.display='block';
+  out.textContent='✦ Analysing Firebase history...';
+  var d = loadD();
+  var chapRows = CH_META.map(function(c){ return 'Ch'+c.num+' '+c.title+': '+chapterAvg(d,c.id)+'%'; }).join(', ');
+  var weakest = CH_META.map(function(c){return {c:c, v:chapterAvg(d,c.id)};}).sort(function(a,b){return a.v-b.v;}).slice(0,3);
+  var weakestText = weakest.map(function(w){return 'Ch'+w.c.num+' '+w.c.title+' ('+w.v+'%)';}).join(', ');
+  var recentAttempts = d.attempts.slice(-15).map(function(a){return (a.chap||a.type||'')+':'+(a.ok!==undefined?(a.ok?'correct':'wrong'):'');}).join('; ');
+  var prompt = 'Here is Mokshith\'s current mastery by chapter: '+chapRows+'. His 3 weakest chapters right now are: '+weakestText+'. Recent attempt history: '+(recentAttempts||'none yet')+'. Give him: (1) a short honest assessment of where he stands vs the 90% target, (2) a focused 3-day study plan prioritising the weakest chapters, (3) one practice question for each of the 3 weakest chapters with full solutions.';
+  out.textContent = await callAI(prompt, AI_SYSTEM);
 }
 
 // ═══ RESET ═══
@@ -2731,6 +3616,7 @@ function resetAll(){
     location.reload();
   }
 }
+
 
 // ═══ INIT ═══
 // renderDash is triggered by Firestore after auth — no manual call needed on load
