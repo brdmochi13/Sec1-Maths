@@ -21,8 +21,16 @@ jobs:
       - name: Install Wrangler
         run: npm install -g wrangler@latest
 
-      - name: Deploy to Cloudflare Workers
-        run: wrangler deploy --config wrangler.toml
+      - name: Deploy to Cloudflare Workers (test)
+        if: github.ref == 'refs/heads/test'
+        run: wrangler deploy --config wrangler.toml --name sec1-maths-test
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+
+      - name: Deploy to Cloudflare Workers (prod)
+        if: github.ref == 'refs/heads/main'
+        run: wrangler deploy --config wrangler.toml --name sec1-maths
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
