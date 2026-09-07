@@ -2833,7 +2833,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   <!-- SETUP SCREEN -->
   <div id="qfSetup">
-    <div style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Select chapters to practise, then start. Questions are randomised every time. Each question has a 30-second timer.</div>
+    <div style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Select chapters to practise, then start. Questions are randomised every time.</div><div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1rem;font-size:.85rem;color:var(--muted)"><label for="qfTimerSelQF" style="font-weight:600">⏱ Timer per question:</label><select id="qfTimerSelQF" style="border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-family:inherit;font-size:.85rem;background:var(--bg);color:var(--ink);cursor:pointer"><option value="30">30 seconds</option><option value="60" selected>60 seconds</option><option value="90">90 seconds</option><option value="120">2 minutes</option><option value="0">No timer</option></select></div>
 
     <div style="font-size:.8rem;font-weight:700;color:var(--ink);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em">WA2 Chapters</div>
     <div class="qf-chap-grid">
@@ -2904,7 +2904,7 @@ document.addEventListener('DOMContentLoaded', function(){
   <div class="qf-arena" id="qfArena">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
       <span class="qf-q-num" id="qfQNum">Question 1 / 10</span>
-      <span class="timer-ring" id="qfTimer">30</span>
+      <span class="timer-ring" id="qfTimer">60</span>
     </div>
     <div class="qf-progress" id="qfProgress"></div>
     <div class="qf-question" id="qfQuestion"></div>
@@ -3128,7 +3128,7 @@ var QF_BANK = {
 // ═══ QF STATE ═══
 var qfState = {
   questions: [], current: 0, score: 0,
-  wrong: [], timerID: null, timeLeft: 30,
+  wrong: [], timerID: null, timeLeft: 60,
   answered: false
 };
 var qfSelectedChaps = ['ch1','ch2','ch3','ch4'];
@@ -3239,7 +3239,11 @@ function showQFQuestion() {
 
 function startQFTimer() {
   if (qfState.timerID) clearInterval(qfState.timerID);
-  qfState.timeLeft = 30;
+  var selEl = document.getElementById('qfTimerSelQF');
+  var secs = selEl ? parseInt(selEl.value) : 60;
+  qfState.timeLeft = secs;
+  var tEl = document.getElementById('qfTimer');
+  if (secs === 0) { if(tEl) { tEl.textContent='∞'; tEl.className='timer-ring'; } return; }
   updateTimerDisplay();
   qfState.timerID = setInterval(function() {
     qfState.timeLeft--;
