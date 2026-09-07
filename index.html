@@ -174,7 +174,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--
 /* ── Heatmap tooltip ───────────────────────────── */
 #hmTooltip{position:fixed;z-index:9990;background:#1a1a1a;color:#fff;font-size:.75rem;padding:4px 9px;border-radius:6px;pointer-events:none;display:none;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 /* ── Today stats side box ─────────────────────── */
-#todayStatsBox{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;min-width:170px;font-size:.82rem}
+#todayStatsBox{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;min-width:190px;max-width:220px;font-size:.82rem;max-height:420px;overflow-y:auto}
 #todayStatsBox .ts-title{font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.6rem}
 #todayStatsBox .ts-row{display:flex;justify-content:space-between;gap:.5rem;margin-bottom:.35rem;align-items:center}
 #todayStatsBox .ts-label{color:var(--muted)}
@@ -367,13 +367,20 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--
           </div>
         </div>
         <div id="todayStatsBox">
-          <div class="ts-title">📅 Today's Stats</div>
+          <div class="ts-title">📅 Today's Activity</div>
           <div class="ts-row"><span class="ts-label">Questions</span><span class="ts-val" id="tsTotal">—</span></div>
           <div class="ts-row"><span class="ts-label">✅ Correct</span><span class="ts-val good" id="tsCorrect">—</span></div>
           <div class="ts-row"><span class="ts-label">❌ Wrong</span><span class="ts-val bad" id="tsWrong">—</span></div>
           <div class="ts-row"><span class="ts-label">Accuracy</span><span class="ts-val" id="tsAcc">—</span></div>
           <div class="ts-divider"></div>
-          <div class="ts-row"><span class="ts-label">Streak</span><span class="ts-val warn" id="tsStreak">—</span></div>
+          <div class="ts-row"><span class="ts-label">🔥 Streak</span><span class="ts-val warn" id="tsStreak">—</span></div>
+          <div class="ts-divider"></div>
+          <div class="ts-title" style="margin-top:.3rem">By Type</div>
+          <div id="tsByType"></div>
+          <div class="ts-divider"></div>
+          <div class="ts-title" style="margin-top:.3rem">Chapters Practiced</div>
+          <div id="tsChapters"></div>
+          <div class="ts-divider"></div>
           <div class="ts-skill" id="tsWeakSkill"></div>
         </div>
       </div>
@@ -4100,20 +4107,29 @@ document.addEventListener('DOMContentLoaded', function(){ setTimeout(renderChapt
 
 function renderTodayStats(d){
   var todayStr=new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Singapore'});
-  var todayAttempts=d.attempts.filter(function(a){return (a.datetime||'').startsWith(todayStr);});
-  var total=todayAttempts.length;
-  var correct=todayAttempts.filter(function(a){return a.ok===true;}).length;
+  var all=d.attempts||[];
+  var todayAll=all.filter(function(a){return (a.datetime||'').startsWith(todayStr);});
+
+  // Separate by type
+  var drillQ=todayAll.filter(function(a){return a.type==='dailydrill';});
+  var qfSessions=todayAll.filter(function(a){return a.type==='quickfire';});
+  var paperQ=todayAll.filter(function(a){return !a.type&&a.id;});
+
+  // Totals (drill + paper have individual ok; qf sessions are summaries)
+  var indiv=drillQ.concat(paperQ);
+  var total=indiv.length;
+  var correct=indiv.filter(function(a){return a.ok===true;}).length;
   var wrong=total-correct;
   var acc=total>0?Math.round(correct/total*100):null;
-  // streak
+
+  // Streak
   var streak=0,days={},chk=new Date();
-  d.attempts.forEach(function(a){var k=(a.datetime||'').slice(0,10);if(k)days[k]=1;});
-  for(var i=0;i<366;i++){var k=chk.getFullYear()+'-'+String(chk.getMonth()+1).padStart(2,'0')+'-'+String(chk.getDate()).padStart(2,'0');if(days[k]){streak++;chk.setDate(chk.getDate()-1);}else break;}
-  // weakest skill
-  var sorted=SKILL_KEYS.slice().sort(function(a,b){return (d.skills[a]||0)-(d.skills[b]||0);});
-  var weak=sorted[0];
-  var weakPct=d.skills[weak]||0;
-  // populate
+  all.forEach(function(a){var k=(a.datetime||'').slice(0,10);if(k)days[k]=1;});
+  for(var i=0;i<366;i++){
+    var k=chk.getFullYear()+'-'+String(chk.getMonth()+1).padStart(2,'0')+'-'+String(chk.getDate()).padStart(2,'0');
+    if(days[k]){streak++;chk.setDate(chk.getDate()-1);}else break;
+  }
+
   function set(id,v){var el=document.getElementById(id);if(el)el.textContent=v;}
   set('tsTotal',total||'—');
   set('tsCorrect',correct||'—');
@@ -4122,8 +4138,57 @@ function renderTodayStats(d){
   var accEl=document.getElementById('tsAcc');
   if(accEl&&acc!==null){accEl.className='ts-val '+(acc>=80?'good':acc>=60?'warn':'bad');}
   set('tsStreak',streak+' day'+(streak!==1?'s':'')+(streak>=2?' 🔥':''));
+
+  // By Type section
+  var byTypeEl=document.getElementById('tsByType');
+  if(byTypeEl){
+    var rows='';
+    if(drillQ.length){
+      var dc=drillQ.filter(function(a){return a.ok;}).length;
+      var da=Math.round(dc/drillQ.length*100);
+      rows+='<div class="ts-row"><span class="ts-label">⚡ Daily Drill</span><span class="ts-val '+(da>=80?'good':da>=60?'warn':'bad')+'">'+drillQ.length+' Qs · '+da+'%</span></div>';
+    }
+    if(qfSessions.length){
+      var qfTot=qfSessions.reduce(function(s,a){return s+(a.total||0);},0);
+      var qfSc=qfSessions.reduce(function(s,a){return s+(a.score||0);},0);
+      var qfA=qfTot>0?Math.round(qfSc/qfTot*100):0;
+      rows+='<div class="ts-row"><span class="ts-label">🎯 Quick Fire</span><span class="ts-val '+(qfA>=80?'good':qfA>=60?'warn':'bad')+'">'+qfSessions.length+' session'+(qfSessions.length>1?'s':'')+' · '+qfA+'%</span></div>';
+    }
+    if(paperQ.length){
+      var pc=paperQ.filter(function(a){return a.ok;}).length;
+      var pa=Math.round(pc/paperQ.length*100);
+      rows+='<div class="ts-row"><span class="ts-label">📝 Paper Qs</span><span class="ts-val '+(pa>=80?'good':pa>=60?'warn':'bad')+'">'+paperQ.length+' Qs · '+pa+'%</span></div>';
+    }
+    byTypeEl.innerHTML=rows||'<div style="color:var(--muted);font-size:.78rem">Nothing yet today</div>';
+  }
+
+  // Chapters practiced (from drill)
+  var chapEl=document.getElementById('tsChapters');
+  if(chapEl){
+    var chapMap={};
+    drillQ.forEach(function(a){
+      if(!a.chap)return;
+      if(!chapMap[a.chap]){chapMap[a.chap]={c:0,t:0};}
+      chapMap[a.chap].t++;
+      if(a.ok)chapMap[a.chap].c++;
+    });
+    var chapKeys=Object.keys(chapMap);
+    var LABELS={ch1:'Factors',ch2:'Real Nos',ch3:'Approx',ch4:'Algebra',ch5:'Lin. Eqns',ch6:'Angles',ch7:'Polygons',ch8:'Ratio/Speed',ch9:'Percentage',ch10:'Perim/Area',ch11:'Vol/SA',ch12:'Stats/Graphs'};
+    if(chapKeys.length){
+      chapEl.innerHTML=chapKeys.map(function(c){
+        var v=chapMap[c]; var a2=Math.round(v.c/v.t*100);
+        return '<div class="ts-row"><span class="ts-label" style="font-size:.75rem">'+( LABELS[c]||c)+'</span><span class="ts-val '+(a2>=80?'good':a2>=60?'warn':'bad')+'" style="font-size:.75rem">'+v.c+'/'+v.t+' ('+a2+'%)</span></div>';
+      }).join('');
+    } else {
+      chapEl.innerHTML='<div style="color:var(--muted);font-size:.78rem">No drills yet</div>';
+    }
+  }
+
+  // Weakest skill
+  var sorted=SKILL_KEYS.slice().sort(function(a,b){return (d.skills[a]||0)-(d.skills[b]||0);});
+  var weak=sorted[0]; var weakPct=d.skills[weak]||0;
   var ws=document.getElementById('tsWeakSkill');
-  if(ws)ws.textContent='⚠️ Focus: '+weak+' ('+weakPct+'%)';
+  if(ws)ws.innerHTML='<strong>⚠️ Focus area:</strong><br>'+weak+' <span style="color:var(--red);font-weight:700">'+weakPct+'%</span>';
 }
 
 function heatmap(a){
