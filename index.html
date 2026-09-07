@@ -161,6 +161,15 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--
 .ct-purple{background:var(--purplel);color:var(--purple)}
 .paper-panel{display:none}
 .paper-panel.active{display:block}
+
+/* ── Math Keyboard ─────────────────────────────── */
+#mathKbBtn{position:fixed;bottom:1.2rem;right:1.2rem;z-index:9999;width:42px;height:42px;border-radius:50%;background:var(--green);color:#fff;border:none;font-size:1.2rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;transition:background .18s}
+#mathKbBtn:hover{background:#145530}
+#mathKbPanel{position:fixed;bottom:4.4rem;right:1.2rem;z-index:9998;background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.18);padding:.6rem .7rem;display:none;flex-wrap:wrap;gap:.3rem;width:260px}
+#mathKbPanel.open{display:flex}
+#mathKbPanel .mk-group{width:100%;font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:.2rem 0 .1rem}
+.mkb{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:4px 7px;font-size:.95rem;cursor:pointer;font-family:'Libre Baskerville',serif;color:var(--ink);min-width:32px;text-align:center;transition:background .12s}
+.mkb:hover{background:var(--green);color:#fff;border-color:var(--green)}
 </style>
 
 <!-- Firebase SDKs -->
@@ -4189,5 +4198,61 @@ function resetAll(){
 // ═══ INIT ═══
 // renderDash is triggered by Firestore after auth — no manual call needed on load
 </script>
+
+<!-- Math Keyboard -->
+<button id="mathKbBtn" title="Math keyboard" onclick="toggleMathKb()">⌨</button>
+<div id="mathKbPanel">
+  <div class="mk-group">Superscripts</div>
+  <button class="mkb" onclick="insertMath('²')">²</button>
+  <button class="mkb" onclick="insertMath('³')">³</button>
+  <button class="mkb" onclick="insertMath('⁴')">⁴</button>
+  <button class="mkb" onclick="insertMath('⁵')">⁵</button>
+  <button class="mkb" onclick="insertMath('⁶')">⁶</button>
+  <button class="mkb" onclick="insertMath('⁷')">⁷</button>
+  <button class="mkb" onclick="insertMath('⁸')">⁸</button>
+  <button class="mkb" onclick="insertMath('⁹')">⁹</button>
+  <button class="mkb" onclick="insertMath('¹')">¹</button>
+  <button class="mkb" onclick="insertMath('⁰')">⁰</button>
+  <div class="mk-group">Operators</div>
+  <button class="mkb" onclick="insertMath('×')">×</button>
+  <button class="mkb" onclick="insertMath('÷')">÷</button>
+  <button class="mkb" onclick="insertMath('±')">±</button>
+  <button class="mkb" onclick="insertMath('√')">√</button>
+  <button class="mkb" onclick="insertMath('≤')">≤</button>
+  <button class="mkb" onclick="insertMath('≥')">≥</button>
+  <button class="mkb" onclick="insertMath('≠')">≠</button>
+  <button class="mkb" onclick="insertMath('≈')">≈</button>
+  <div class="mk-group">Symbols</div>
+  <button class="mkb" onclick="insertMath('π')">π</button>
+  <button class="mkb" onclick="insertMath('∞')">∞</button>
+  <button class="mkb" onclick="insertMath('°')">°</button>
+  <button class="mkb" onclick="insertMath('½')">½</button>
+  <button class="mkb" onclick="insertMath('¼')">¼</button>
+  <button class="mkb" onclick="insertMath('¾')">¾</button>
+</div>
+<script>
+var _mkTarget=null;
+document.addEventListener('focusin',function(e){
+  if(e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')){_mkTarget=e.target;}
+});
+function toggleMathKb(){
+  var p=document.getElementById('mathKbPanel');
+  p.classList.toggle('open');
+}
+function insertMath(ch){
+  if(!_mkTarget){return;}
+  _mkTarget.focus();
+  var s=_mkTarget.selectionStart,e2=_mkTarget.selectionEnd,v=_mkTarget.value;
+  _mkTarget.value=v.slice(0,s)+ch+v.slice(e2);
+  _mkTarget.selectionStart=_mkTarget.selectionEnd=s+ch.length;
+  _mkTarget.dispatchEvent(new Event('input',{bubbles:true}));
+}
+document.addEventListener('click',function(e){
+  var p=document.getElementById('mathKbPanel');
+  var b=document.getElementById('mathKbBtn');
+  if(p&&b&&!p.contains(e.target)&&e.target!==b){p.classList.remove('open');}
+});
+</script>
+
 </body>
 </html>
