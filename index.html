@@ -1125,7 +1125,7 @@ On a distance-time graph, gradient = speed; a steeper line means FASTER, not slo
   <div class="qf-wrap">
     <div class="section-hd">⚡ Daily Drill — Personalised for Mokshith</div>
     <div id="ddSetup">
-      <div style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">10 questions picked automatically — weaker chapters appear more often. Each question has a 30-second timer. Every answer updates the Dashboard radar chart.</div>
+      <div style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">10 questions picked automatically — weaker chapters appear more often. Every answer updates the Dashboard radar chart.</div><div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1rem;font-size:.85rem;color:var(--muted)"><label for="qfTimerSel" style="font-weight:600">⏱ Timer per question:</label><select id="qfTimerSel" style="border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-family:inherit;font-size:.85rem;background:var(--bg);color:var(--ink);cursor:pointer"><option value="30">30 seconds</option><option value="60" selected>60 seconds</option><option value="90">90 seconds</option><option value="120">2 minutes</option><option value="0">No timer</option></select></div>
       <div class="card">
         <div class="card-head"><div class="card-letter">W</div><div class="card-title">Today's Weighting</div></div>
         <div class="card-body" id="ddWeightPreview" style="font-size:.82rem"></div>
@@ -1136,7 +1136,7 @@ On a distance-time graph, gradient = speed; a steeper line means FASTER, not slo
     <div class="qf-arena" id="ddArena">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
         <span class="qf-q-num" id="ddQNum">Question 1 / 10</span>
-        <span class="timer-ring" id="ddTimer">30</span>
+        <span class="timer-ring" id="ddTimer">60</span>
       </div>
       <div class="qf-progress" id="ddProgress"></div>
       <div class="qf-question" id="ddQuestion"></div>
@@ -1197,7 +1197,7 @@ var EOY_DAILY_PLAN=[
   {date:'2026-10-05',day:30,topic:'Review All Mistakes — Quick Fire Weakest Skills',app:'Quick Fire',min:50},
   {date:'2026-10-06',day:31,topic:'Light Review: Formulae Sheet Only — REST',app:'Rest',min:20},
 ];
-var ddState = {questions:[], current:0, score:0, wrong:[], timerID:null, timeLeft:30, answered:false};
+var ddState = {questions:[], current:0, score:0, wrong:[], timerID:null, timeLeft:60, answered:false};
 
 function ddChapterWeights(){
   var d = loadD();
@@ -1273,8 +1273,12 @@ function showDDQuestion(){
   document.getElementById('ddExplain').className='qf-explain';
   document.getElementById('ddNext').className='qf-next';
   if (ddState.timerID) clearInterval(ddState.timerID);
-  ddState.timeLeft=30;
-  var tEl=document.getElementById('ddTimer'); tEl.textContent=30; tEl.className='timer-ring';
+  var selEl=document.getElementById('qfTimerSel');
+  var qfSecs=selEl?parseInt(selEl.value):60;
+  ddState.timeLeft=qfSecs;
+  var tEl=document.getElementById('ddTimer');
+  if(qfSecs===0){tEl.textContent='∞';tEl.className='timer-ring';return;}
+  tEl.textContent=qfSecs; tEl.className='timer-ring';
   ddState.timerID=setInterval(function(){
     ddState.timeLeft--; tEl.textContent=ddState.timeLeft; tEl.className='timer-ring'+(ddState.timeLeft<=10?' urgent':'');
     if (ddState.timeLeft<=0){ clearInterval(ddState.timerID); if(!ddState.answered) answerDD(-1,null); }
@@ -3828,7 +3832,7 @@ function toggleAcc(hd){
 }
 
 // ═══ CHECK ANSWERS ═══
-function normalise(s){return String(s).trim().replace(/\s+/g,'').toLowerCase().replace(/×/g,'*');}
+function normalise(s){return String(s).trim().replace(/\s+/g,'').toLowerCase().replace(/π/g,'pi').replace(/×/g,'*').replace(/²/g,'^2').replace(/³/g,'^3').replace(/⁴/g,'^4').replace(/⁵/g,'^5').replace(/⁶/g,'^6').replace(/⁷/g,'^7').replace(/⁸/g,'^8').replace(/⁹/g,'^9').replace(/¹/g,'^1');}
 
 function chk(id,correct,marks,explanation){
   var inp=document.getElementById(id);
