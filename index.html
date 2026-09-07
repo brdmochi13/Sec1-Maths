@@ -170,6 +170,20 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--
 #mathKbPanel .mk-group{width:100%;font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:.2rem 0 .1rem}
 .mkb{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:4px 7px;font-size:.95rem;cursor:pointer;font-family:'Libre Baskerville',serif;color:var(--ink);min-width:32px;text-align:center;transition:background .12s}
 .mkb:hover{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* ── Heatmap tooltip ───────────────────────────── */
+#hmTooltip{position:fixed;z-index:9990;background:#1a1a1a;color:#fff;font-size:.75rem;padding:4px 9px;border-radius:6px;pointer-events:none;display:none;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+/* ── Today stats side box ─────────────────────── */
+#todayStatsBox{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;min-width:170px;font-size:.82rem}
+#todayStatsBox .ts-title{font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.6rem}
+#todayStatsBox .ts-row{display:flex;justify-content:space-between;gap:.5rem;margin-bottom:.35rem;align-items:center}
+#todayStatsBox .ts-label{color:var(--muted)}
+#todayStatsBox .ts-val{font-weight:700;font-family:'Libre Baskerville',serif}
+#todayStatsBox .ts-val.good{color:var(--green)}
+#todayStatsBox .ts-val.warn{color:var(--amber)}
+#todayStatsBox .ts-val.bad{color:var(--red)}
+#todayStatsBox .ts-divider{height:1px;background:var(--border);margin:.5rem 0}
+#todayStatsBox .ts-skill{font-size:.75rem;color:var(--muted);margin-top:.3rem}
 </style>
 
 <!-- Firebase SDKs -->
@@ -335,19 +349,33 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--paper);color:var(--
   <div class="card">
     <div class="card-head"><div class="card-letter">H</div><div class="card-title">Study Activity <span id="streakBadge" style="font-size:.72rem;background:rgba(255,255,255,.15);padding:2px 8px;border-radius:10px;margin-left:.4rem"></span></div></div>
     <div class="card-body">
-      <div class="hm-wrap">
-        <div class="hm-month-row" id="hmMonthLabels" style="display:flex;gap:2px;margin-bottom:2px"></div>
-        <div class="hm-grid" id="hmGrid"></div>
-      </div>
-      <div style="display:flex;gap:.5rem;margin-top:.4rem;font-size:.72rem;color:var(--muted);align-items:center">
-        <span>Less</span>
-        <span style="display:flex;gap:2px">
-          <span style="width:12px;height:12px;background:#e8e2d8;border-radius:2px;display:inline-block"></span>
-          <span style="width:12px;height:12px;background:#86efac;border-radius:2px;display:inline-block"></span>
-          <span style="width:12px;height:12px;background:#22c55e;border-radius:2px;display:inline-block"></span>
-          <span style="width:12px;height:12px;background:var(--green);border-radius:2px;display:inline-block"></span>
-        </span>
-        <span>More</span>
+      <div style="display:flex;gap:1.2rem;align-items:flex-start;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <div class="hm-wrap">
+            <div class="hm-month-row" id="hmMonthLabels" style="display:flex;gap:2px;margin-bottom:2px"></div>
+            <div class="hm-grid" id="hmGrid"></div>
+          </div>
+          <div style="display:flex;gap:.5rem;margin-top:.4rem;font-size:.72rem;color:var(--muted);align-items:center">
+            <span>Less</span>
+            <span style="display:flex;gap:2px">
+              <span style="width:12px;height:12px;background:#e8e2d8;border-radius:2px;display:inline-block"></span>
+              <span style="width:12px;height:12px;background:#86efac;border-radius:2px;display:inline-block"></span>
+              <span style="width:12px;height:12px;background:#22c55e;border-radius:2px;display:inline-block"></span>
+              <span style="width:12px;height:12px;background:var(--green);border-radius:2px;display:inline-block"></span>
+            </span>
+            <span>More</span>
+          </div>
+        </div>
+        <div id="todayStatsBox">
+          <div class="ts-title">📅 Today's Stats</div>
+          <div class="ts-row"><span class="ts-label">Questions</span><span class="ts-val" id="tsTotal">—</span></div>
+          <div class="ts-row"><span class="ts-label">✅ Correct</span><span class="ts-val good" id="tsCorrect">—</span></div>
+          <div class="ts-row"><span class="ts-label">❌ Wrong</span><span class="ts-val bad" id="tsWrong">—</span></div>
+          <div class="ts-row"><span class="ts-label">Accuracy</span><span class="ts-val" id="tsAcc">—</span></div>
+          <div class="ts-divider"></div>
+          <div class="ts-row"><span class="ts-label">Streak</span><span class="ts-val warn" id="tsStreak">—</span></div>
+          <div class="ts-skill" id="tsWeakSkill"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -3982,6 +4010,7 @@ function renderDash(){
     }
   }
   heatmap(d.attempts);
+  renderTodayStats(d);
   renderRadar(d);
   renderChapterChips(d);
 }
@@ -4068,6 +4097,35 @@ function renderChapterNotesMastery(){
 document.addEventListener('DOMContentLoaded', function(){ setTimeout(renderChapterNotesMastery, 0); });
 
 
+
+function renderTodayStats(d){
+  var todayStr=new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Singapore'});
+  var todayAttempts=d.attempts.filter(function(a){return (a.datetime||'').startsWith(todayStr);});
+  var total=todayAttempts.length;
+  var correct=todayAttempts.filter(function(a){return a.ok===true;}).length;
+  var wrong=total-correct;
+  var acc=total>0?Math.round(correct/total*100):null;
+  // streak
+  var streak=0,days={},chk=new Date();
+  d.attempts.forEach(function(a){var k=(a.datetime||'').slice(0,10);if(k)days[k]=1;});
+  for(var i=0;i<366;i++){var k=chk.getFullYear()+'-'+String(chk.getMonth()+1).padStart(2,'0')+'-'+String(chk.getDate()).padStart(2,'0');if(days[k]){streak++;chk.setDate(chk.getDate()-1);}else break;}
+  // weakest skill
+  var sorted=SKILL_KEYS.slice().sort(function(a,b){return (d.skills[a]||0)-(d.skills[b]||0);});
+  var weak=sorted[0];
+  var weakPct=d.skills[weak]||0;
+  // populate
+  function set(id,v){var el=document.getElementById(id);if(el)el.textContent=v;}
+  set('tsTotal',total||'—');
+  set('tsCorrect',correct||'—');
+  set('tsWrong',wrong||'—');
+  set('tsAcc',acc!==null?acc+'%':'—');
+  var accEl=document.getElementById('tsAcc');
+  if(accEl&&acc!==null){accEl.className='ts-val '+(acc>=80?'good':acc>=60?'warn':'bad');}
+  set('tsStreak',streak+' day'+(streak!==1?'s':'')+(streak>=2?' 🔥':''));
+  var ws=document.getElementById('tsWeakSkill');
+  if(ws)ws.textContent='⚠️ Focus: '+weak+' ('+weakPct+'%)';
+}
+
 function heatmap(a){
   var g=document.getElementById('hmGrid'),lb=document.getElementById('hmMonthLabels'),b=document.getElementById('streakBadge');
   if(!g||!lb)return;
@@ -4083,7 +4141,7 @@ function heatmap(a){
   g.innerHTML='';lb.innerHTML='';
   var lm=-1;
   for(var w=0;w<W;w++){var wd=new Date(sd);wd.setDate(wd.getDate()+w*7);var m=wd.getMonth();var sp=document.createElement('span');sp.style.cssText='width:12px;flex-shrink:0;text-align:center;font-size:9px;';sp.textContent=m!==lm?wd.toLocaleString('default',{month:'short'}):'';lb.appendChild(sp);lm=m;}
-  for(var w2=0;w2<W;w2++){for(var dy=0;dy<7;dy++){var dt=new Date(sd);dt.setDate(dt.getDate()+w2*7+dy);if(dt>today){var bl=document.createElement('div');bl.style.cssText='width:12px;height:12px;';g.appendChild(bl);continue;}var dk=dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');var cnt=dm[dk]||0;var lv=cnt===0?0:cnt===1?1:cnt<=3?2:3;var cell=document.createElement('div');cell.className='hm-cell';if(lv)cell.dataset.l=lv;g.appendChild(cell);}}
+  for(var w2=0;w2<W;w2++){for(var dy=0;dy<7;dy++){var dt=new Date(sd);dt.setDate(dt.getDate()+w2*7+dy);if(dt>today){var bl=document.createElement('div');bl.style.cssText='width:12px;height:12px;';g.appendChild(bl);continue;}var dk=dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');var cnt=dm[dk]||0;var lv=cnt===0?0:cnt===1?1:cnt<=3?2:3;var cell=document.createElement('div');cell.className='hm-cell';if(lv)cell.dataset.l=lv;cell.dataset.date=dk;cell.dataset.cnt=cnt;cell.addEventListener('mouseenter',function(ev){var tt=document.getElementById('hmTooltip');var d=ev.target.dataset;tt.textContent=d.date+(d.cnt>0?' — '+d.cnt+' question'+(d.cnt>1?'s':''):'— no activity');tt.style.display='block';tt.style.left=(ev.clientX+12)+'px';tt.style.top=(ev.clientY-28)+'px';});cell.addEventListener('mousemove',function(ev){var tt=document.getElementById('hmTooltip');tt.style.left=(ev.clientX+12)+'px';tt.style.top=(ev.clientY-28)+'px';});cell.addEventListener('mouseleave',function(){document.getElementById('hmTooltip').style.display='none';});g.appendChild(cell);}}
 }
 
 
@@ -4254,5 +4312,7 @@ document.addEventListener('click',function(e){
 });
 </script>
 
+
+<div id="hmTooltip"></div>
 </body>
 </html>
